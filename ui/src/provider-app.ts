@@ -3,8 +3,8 @@ import { property } from 'lit/decorators.js';
 import { contextProvider } from '@lit-labs/context';
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 
-import { providerStoreContext, sensemakerStoreContext } from './contexts';
-import { ProviderStore } from './provider-store';
+import { hreaGraphQLContext, sensemakerStoreContext } from './contexts';
+import { GraphQLClientProvider } from './provider-graphql-client.js';
 import { SensemakerStore } from '@neighbourhoods/nh-we-applet';
 import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
 import { ProviderComponent } from './index'
@@ -12,9 +12,9 @@ import { get } from 'svelte/store';
 
 export class ProviderApp extends ScopedElementsMixin(LitElement) {
   // set up the context providers for both stores so that they can be accessed by other components
-  @contextProvider({ context: providerStoreContext })
+  @contextProvider({ context: hreaGraphQLContext })
   @property()
-  providerStore!: ProviderStore;
+  graphqlClient!: GraphQLClientProvider;
 
   @contextProvider({ context: sensemakerStoreContext })
   @property()

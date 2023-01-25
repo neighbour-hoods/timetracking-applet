@@ -16,7 +16,7 @@ import {
 import '@material/mwc-circular-progress';
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 import { get } from 'svelte/store';
-import { ProviderStore } from './provider-store';
+import { GraphQLClientProvider } from './provider-graphql-client';
 import { SensemakerService, SensemakerStore } from '@neighbourhoods/nh-we-applet';
 import { ProviderApp } from './index';
 import appletConfig from './appletConfig'
@@ -40,7 +40,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   appInfo!: AppInfo;
 
   @property()
-  _providerStore!: ProviderStore;
+  _graphql!: GraphQLClientProvider;
 
   @property()
   _sensemakerStore!: SensemakerStore;
@@ -53,7 +53,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     try {
       await this.connectHolochain()
       const installedSensemakerCells = (this.appInfo as AppInfo).cell_info[SENSEMAKER_ROLE_NAME]
-      
+
       // check if sensemaker has been cloned yet
       let allSensemakerClones = installedSensemakerCells.filter((cellInfo) => "Cloned" in cellInfo);
       let provisionedSensemakerCells: CellInfo[] = installedSensemakerCells.filter((cellInfo) => "Provisioned" in cellInfo);
@@ -91,19 +91,11 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
       // register the applet config
       await this._sensemakerStore.registerApplet(appletConfig)
 
-      const providerCellInfo: CellInfo = this.appInfo.cell_info[PROVIDER_ROLE_NAME][0]
-      const providerCell: Cell = (providerCellInfo as { "Provisioned": Cell }).Provisioned;
-
-
-      // construct the provider store
-      if (providerCellInfo) {
-        this._providerStore = new ProviderStore(await AppAgentWebsocket.connect(
-          this.appWebsocket,
-          this.appInfo.installed_app_id,
-        ), providerCell);
-      } else {
-        throw new Error("Unable to detect provider cell")
-      }
+      // construct the provider connector
+      this._graphql = new GraphQLClientProvider({
+        conductorUri: this.appWebsocket.client.socket.url,
+        adminConductorUri: this.adminWebsocket.client.socket.url,
+      });
 
       // initialize the sensemaker store so that the UI knows about assessments and other sensemaker data
       // await this.updateSensemakerState()
@@ -122,7 +114,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     return html`
       <main>
         <div class="home-page">
-          <provider-app .sensemakerStore=${this._sensemakerStore} .providerStore=${this._providerStore}></provider-app>
+          <provider-app .sensemakerStore=${this._sensemakerStore} .graphqlClient=${this._graphql}></provider-app>
         </div>
       </main>
     `;
@@ -140,6 +132,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
 
   async updateSensemakerState() {
     // you will need to implement the following methods in your provider dna, this is just an example of fetching sensemaker state
+    /*
     const allProviderResourceEntryHashes: EntryHash[] = await this._providerStore.allProviderResourceEntryHashes()
     const dimensionEh = get(this._sensemakerStore.appletConfig()).dimensions["importance"]
     for (const taskEh of allProviderResourceEntryHashes) {
@@ -148,6 +141,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
         resource_eh: taskEh
       })
     }
+    */
   }
 
   static get scopedElements() {

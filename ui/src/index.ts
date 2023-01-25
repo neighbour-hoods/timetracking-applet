@@ -1,6 +1,4 @@
 export * from './contexts'
-export * from './provider-service'
-export * from './provider-store'
 export * from './types'
 export * from './utils'
 export * from './components/provider-component'

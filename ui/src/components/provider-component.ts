@@ -1,14 +1,14 @@
 import { contextProvided } from "@lit-labs/context";
 import { property } from "lit/decorators.js";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
-import { LitElement, html } from "lit";
-import { providerStoreContext } from "../contexts";
-import { ProviderStore } from "../provider-store";
+import { LitElement, html, css } from "lit";
+import { hreaGraphQLContext } from "../contexts";
+import { GraphQLClientProvider } from "../provider-graphql-client";
 
 export class ProviderComponent extends ScopedElementsMixin(LitElement) {
-    @contextProvided({ context: providerStoreContext, subscribe: true })
+    @contextProvided({ context: hreaGraphQLContext, subscribe: true })
     @property({attribute: false})
-    public  providerStore!: ProviderStore
+    public  graphql!: GraphQLClientProvider
 
     
     render() {
