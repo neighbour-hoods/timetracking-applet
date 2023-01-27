@@ -36,12 +36,14 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
   // this is an example function of computing a context, since your UI will likely be displaying various contexts
   // this is an example from the todo applet
   async computeContext(_e: CustomEvent) {
+    /*
     const contextResultInput: ComputeContextInput = {
       resource_ehs: await this.providerStore.allProviderResourceEntryHashes(),
       context_eh: get(this.sensemakerStore.appletConfig()).cultural_contexts["most_important_tasks"],
       can_publish_result: false,
     }
     const contextResult = await this.sensemakerStore.computeContext("most_important_tasks", contextResultInput)
+    */
   }
 
   static get scopedElements() {
