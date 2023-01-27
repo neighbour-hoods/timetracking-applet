@@ -1,5 +1,6 @@
 export * from './contexts'
 export * from './types'
 export * from './utils'
+export * from './provider-graphql-client'
 export * from './components/provider-component'
 export * from './provider-app'

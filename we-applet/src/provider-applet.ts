@@ -3,9 +3,9 @@ import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { CircularProgress } from "@scoped-elements/material-web";
 import { LitElement, html, css } from "lit";
 import { AppletInfo, SensemakerStore } from "@neighbourhoods/nh-we-applet";
-import { ProviderApp, ProviderStore } from "@neighbourhoods/provider-applet";
+import { ProviderApp, GraphQLClientProvider } from "@neighbourhoods/provider-applet";
 import appletConfig from './appletConfig';
-import { AppAgentWebsocket, AppWebsocket, Cell } from "@holochain/client";
+import { AppAgentWebsocket, AppWebsocket, AdminWebsocket, Cell } from "@holochain/client";
 
 const PROVIDER_ROLE_NAME = 'provider';
 
@@ -17,31 +17,30 @@ export class ProviderApplet extends ScopedElementsMixin(LitElement) {
   appWebsocket!: AppWebsocket;
 
   @property()
+  adminWebsocket!: AdminWebsocket;
+
+  @property()
   sensemakerStore!: SensemakerStore;
 
   @property()
-  providerStore!: ProviderStore;
+  graphqlClient!: GraphQLClientProvider;
 
   @state()
   loaded = false;
 
   async firstUpdated() {
     try {
-      const todoAppletInfo = this.appletAppInfo[0];
-      const cellInfo = todoAppletInfo.appInfo.cell_info[PROVIDER_ROLE_NAME][0]
-      const providerCell = (cellInfo as { "Provisioned": Cell }).Provisioned;
-
       const maybeAppletConfig = await this.sensemakerStore.checkIfAppletConfigExists(appletConfig.name)
       if (!maybeAppletConfig) {
         await this.sensemakerStore.registerApplet(appletConfig)
       }
 
-      const appWs = await AppWebsocket.connect(this.appWebsocket.client.socket.url)
-      const appAgentWebsocket: AppAgentWebsocket = await AppAgentWebsocket.connect(appWs, "provider");
-      this.providerStore = new ProviderStore(
-        appAgentWebsocket,
-        providerCell,
-      );
+      // construct the provider connector
+      this.graphqlClient = new GraphQLClientProvider({
+        conductorUri: this.appWebsocket.client.socket.url,
+        adminConductorUri: this.adminWebsocket.client.socket.url,
+      });
+
       this.loaded = true;
     }
     catch (e) {
@@ -64,7 +63,7 @@ export class ProviderApplet extends ScopedElementsMixin(LitElement) {
       </div>`;
 
     return html`
-      <provider-app .sensemakerStore=${this.sensemakerStore} .providerStore=${this.providerStore}></provider-app>
+      <provider-app .sensemakerStore=${this.sensemakerStore} .graphqlClient=${this.graphqlClient}></provider-app>
     `;
   }
 

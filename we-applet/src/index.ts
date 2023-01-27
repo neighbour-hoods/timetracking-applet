@@ -10,7 +10,6 @@ import {
   WeServices,
   AppletInfo,
 } from "@neighbourhoods/nh-we-applet";
-import { ProviderStore } from "@neighbourhoods/provider-applet";
 import { ProviderApplet } from "./provider-applet";
 import { AppAgentWebsocket } from '@holochain/client';
 
@@ -29,6 +28,7 @@ const providerApplet: WeApplet = {
         element.innerHTML = `<provider-applet></provider-applet>`;
         const appletElement = element.querySelector("provider-applet") as any;
         appletElement.appWebsocket = appWebsocket;
+        appletElement.adminWebsocket = adminWebsocket;
         appletElement.appletAppInfo = appletAppInfo;
         appletElement.sensemakerStore = weStore.sensemakerStore;
       },
