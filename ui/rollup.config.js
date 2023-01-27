@@ -38,6 +38,9 @@ export default {
       "process.env.ENV": `"${process.env.ENV}"`,
       "process.env.HC_PORT": `undefined`,
       "process.env.ADMIN_PORT": `undefined`,
+      "process.env.REACT_APP_HC_CONN_URL": `undefined`,
+      "process.env.REACT_APP_HC_ADMIN_CONN_URL": `undefined`,
+      "process.env.REACT_APP_HC_APP_ID": `undefined`,
     }),
     commonjs({}),
     typescript({

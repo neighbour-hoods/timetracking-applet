@@ -31,6 +31,9 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
     replace({
       "process.env.HC_PORT": JSON.stringify(process.env.HC_PORT),
       "process.env.ADMIN_PORT": JSON.stringify(process.env.ADMIN_PORT) || undefined,
+      "process.env.REACT_APP_HC_CONN_URL": process.env.HC_PORT : `ws://localhost:${process.env.HC_PORT}` ? undefined,
+      "process.env.REACT_APP_HC_ADMIN_CONN_URL": process.env.ADMIN_PORT : `ws://localhost:${process.env.ADMIN_PORT}` ? undefined,
+      "process.env.REACT_APP_HC_APP_ID": undefined,
       delimiters: ["", ""],
     }),
 
