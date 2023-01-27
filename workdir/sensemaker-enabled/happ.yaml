@@ -3,12 +3,12 @@ manifest_version: "1"
 name: provider-sensemaker
 description: ~
 roles:
-  - name: provider
+  - name: hrea_observation_0
     provisioning:
       strategy: create
       deferred: false
     dna:
-      bundled: "../../dna/workdir/provider.dna"
+      bundled: "../../dna/workdir/hrea_observation.dna"
       properties: ~
       uuid: ~
       version: ~
