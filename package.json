@@ -17,10 +17,11 @@
     "build:happ": "hc app pack ./workdir",
     "build:test-happ": "hc app pack ./workdir/sensemaker-enabled",
     "playground": "run-singleton \"holochain-playground\"",
-    "download-sensemaker": "rimraf workdir/sensemaker.dna && curl -L --output workdir/sensemaker.dna https://github.com/neighbour-hoods/sensemaker-lite/releases/download/v0.0.3-alpha/sensemaker.dna",
+    "download-sensemaker": "[ ! -f \"workdir/sensemaker.dna\" ] && curl -L --output workdir/sensemaker.dna https://github.com/neighbour-hoods/sensemaker-lite/releases/download/v0.0.3-alpha/sensemaker.dna; exit 0",
+    "download-hrea-obs": "[ ! -f \"workdir/hrea_observation.dna\" ] && curl -L --output workdir/hrea_observation.dna https://github.com/h-REA/hREA/releases/download/happ-0.1.1-beta/hrea_observation.dna; exit 0",
     "start:ui": "npm run start -w ui",
-    "postinstall": "npm run download-sensemaker",
-    "clean": "nix-shell --run hn-rust-flush; rimraf workdir/sensemaker.dna; rimraf ui/node_modules; rimraf we-applet/node_modules; rimraf node_modules"
+    "postinstall": "npm run download-sensemaker && npm run download-hrea-obs",
+    "clean": "nix-shell --run hn-rust-flush; rimraf workdir/sensemaker.dna; rimraf workdir/hrea_observation.dna; rimraf ui/node_modules; rimraf we-applet/node_modules; rimraf node_modules"
   },
   "devDependencies": {
     "@holochain-playground/cli": "^0.0.11",
