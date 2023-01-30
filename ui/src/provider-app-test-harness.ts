@@ -16,7 +16,7 @@ import {
 import '@material/mwc-circular-progress';
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 import { get } from 'svelte/store';
-import { GraphQLClientProvider } from './provider-graphql-client';
+import { provideGraphQLClient, ApolloClient, NormalizedCacheObject } from './provider-graphql-client';
 import { SensemakerService, SensemakerStore } from '@neighbourhoods/nh-we-applet';
 import { ProviderApp } from './index';
 import appletConfig from './appletConfig'
@@ -40,7 +40,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   appInfo!: AppInfo;
 
   @property()
-  _graphql!: GraphQLClientProvider;
+  _graphql!: ApolloClient<NormalizedCacheObject>;
 
   @property()
   _sensemakerStore!: SensemakerStore;
@@ -92,9 +92,9 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
       await this._sensemakerStore.registerApplet(appletConfig)
 
       // construct the provider connector
-      this._graphql = new GraphQLClientProvider({
+      this._graphql = await provideGraphQLClient({
         conductorUri: this.appWebsocket.client.socket.url,
-        adminConductorUri: this.adminWebsocket.client.socket.url,
+        // adminConductorUri: this.adminWebsocket.client.socket.url,
       });
 
       // initialize the sensemaker store so that the UI knows about assessments and other sensemaker data

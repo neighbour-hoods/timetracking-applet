@@ -4,7 +4,7 @@ import { contextProvider } from '@lit-labs/context';
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 
 import { hreaGraphQLContext, sensemakerStoreContext } from './contexts';
-import { GraphQLClientProvider } from './provider-graphql-client.js';
+import { ApolloClient, NormalizedCacheObject } from './provider-graphql-client.js';
 import { SensemakerStore } from '@neighbourhoods/nh-we-applet';
 import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
 import { ProviderComponent } from './index'
@@ -14,7 +14,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
   // set up the context providers for both stores so that they can be accessed by other components
   @contextProvider({ context: hreaGraphQLContext })
   @property()
-  graphqlClient!: GraphQLClientProvider;
+  graphqlClient!: ApolloClient<NormalizedCacheObject>;
 
   @contextProvider({ context: sensemakerStoreContext })
   @property()

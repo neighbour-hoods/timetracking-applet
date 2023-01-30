@@ -1,8 +1,8 @@
 import { createContext } from '@lit-labs/context';
-import { GraphQLClientProvider } from './provider-graphql-client';
+import { ApolloClient, NormalizedCacheObject } from './provider-graphql-client';
 import { SensemakerStore } from '@neighbourhoods/nh-we-applet';
 
-export const hreaGraphQLContext = createContext<GraphQLClientProvider>(
+export const hreaGraphQLContext = createContext<ApolloClient<NormalizedCacheObject>>(
     'hrea-graphql-context'
 );
 export const sensemakerStoreContext = createContext<SensemakerStore>(

@@ -3,7 +3,7 @@ import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { CircularProgress } from "@scoped-elements/material-web";
 import { LitElement, html, css } from "lit";
 import { AppletInfo, SensemakerStore } from "@neighbourhoods/nh-we-applet";
-import { ProviderApp, GraphQLClientProvider } from "@neighbourhoods/provider-applet";
+import { ProviderApp, ApolloClient, NormalizedCacheObject, provideGraphQLClient } from "@neighbourhoods/provider-applet";
 import appletConfig from './appletConfig';
 import { AppAgentWebsocket, AppWebsocket, AdminWebsocket, Cell } from "@holochain/client";
 
@@ -23,7 +23,7 @@ export class ProviderApplet extends ScopedElementsMixin(LitElement) {
   sensemakerStore!: SensemakerStore;
 
   @property()
-  graphqlClient!: GraphQLClientProvider;
+  graphqlClient!: ApolloClient<NormalizedCacheObject>;
 
   @state()
   loaded = false;
@@ -36,9 +36,9 @@ export class ProviderApplet extends ScopedElementsMixin(LitElement) {
       }
 
       // construct the provider connector
-      this.graphqlClient = new GraphQLClientProvider({
+      this.graphqlClient = await provideGraphQLClient({
         conductorUri: this.appWebsocket.client.socket.url,
-        adminConductorUri: this.adminWebsocket.client.socket.url,
+        // adminConductorUri: this.adminWebsocket.client.socket.url,
       });
 
       this.loaded = true;

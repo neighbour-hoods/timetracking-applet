@@ -19,6 +19,7 @@
     "package": "npm run build && cd dist && bestzip ../dist.zip *"
   },
   "dependencies": {
+    "@apollo-elements/core": "^2.1.2",
     "@holochain/client": "0.11.9",
     "@lit-labs/context": "^0.2.0",
     "@material/mwc-button": "^0.25.3",
