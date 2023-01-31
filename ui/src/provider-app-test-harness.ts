@@ -3,31 +3,29 @@ import { customElement, property, state } from 'lit/decorators.js';
 import {
   AppAgentWebsocket,
   AppWebsocket,
-  CellInfo, CellType,
-  InstalledCell,
+  CellInfo,
   ActionHash,
   AppInfo,
   AdminWebsocket,
-  EntryHash,
   encodeHashToBase64,
   Cell,
   RoleName,
 } from '@holochain/client';
 import '@material/mwc-circular-progress';
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
-import { get } from 'svelte/store';
 import { provideGraphQLClient, ApolloClient, NormalizedCacheObject } from './provider-graphql-client';
 import { SensemakerService, SensemakerStore } from '@neighbourhoods/nh-we-applet';
 import { ProviderApp } from './index';
 import appletConfig from './appletConfig'
 
 const SENSEMAKER_ROLE_NAME = "sensemaker"
-const PROVIDER_ROLE_NAME = "provider"
 
 @customElement('provider-app-test-harness')
 export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   @state() loading = true;
+
   @state() actionHash: ActionHash | undefined;
+
   @state() currentSelectedList: string | undefined;
 
   @property({ type: Object })
@@ -55,8 +53,8 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
       const installedSensemakerCells = (this.appInfo as AppInfo).cell_info[SENSEMAKER_ROLE_NAME]
 
       // check if sensemaker has been cloned yet
-      let allSensemakerClones = installedSensemakerCells.filter((cellInfo) => "Cloned" in cellInfo);
-      let provisionedSensemakerCells: CellInfo[] = installedSensemakerCells.filter((cellInfo) => "Provisioned" in cellInfo);
+      const allSensemakerClones = installedSensemakerCells.filter((cellInfo) => "Cloned" in cellInfo);
+      const provisionedSensemakerCells: CellInfo[] = installedSensemakerCells.filter((cellInfo) => "Provisioned" in cellInfo);
       const sensemakerCell: Cell = (provisionedSensemakerCells[0] as { "Provisioned": Cell }).Provisioned;
       let clonedSensemakerRoleName: RoleName;
 
@@ -154,7 +152,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     .home-page {
       display: flex;
       flex-direction: row;
-    }  
+    }
 
     :host {
       min-height: 100vh;
