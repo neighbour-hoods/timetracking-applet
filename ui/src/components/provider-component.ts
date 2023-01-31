@@ -60,7 +60,7 @@ export class ProviderComponent extends ScopedElementsMixin(LitElement) {
     client!: ApolloClient<NormalizedCacheObject>
 
     entries?: ApolloQueryController<{ economicEvents: EconomicEventConnection }> = new ApolloQueryController(this, EventsQuery)
-    
+
     render() {
         if (this.entries?.error) {
           return html`
@@ -69,13 +69,15 @@ export class ProviderComponent extends ScopedElementsMixin(LitElement) {
               <p>${this.entries.error.toString()}</p>
             </div>
           `
-        } else if (!this.entries?.data || this.entries?.loading) {
+        }
+				if (!this.entries?.data || this.entries?.loading) {
           return html`
             <div>
               <p>Loading...</p>
             </div>
           `
-        } else if ((this.entries?.data?.economicEvents?.edges || []).length == 0) {
+        }
+				if ((this.entries?.data?.economicEvents?.edges || []).length == 0) {
           return html`
             <div>
               <p>Nothing tracked yet!</p>
@@ -88,7 +90,7 @@ export class ProviderComponent extends ScopedElementsMixin(LitElement) {
           </div>
         `
     }
-    
+
     static get scopedElements() {
         return {
         };
