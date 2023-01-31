@@ -28,8 +28,7 @@
     "@neighbourhoods/sensemaker-lite-types": "0.1.0",
     "@type-craft/content": "^0.0.7",
     "@type-craft/title": "^0.0.8",
-    "@vf-ui/graphql-client-holochain": "^0.0.1-alpha.15",
-    "@graphql-tools/merge": "8.3.16",
+    "@vf-ui/graphql-client-holochain": "^0.0.1-alpha.16",
     "lit": "^2.6.1"
   },
   "devDependencies": {
@@ -56,7 +55,6 @@
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
     "prettier": "^2.3.2",
-    "react": "^18.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.56.2",
     "rollup-plugin-terser": "^7.0.2",
