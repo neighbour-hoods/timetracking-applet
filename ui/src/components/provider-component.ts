@@ -83,7 +83,7 @@ query {
 export class ProviderComponent extends ScopedElementsMixin(LitElement) {
     // :NOTE: contextProvided has no effect here, is pulled from window.__APOLLO_CLIENT__ and assigned by Apollo controllers.
     //        @see https://github.com/lit/lit/issues/2446#issuecomment-1408143222
-		@consume({ context: hreaGraphQLContext, subscribe: true })
+    @consume({ context: hreaGraphQLContext, subscribe: true })
     @property({ attribute: false })
     client!: ApolloClient<NormalizedCacheObject>
 
@@ -98,14 +98,14 @@ export class ProviderComponent extends ScopedElementsMixin(LitElement) {
             </div>
           `
         }
-				if (!this.entries?.data || this.entries?.loading) {
+        if (!this.entries?.data || this.entries?.loading) {
           return html`
             <div>
               <p>Loading...</p>
             </div>
           `
         }
-				if ((this.entries?.data?.economicEvents?.edges || []).length == 0) {
+        if ((this.entries?.data?.economicEvents?.edges || []).length == 0) {
           return html`
             <div>
               <p>Nothing tracked yet!</p>
@@ -122,8 +122,8 @@ export class ProviderComponent extends ScopedElementsMixin(LitElement) {
     static get scopedElements() {
         return {
         };
-	}
+  }
 
-	static styles = css`
-	`
+  static styles = css`
+  `
 }
