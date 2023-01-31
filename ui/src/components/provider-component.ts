@@ -18,21 +18,25 @@ query {
     }
     edges {
       cursor
+
+			# Requires \`hrea_observation\` module.
       node {
+				# identifiers
         id
-        action {
-          id
-          label
-        }
-        provider {
-          id
-          name
-        }
-        receiver {
-          id
-          name
-        }
+				revisionId
+
+				# primary description
+        note
+
+				# when was the work done?
+        hasBeginning
+        hasEnd
+        hasPointInTime
+
+				# type of work being done, more freeform / ad-hoc version
         resourceClassifiedAs
+
+				# how much work being done, specified in https://github.com/HajoRijgersberg/OM -compatible format
         effortQuantity {
           hasNumericalValue
           hasUnit {
@@ -41,11 +45,35 @@ query {
             symbol
           }
         }
-        hasBeginning
-        hasEnd
-        hasPointInTime
-        note
+
         # :TODO: triggeredBy & event adjustments
+
+				# Requires \`hrea_specification\` module or a simple hardcoded shim resolver.
+				# :TODO: link 'core VF Action type resolvers' package once it exists
+
+					# action {
+					#   id
+					#   label
+					# }
+
+				# Requires \`hrea_specification\` module.
+
+					# resourceSpecifiedAs {
+					# 	id
+					# 	revisionId
+					#		name
+					# }
+
+				# Requires \`hrea_agent\` module.
+
+					# provider {
+					#   id
+					#   name
+					# }
+					# receiver {
+					#   id
+					#   name
+					# }
       }
     }
   }
