@@ -13,6 +13,29 @@ roles:
       uuid: ~
       version: ~
       clone_limit: 0
+
+  - name: hrea_specification_0
+    provisioning:
+      strategy: create
+      deferred: false
+    dna:
+      bundled: "../hrea_specification.dna"
+      properties: ~
+      uuid: ~
+      version: ~
+      clone_limit: 0
+
+  - name: hrea_agent_0
+    provisioning:
+      strategy: create
+      deferred: false
+    dna:
+      bundled: "../hrea_agent.dna"
+      properties: ~
+      uuid: ~
+      version: ~
+      clone_limit: 0
+
   - name: sensemaker
     provisioning:
       strategy: create
