@@ -1,8 +1,8 @@
-import { contextProvided } from "@lit-labs/context";
+import { consume } from "@lit-labs/context";
 import { property } from "lit/decorators.js";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { LitElement, html, css } from "lit";
-import { ApolloQueryController, ApolloController } from '@apollo-elements/core';
+import { ApolloQueryController } from '@apollo-elements/core';
 import { gql } from '@apollo/client/core';
 import { EconomicEventConnection } from '@valueflows/vf-graphql';
 
@@ -55,7 +55,7 @@ query {
 export class ProviderComponent extends ScopedElementsMixin(LitElement) {
     // :NOTE: contextProvided has no effect here, is pulled from window.__APOLLO_CLIENT__ and assigned by Apollo controllers.
     //        @see https://github.com/lit/lit/issues/2446#issuecomment-1408143222
-    @contextProvided({ context: hreaGraphQLContext, subscribe: true })
+		@consume({ context: hreaGraphQLContext, subscribe: true })
     @property({ attribute: false })
     client!: ApolloClient<NormalizedCacheObject>
 
@@ -94,5 +94,8 @@ export class ProviderComponent extends ScopedElementsMixin(LitElement) {
     static get scopedElements() {
         return {
         };
-    }
+	}
+
+	static styles = css`
+	`
 }
