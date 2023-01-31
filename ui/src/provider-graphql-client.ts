@@ -5,7 +5,14 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core'
 export const provideGraphQLClient = (opts: ClientOptions): Promise<ApolloClient<NormalizedCacheObject>> =>
   initGraphQLClient({
     ...opts,
-    enabledVFModules: [VfModule.Observation, VfModule.Measurement, VfModule.Action],
+    enabledVFModules: [
+      VfModule.Observation,
+      VfModule.Measurement,
+      VfModule.Agent,
+      VfModule.Action,
+      VfModule.ResourceSpecification,
+      VfModule.ProcessSpecification,
+    ],
   })
   .then(client => {
     // :SHONK: Assign window global used by @apollo-elements/core controllers.
