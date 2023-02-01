@@ -105,7 +105,7 @@ export class ProviderComponent extends ScopedElementsMixin(LitElement) {
             </div>
           `
         }
-        if ((this.entries?.data?.economicEvents?.edges || []).length == 0) {
+        if ((this.entries?.data?.economicEvents?.edges || []).length === 0) {
           return html`
             <div>
               <p>Nothing tracked yet!</p>
