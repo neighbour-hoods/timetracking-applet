@@ -7,7 +7,7 @@ import { hreaGraphQLContext, sensemakerStoreContext } from './contexts';
 import { ApolloClient, NormalizedCacheObject } from './provider-graphql-client.js';
 import { SensemakerStore } from '@neighbourhoods/nh-we-applet';
 import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
-import { ProviderComponent } from './index'
+import { TimesheetEntriesList } from './index'
 import { get } from 'svelte/store';
 
 export class ProviderApp extends ScopedElementsMixin(LitElement) {
@@ -27,7 +27,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     return html`
       <main>
         <div class="home-page">
-          <provider-component></provider-component>
+          <timesheet-entries-list></timesheet-entries-list>
         </div>
       </main>
     `;
@@ -48,7 +48,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
 
   static get scopedElements() {
     return {
-      'provider-component': ProviderComponent,
+      'timesheet-entries-list': TimesheetEntriesList,
     };
   }
 
@@ -56,7 +56,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     .home-page {
       display: flex;
       flex-direction: row;
-    }  
+    }
 
     :host {
       min-height: 100vh;
