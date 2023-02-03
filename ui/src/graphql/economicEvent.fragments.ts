@@ -1,6 +1,11 @@
 import { gql } from '@apollo/client/core'
 
+import { QUANTITY_VALUE_FIELDS } from './quantityValue.fragments'
+import { AGENT_CORE_FIELDS } from './agent.fragments'
+
 export const WORK_EVENT_FIELDS = gql`
+  ${QUANTITY_VALUE_FIELDS}
+  ${AGENT_CORE_FIELDS}
   fragment WorkEventFields on EconomicEvent {
     # identifiers
     id
@@ -19,12 +24,7 @@ export const WORK_EVENT_FIELDS = gql`
 
     # how much work being done, specified in https://github.com/HajoRijgersberg/OM -compatible format
     effortQuantity {
-      hasNumericalValue
-      hasUnit {
-        id
-        label
-        symbol
-      }
+      ...QuantityValueFields
     }
 
     # :TODO: triggeredBy & event adjustments
@@ -48,12 +48,10 @@ export const WORK_EVENT_FIELDS = gql`
     # Requires \`hrea_agent\` module.
 
     provider {
-      id
-      name
+      ...AgentCoreFields
     }
     receiver {
-      id
-      name
+      ...AgentCoreFields
     }
   }
 `;
