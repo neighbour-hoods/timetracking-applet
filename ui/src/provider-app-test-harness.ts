@@ -7,8 +7,9 @@ import {
   ActionHash,
   AppInfo,
   AdminWebsocket,
-  // encodeHashToBase64,
+  encodeHashToBase64,
   Cell,
+  CellInfo,
   // RoleName,
 } from '@holochain/client';
 import { CircularProgress } from '@scoped-elements/material-web';
@@ -22,6 +23,7 @@ import { ProviderApp } from './provider-app';
 import appletConfig from './appletConfig'
 
 const SENSEMAKER_ROLE_NAME = "sensemaker"
+const PROVIDER_ROLE_NAME = "hrea_observation_0" // :WARNING: this will mean cloned sensemaker cell uses same agentPubKey as plugged Observation cell
 
 @customElement('provider-app-test-harness')
 export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
@@ -59,28 +61,37 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     try {
       await this.connectHolochain()
 
+      // detect participant agentPubKey from primary hREA provider cell
+      const providerCellInfo: CellInfo = this.appInfo.cell_info[PROVIDER_ROLE_NAME][0]
+      if (providerCellInfo) {
+        const providerCell: Cell = (providerCellInfo as { "Provisioned": Cell }).Provisioned
+        this.agentPubkey = encodeHashToBase64(providerCell.cell_id[1])
+      } else {
+        throw new Error("Unable to detect hREA Observation cell during startup")
+      }
+
       const installedSensemakerCells = (this.appInfo as AppInfo).cell_info[SENSEMAKER_ROLE_NAME]
 
       // check if sensemaker has been cloned yet
-      let allSensemakerClones = installedSensemakerCells.filter((cellInfo) => "Cloned" in cellInfo);
+      const allSensemakerClones = installedSensemakerCells.filter((cellInfo) => "Cloned" in cellInfo);
       if (allSensemakerClones.length > 0) {
         this.isSensemakerCloned = true;
         const clonedSensemakerCell = (allSensemakerClones[0] as { "Cloned": Cell }).Cloned;
         const clonedSensemakerRoleName = clonedSensemakerCell.clone_id!;
         await this.initializeSensemakerStore(clonedSensemakerRoleName);
         await this.updateSensemakerState();
-
-        // construct the provider connector
-        this._graphql = await provideGraphQLClient({
-          conductorUri: this.appWebsocket.client.socket.url,
-          // adminConductorUri: this.adminWebsocket.client.socket.url,
-        });
-
-        this.loading = false;
       }
-    }
-    catch (e) {
+
+      // construct the provider connector
+      this._graphql = await provideGraphQLClient({
+        conductorUri: this.appWebsocket.client.socket.url,
+        // adminConductorUri: this.adminWebsocket.client.socket.url,
+      });
+
+      this.loading = false;
+    } catch (e) {
       console.error(e)
+      throw e
     }
   }
 
