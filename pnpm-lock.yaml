@@ -56,6 +56,7 @@ importers:
   ui:
     specifiers:
       '@apollo-elements/core': ^2.1.2
+      '@apollo/client': ^3.7.0
       '@babel/preset-env': ^7.15.0
       '@holochain/client': 0.11.9
       '@lit-labs/context': ^0.2.0
@@ -103,6 +104,7 @@ importers:
       typescript: ^4.9.4
     dependencies:
       '@apollo-elements/core': 2.1.2
+      '@apollo/client': 3.7.6
       '@holochain/client': 0.11.9
       '@lit-labs/context': 0.2.0
       '@msgpack/msgpack': 2.8.0
@@ -115,7 +117,7 @@ importers:
       '@scoped-elements/material-web': 0.0.19
       '@type-craft/content': 0.0.7
       '@type-craft/title': 0.0.8
-      '@vf-ui/graphql-client-holochain': 0.0.1-alpha.16
+      '@vf-ui/graphql-client-holochain': 0.0.1-alpha.16_@apollo+client@3.7.6
       lit: 2.6.1
       svelte: 3.55.1
     devDependencies:
@@ -169,12 +171,14 @@ importers:
       '@lit-labs/context': ^0.2.0
       '@open-wc/scoped-elements': ^2.1.0
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
+      '@valueflows/vf-graphql-type-fragments': workspace:*
       graphql-tag: ^2.12.6
       lit: ^2.0.2
     dependencies:
       '@lit-labs/context': 0.2.0
       '@open-wc/scoped-elements': 2.1.4
       '@valueflows/vf-graphql': 0.9.0-alpha.9
+      '@valueflows/vf-graphql-type-fragments': link:../../graphql
       graphql-tag: 2.12.6
       lit: 2.6.1
 
@@ -183,14 +187,24 @@ importers:
       '@lit-labs/context': ^0.2.0
       '@open-wc/scoped-elements': ^2.1.0
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
+      '@valueflows/vf-graphql-type-fragments': workspace:*
       graphql-tag: ^2.12.6
       lit: ^2.0.2
     dependencies:
       '@lit-labs/context': 0.2.0
       '@open-wc/scoped-elements': 2.1.4
       '@valueflows/vf-graphql': 0.9.0-alpha.9
+      '@valueflows/vf-graphql-type-fragments': link:../../graphql
       graphql-tag: 2.12.6
       lit: 2.6.1
+
+  ui/src/graphql:
+    specifiers:
+      '@valueflows/vf-graphql': ^0.9.0-alpha.9
+      graphql-tag: ^2.12.6
+    dependencies:
+      '@valueflows/vf-graphql': 0.9.0-alpha.9
+      graphql-tag: 2.12.6
 
   we-applet:
     specifiers:
@@ -4497,12 +4511,13 @@ packages:
       '@graphql-tools/merge': 8.3.17
     dev: false
 
-  /@vf-ui/graphql-client-holochain/0.0.1-alpha.16:
+  /@vf-ui/graphql-client-holochain/0.0.1-alpha.16_@apollo+client@3.7.6:
     resolution: {integrity: sha512-Qz3UqvSImNU3axdn6aD0t9nhJFdMreqGdf34ywQiOiGTfcYAtZi7uYnsgeV2xECYU9CsJ9zpQtUw11D2FDN8wQ==}
     peerDependencies:
       '@apollo/client': '>=3'
       graphql: '>=14'
     dependencies:
+      '@apollo/client': 3.7.6
       '@apollo/link-schema': 2.0.0-beta.3
       '@valueflows/vf-graphql-holochain': 0.0.1-alpha.16
       tslib: 2.5.0
