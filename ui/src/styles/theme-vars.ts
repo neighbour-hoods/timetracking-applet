@@ -22,8 +22,20 @@ const NH_COLOR_PALLETE = css`
   --nh-cyan: #00dcf5;
   --nh-green-bright: #00dc76;
   --nh-purple-dark: #383cff;
+`
 
-  # theme assignments
+export default css`
+:host {
+  ${NH_COLOR_PALLETE}
 
+  /* Theme variables- considered the public style API */
+  --nh-applet-background-color: var(--nh-white);
+  --nh-timetracker-form-background-color: var(--nh-purple-light);
+
+  /* BELOW THIS LINE IS CONSIDERED INTERNAL IMPLEMENTATION DETAILS,
+     MODIFY AT YOUR PERIL! */
+
+  /* LitElement bindings */
+  --lit-element-background-color: var(--nh-applet-background-color);
 }
 `
