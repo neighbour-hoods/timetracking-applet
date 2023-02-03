@@ -11,7 +11,7 @@
  * @since   2023-02-01
 */
 
-import { consume } from "@lit-labs/context"
+import { contextProvided } from "@lit-labs/context"
 import { property, state } from "lit/decorators.js"
 import { ScopedElementsMixin } from "@open-wc/scoped-elements"
 import { LitElement, html, css } from "lit"
@@ -19,7 +19,7 @@ import { ApolloMutationController, ApolloQueryController } from '@apollo-element
 import { ApolloClient, NormalizedCacheObject } from "../../provider-graphql-client"
 
 import { hreaGraphQLContext } from "../../contexts"
-import { MutationCreateEconomicEventArgs, EconomicEventResponse, Agent, IMeasure } from '@valueflows/vf-graphql'
+import { EconomicEventResponse, Agent, IMeasure } from '@valueflows/vf-graphql'
 
 import { EventCreateMutation } from './mutations'
 import { WhoAmI } from './queries'
@@ -30,7 +30,7 @@ import '@material/mwc-textfield'
 export class WorkInputManual extends ScopedElementsMixin(LitElement) {
   // :NOTE: contextProvided has no effect here, is pulled from window.__APOLLO_CLIENT__ and assigned by Apollo controllers.
   //        @see https://github.com/lit/lit/issues/2446#issuecomment-1408143222
-  @consume({ context: hreaGraphQLContext, subscribe: true })
+  @contextProvided({ context: hreaGraphQLContext, subscribe: true })
   @property({ attribute: false })
   client!: ApolloClient<NormalizedCacheObject>
 

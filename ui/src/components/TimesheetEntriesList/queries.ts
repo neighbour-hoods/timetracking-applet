@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from 'graphql-tag'
 
 import { WORK_EVENT_FIELDS } from '../../graphql/economicEvent.fragments'
 

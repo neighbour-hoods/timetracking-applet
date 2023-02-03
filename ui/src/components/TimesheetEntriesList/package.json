@@ -1,1 +1,13 @@
-{ "main": "./TimesheetEntriesList.ts" }
+{
+  "name": "@neighbourhoods/component-vf-graphql-time-entries-list",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./TimesheetEntriesList.ts",
+  "dependencies": {
+    "@lit-labs/context": "^0.2.0",
+    "@open-wc/scoped-elements": "^2.1.0",
+    "@valueflows/vf-graphql": "^0.9.0-alpha.9",
+    "graphql-tag": "^2.12.6",
+    "lit": "^2.0.2"
+  }
+}

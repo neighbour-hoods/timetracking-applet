@@ -1,13 +1,8 @@
 {
   "name": "provider-dev",
   "private": true,
-  "workspaces": [
-    "ui",
-    "tests",
-    "we-applet"
-  ],
   "scripts": {
-    "start": "AGENTS=1 npm run network",
+    "start": "AGENTS=2 npm run network",
     "network": "hc s clean && npm run build:test-happ && concurrently \"npm run build:watch -w ui\" \"npm run launch:happ\"",
     "start:agent": "cross-env HC_PORT=$(port) HC_ADMIN_PORT=$(port) concurrently -k \"npm run start:happ\" \"sleep 5 && npm run start -w ui\"",
     "launch:happ": "RUST_LOG=warn echo \"pass\" | hc launch --piped -n $AGENTS ./workdir/sensemaker-enabled/provider-sensemaker.happ -w --ui-path ui/dist network mdns",
@@ -23,8 +18,14 @@
     "download-hrea-specification": "[ ! -f \"workdir/hrea_specification.dna\" ] && curl -L --output workdir/hrea_specification.dna https://github.com/h-REA/hREA/releases/download/happ-0.1.1-beta_republish/hrea_specification.dna; exit 0",
     "download-hrea-agent": "[ ! -f \"workdir/hrea_agent.dna\" ] && curl -L --output workdir/hrea_agent.dna https://github.com/h-REA/hREA/releases/download/happ-0.1.1-beta_republish/hrea_agent.dna; exit 0",
     "start:ui": "npm run start -w ui",
+    "preinstall": "npx only-allow pnpm",
     "postinstall": "npm run download-sensemaker && npm run download-hrea-obs && npm run download-hrea-specification && npm run download-hrea-agent",
-    "clean": "nix-shell --run hn-rust-flush; rimraf workdir/sensemaker.dna; rimraf workdir/hrea_observation.dna; rimraf ui/node_modules; rimraf we-applet/node_modules; rimraf node_modules"
+    "clean:build": "nix-shell --run hn-rust-flush",
+    "clean:downloaded": "npm run clean:downloaded:sensemaker; npm run clean:downloaded:hrea-modules; exit 0",
+    "clean:downloaded:sensemaker": "rimraf workdir/sensemaker.dna",
+    "clean:downloaded:hrea-modules": "rimraf workdir/hrea_observation.dna; rimraf workdir/hrea_specification.dna; rimraf workdir/hrea_agent.dna",
+    "clean:modules": "rimraf ui/node_modules; rimraf we-applet/node_modules; rimraf node_modules",
+    "clean": "npm run clean:downloaded; npm run clean:build; npm run clean:modules"
   },
   "devDependencies": {
     "@holochain-playground/cli": "^0.0.11",

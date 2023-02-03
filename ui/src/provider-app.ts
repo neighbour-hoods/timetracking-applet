@@ -2,14 +2,15 @@ import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { contextProvider } from '@lit-labs/context';
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
+import { get } from 'svelte/store';
+
+import { SensemakerStore } from '@neighbourhoods/nh-we-applet';
+import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
 
 import { hreaGraphQLContext, sensemakerStoreContext } from './contexts';
 import { ApolloClient, NormalizedCacheObject } from './provider-graphql-client.js';
-import { SensemakerStore } from '@neighbourhoods/nh-we-applet';
-import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
-import { TimesheetEntriesList } from './index'
-import { WorkInputManual } from './index'
-import { get } from 'svelte/store';
+import { TimesheetEntriesList } from '@neighbourhoods/component-vf-graphql-time-entries-list'
+import { WorkInputManual } from '@neighbourhoods/component-vf-graphql-work-input-daily'
 
 export class ProviderApp extends ScopedElementsMixin(LitElement) {
   // set up the context providers for both stores so that they can be accessed by other components

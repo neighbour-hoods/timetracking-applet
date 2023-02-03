@@ -5,6 +5,7 @@ import { SensemakerStore } from '@neighbourhoods/nh-we-applet';
 export const hreaGraphQLContext = createContext<ApolloClient<NormalizedCacheObject>>(
     'hrea-graphql-context'
 );
+
 export const sensemakerStoreContext = createContext<SensemakerStore>(
     'sensemaker-store-context'
 );
