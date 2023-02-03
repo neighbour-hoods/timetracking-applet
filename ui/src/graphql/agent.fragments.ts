@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from 'graphql-tag'
 
 export const AGENT_CORE_FIELDS = gql`
   fragment AgentCoreFields on Agent {

@@ -1,6 +1,6 @@
 import { gql } from 'graphql-tag'
 
-import { WORK_EVENT_FIELDS } from '../../graphql/economicEvent.fragments'
+import { WORK_EVENT_FIELDS } from '@valueflows/vf-graphql-type-fragments/economicEvent.fragments'
 
 export const EventsListQuery = gql`
 ${WORK_EVENT_FIELDS}

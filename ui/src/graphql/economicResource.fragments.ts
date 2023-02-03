@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from 'graphql-tag'
 
 import { QUANTITY_VALUE_FIELDS } from './quantityValue.fragments'
 

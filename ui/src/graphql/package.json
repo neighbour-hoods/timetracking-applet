@@ -1,0 +1,11 @@
+{
+  "name": "@valueflows/vf-graphql-type-fragments",
+  "version": "0.0.1",
+  "description": "GraphQL resolver fragments for core Valueflows types. Attempt at organizing by application domain (eg. 'work event' vs 'production event' and so on).",
+  "type": "module",
+  "main": "./index.ts",
+  "dependencies": {
+    "@valueflows/vf-graphql": "^0.9.0-alpha.9",
+    "graphql-tag": "^2.12.6"
+  }
+}
