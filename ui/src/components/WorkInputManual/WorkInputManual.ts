@@ -27,6 +27,10 @@ import { WhoAmI } from './queries'
 import '@material/mwc-button'
 import '@material/mwc-textfield'
 
+interface ProfileQueryResult {
+  myAgent: Agent
+}
+
 export class WorkInputManual extends ScopedElementsMixin(LitElement) {
   // :NOTE: contextProvided has no effect here, is pulled from window.__APOLLO_CLIENT__ and assigned by Apollo controllers.
   //        @see https://github.com/lit/lit/issues/2446#issuecomment-1408143222
@@ -36,7 +40,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement) {
 
   createEvent: ApolloMutationController<EconomicEventResponse> = new ApolloMutationController(this, EventCreateMutation)
 
-  me: ApolloQueryController<{ myAgent: Agent }> = new ApolloQueryController(this, WhoAmI)
+  me: ApolloQueryController<ProfileQueryResult> = new ApolloQueryController(this, WhoAmI)
 
   @state()
   note: string = ""
@@ -61,6 +65,8 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement) {
   }
 
   render() {
+    const profile = this.me?.data as ProfileQueryResult
+
     // initial loading states- retrieving agent identifier
     if (this.me?.error) {
       return html`
@@ -70,7 +76,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement) {
         </div>
       `
     }
-    if (!this.me?.data || this.me?.loading) {
+    if (!profile || this.me?.loading) {
       return html`
         <div>
           <p>Loading...</p>
@@ -88,7 +94,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement) {
     }
 
     // primary layout to receive participant input
-    const myAgentId = this.me?.data?.myAgent?.id
+    const myAgentId = profile?.myAgent?.id
 
     return html`
       <section className="outer">
