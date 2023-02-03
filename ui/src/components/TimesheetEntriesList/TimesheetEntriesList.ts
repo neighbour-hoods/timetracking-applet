@@ -26,6 +26,10 @@ import { ApolloClient, NormalizedCacheObject } from "../../provider-graphql-clie
 
 import { EventsListQuery } from './queries'
 
+interface QueryResult {
+  economicEvents: EconomicEventConnection
+}
+
 export class TimesheetEntriesList extends ScopedElementsMixin(LitElement) {
     // :NOTE: contextProvided has no effect here, is pulled from window.__APOLLO_CLIENT__ and assigned by Apollo controllers.
     //        @see https://github.com/lit/lit/issues/2446#issuecomment-1408143222
@@ -33,9 +37,11 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement) {
     @property({ attribute: false })
     client!: ApolloClient<NormalizedCacheObject>
 
-    entries?: ApolloQueryController<{ economicEvents: EconomicEventConnection }> = new ApolloQueryController(this, EventsListQuery)
+    entries?: ApolloQueryController<QueryResult> = new ApolloQueryController(this, EventsListQuery)
 
     render() {
+        const data = this.entries?.data as QueryResult
+
         if (this.entries?.error) {
           return html`
             <div>
@@ -44,14 +50,14 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement) {
             </div>
           `
         }
-        if (!this.entries?.data || this.entries?.loading) {
+        if (!data || this.entries?.loading) {
           return html`
             <div>
               <p>Loading...</p>
             </div>
           `
         }
-        if ((this.entries?.data?.economicEvents?.edges || []).length === 0) {
+        if ((data?.economicEvents?.edges || []).length === 0) {
           return html`
             <div>
               <p>Nothing tracked yet!</p>
