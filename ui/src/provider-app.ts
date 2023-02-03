@@ -11,6 +11,7 @@ import { hreaGraphQLContext, sensemakerStoreContext } from './contexts';
 import { ApolloClient, NormalizedCacheObject } from './provider-graphql-client.js';
 import { TimesheetEntriesList } from '@neighbourhoods/component-vf-graphql-time-entries-list'
 import { WorkInputManual } from '@neighbourhoods/component-vf-graphql-work-input-daily'
+import cssThemeVars from '@neighbourhoods/applet-vf-timetracker-theme-vars'
 
 export class ProviderApp extends ScopedElementsMixin(LitElement) {
   // set up the context providers for both stores so that they can be accessed by other components
@@ -57,6 +58,8 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
   }
 
   static styles = css`
+    ${cssThemeVars}
+
     .home-page {
       display: flex;
       flex-direction: row;

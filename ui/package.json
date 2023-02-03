@@ -24,6 +24,7 @@
     "@holochain/client": "0.11.9",
     "@lit-labs/context": "^0.2.0",
     "@msgpack/msgpack": "^2.7.2",
+    "@neighbourhoods/applet-vf-timetracker-theme-vars": "workspace:*",
     "@neighbourhoods/component-create-or-join-nh": "workspace:*",
     "@neighbourhoods/component-vf-graphql-time-entries-list": "workspace:*",
     "@neighbourhoods/component-vf-graphql-work-input-daily": "workspace:*",

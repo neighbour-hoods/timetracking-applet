@@ -1,0 +1,8 @@
+{
+  "name": "@neighbourhoods/applet-vf-timetracker-theme-vars",
+  "version": "0.0.1",
+  "main": "theme-vars.ts",
+  "dependencies": {
+    "lit": "^2.0.2"
+  }
+}
