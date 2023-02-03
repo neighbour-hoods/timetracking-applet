@@ -108,8 +108,8 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
 
   async createNeighbourhood(_e: CustomEvent) {
     await this.cloneSensemakerCell(this.agentPubkey)
-    const _todoConfig = await this._sensemakerStore.registerApplet(appletConfig);
-    await this.updateSensemakerState()
+    // const _todoConfig = await this._sensemakerStore.registerApplet(appletConfig);
+    // await this.updateSensemakerState()
     this.loading = false;
   }
 
