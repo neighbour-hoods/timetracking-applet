@@ -8,6 +8,7 @@ import { ApolloClient, NormalizedCacheObject } from './provider-graphql-client.j
 import { SensemakerStore } from '@neighbourhoods/nh-we-applet';
 import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
 import { TimesheetEntriesList } from './index'
+import { WorkInputManual } from './index'
 import { get } from 'svelte/store';
 
 export class ProviderApp extends ScopedElementsMixin(LitElement) {
@@ -27,6 +28,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     return html`
       <main>
         <div class="home-page">
+          <work-input-manual></work-input-manual>
           <timesheet-entries-list></timesheet-entries-list>
         </div>
       </main>
@@ -49,6 +51,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
   static get scopedElements() {
     return {
       'timesheet-entries-list': TimesheetEntriesList,
+      'work-input-manual': WorkInputManual,
     };
   }
 
