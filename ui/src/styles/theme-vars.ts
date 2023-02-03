@@ -1,10 +1,8 @@
 import { css } from 'lit'
 
-export default css`
-:root {
-
-  # Colour pallete variables for Neighbourhoods/We
-  # @see https: //neighbourhoods.tech/visual-assets/
+const NH_COLOR_PALLETE = css`
+  /* Colour pallete variables for Neighbourhoods/We */
+  /* @see https: //neighbourhoods.tech/visual-assets/ */
   --nh-purple-light: #8b94f5;
   --nh-white: #fff;
   --nh-darkgrey: #333333;
