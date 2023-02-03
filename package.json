@@ -24,7 +24,7 @@
     "clean:downloaded": "npm run clean:downloaded:sensemaker; npm run clean:downloaded:hrea-modules; exit 0",
     "clean:downloaded:sensemaker": "rimraf workdir/sensemaker.dna",
     "clean:downloaded:hrea-modules": "rimraf workdir/hrea_observation.dna; rimraf workdir/hrea_specification.dna; rimraf workdir/hrea_agent.dna",
-    "clean:modules": "rimraf ui/node_modules; rimraf we-applet/node_modules; rimraf node_modules",
+    "clean:modules": "rimraf node_modules; for DIR in $(find -type d -iname node_modules); do echo \"  Remove $DIR\"; rm -Rf \"$DIR\"; done",
     "clean": "npm run clean:downloaded; npm run clean:build; npm run clean:modules"
   },
   "devDependencies": {
