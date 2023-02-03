@@ -24,8 +24,7 @@ import { EconomicEventResponse, Agent, IMeasure } from '@valueflows/vf-graphql'
 import { EventCreateMutation } from './mutations'
 import { WhoAmI } from './queries'
 
-import '@material/mwc-button'
-import '@material/mwc-textfield'
+import { TextField, Button } from '@scoped-elements/material-web'
 
 interface ProfileQueryResult {
   myAgent: Agent
@@ -118,4 +117,11 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement) {
       max-width: 40em;
     }
   `
+
+  static get scopedElements() {
+    return {
+      'mwc-textfield': TextField,
+      'mwc-button': Button,
+    };
+  }
 }
