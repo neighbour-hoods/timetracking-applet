@@ -35,6 +35,7 @@
     "@type-craft/content": "^0.0.7",
     "@type-craft/title": "^0.0.8",
     "@vf-ui/graphql-client-holochain": "^0.0.1-alpha.17",
+    "@valueflows/vf-graphql-holochain": "*",
     "graphql": "^15.8.0",
     "lit": "^2.6.1",
     "svelte": "*"
