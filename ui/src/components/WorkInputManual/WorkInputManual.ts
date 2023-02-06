@@ -22,7 +22,7 @@ import { hreaGraphQLContext } from "../../contexts"
 import { EconomicEventResponse, Agent, IMeasure } from '@valueflows/vf-graphql'
 
 import { EventCreateMutation } from './mutations'
-import { WhoAmI } from './queries'
+import { WhoAmI } from '@valueflows/vf-graphql-shared-queries'
 
 import { TextField, Button } from '@scoped-elements/material-web'
 

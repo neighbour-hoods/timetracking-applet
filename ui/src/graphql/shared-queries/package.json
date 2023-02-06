@@ -1,0 +1,12 @@
+{
+  "name": "@valueflows/vf-graphql-shared-queries",
+  "version": "0.0.1",
+  "description": "GraphQL mutations and queries commonly used in Valueflows application UIs.",
+  "type": "module",
+  "main": "./index.ts",
+  "dependencies": {
+    "@valueflows/vf-graphql": "^0.9.0-alpha.9",
+    "@valueflows/vf-graphql-type-fragments": "workspace:*",
+    "graphql-tag": "^2.12.6"
+  }
+}
