@@ -19,13 +19,14 @@
     "package": "npm run build && cd dist && bestzip ../dist.zip *"
   },
   "dependencies": {
-    "@apollo-elements/core": "^2.1.2",
     "@apollo/client": "^3.7.0",
     "@holochain/client": "0.11.9",
     "@lit-labs/context": "^0.2.0",
     "@msgpack/msgpack": "^2.7.2",
     "@neighbourhoods/applet-vf-timetracker-theme-vars": "workspace:*",
     "@neighbourhoods/component-create-or-join-nh": "workspace:*",
+    "@neighbourhoods/component-vf-graphql-agent-profile-check": "workspace:*",
+    "@neighbourhoods/component-vf-graphql-agent-profile-manage": "workspace:*",
     "@neighbourhoods/component-vf-graphql-time-entries-list": "workspace:*",
     "@neighbourhoods/component-vf-graphql-work-input-daily": "workspace:*",
     "@neighbourhoods/nh-we-applet": "0.0.5",

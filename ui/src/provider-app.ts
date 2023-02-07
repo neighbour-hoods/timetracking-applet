@@ -9,6 +9,9 @@ import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
 
 import { hreaGraphQLContext, sensemakerStoreContext } from './contexts';
 import { ApolloClient, NormalizedCacheObject } from './provider-graphql-client.js';
+
+import { AgentProfileCheck } from '@neighbourhoods/component-vf-graphql-agent-profile-check'
+import { AgentProfileManage } from '@neighbourhoods/component-vf-graphql-agent-profile-manage'
 import { TimesheetEntriesList } from '@neighbourhoods/component-vf-graphql-time-entries-list'
 import { WorkInputManual } from '@neighbourhoods/component-vf-graphql-work-input-daily'
 import cssThemeVars from '@neighbourhoods/applet-vf-timetracker-theme-vars'
@@ -30,8 +33,16 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     return html`
       <main>
         <div class="home-page">
-          <work-input-manual></work-input-manual>
-          <timesheet-entries-list></timesheet-entries-list>
+          <agent-profile-check>
+
+            <agent-profile-manage slot="profile-missing"></agent-profile-manage>
+
+            <div slot="profile-ok">
+              <work-input-manual></work-input-manual>
+              <timesheet-entries-list></timesheet-entries-list>
+            </div>
+
+          </agent-profile-check>
         </div>
       </main>
     `;
@@ -52,6 +63,8 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
 
   static get scopedElements() {
     return {
+      'agent-profile-check': AgentProfileCheck,
+      'agent-profile-manage': AgentProfileManage,
       'timesheet-entries-list': TimesheetEntriesList,
       'work-input-manual': WorkInputManual,
     };
