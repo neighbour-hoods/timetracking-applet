@@ -30,6 +30,11 @@ export default css`
 
   /* Theme variables- considered the public style API */
   --nh-applet-background-color: var(--nh-white);
+  --nh-applet-primary-color: var(--nh-salmon);
+  --nh-applet-primary-text-color: var(--nh-darkgrey);
+
+  --nh-applet-error-color: var(--nh-red);
+
   --nh-timetracker-form-background-color: var(--nh-purple-light);
 
   /* BELOW THIS LINE IS CONSIDERED INTERNAL IMPLEMENTATION DETAILS,
@@ -37,5 +42,9 @@ export default css`
 
   /* LitElement bindings */
   --lit-element-background-color: var(--nh-applet-background-color);
+
+  /* MaterialUI bindings */
+  --mdc-theme-primary: var(--nh-applet-primary-color);
+  --mdc-theme-on-primary: var(--nh-applet-primary-text-color);
 }
 `

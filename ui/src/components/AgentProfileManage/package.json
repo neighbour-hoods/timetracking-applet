@@ -1,0 +1,17 @@
+{
+  "name": "@neighbourhoods/component-vf-graphql-agent-profile-manage",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./AgentProfileManage.ts",
+  "dependencies": {
+    "@apollo-elements/core": "^2.1.2",
+    "@lit-labs/context": "^0.1.2",
+    "@open-wc/scoped-elements": "^2.1.0",
+    "@scoped-elements/material-web": "^0.0.19",
+    "@valueflows/vf-graphql": "^0.9.0-alpha.9",
+    "@valueflows/vf-graphql-shared-queries": "workspace:*",
+    "@valueflows/vf-graphql-type-fragments": "workspace:*",
+    "graphql-tag": "^2.12.6",
+    "lit": "^2.0.2"
+  }
+}
