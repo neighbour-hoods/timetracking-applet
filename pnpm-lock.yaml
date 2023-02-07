@@ -166,7 +166,7 @@ importers:
       '@lit-labs/context': ^0.1.2
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
-      '@valueflows/vf-graphql': ^0.9.0-alpha.9
+      '@valueflows/vf-graphql-holochain': ^0.0.1-alpha.17
       '@valueflows/vf-graphql-shared-queries': workspace:*
       lit: ^2.0.2
     dependencies:
@@ -174,7 +174,7 @@ importers:
       '@lit-labs/context': 0.1.3
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
-      '@valueflows/vf-graphql': 0.9.0-alpha.9
+      '@valueflows/vf-graphql-holochain': 0.0.1-alpha.17
       '@valueflows/vf-graphql-shared-queries': link:../../graphql/shared-queries
       lit: 2.6.1
 
@@ -184,7 +184,7 @@ importers:
       '@lit-labs/context': ^0.1.2
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
-      '@valueflows/vf-graphql': ^0.9.0-alpha.9
+      '@valueflows/vf-graphql-holochain': ^0.0.1-alpha.17
       '@valueflows/vf-graphql-shared-queries': workspace:*
       '@valueflows/vf-graphql-type-fragments': workspace:*
       graphql-tag: ^2.12.6
@@ -194,7 +194,7 @@ importers:
       '@lit-labs/context': 0.1.3
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
-      '@valueflows/vf-graphql': 0.9.0-alpha.9
+      '@valueflows/vf-graphql-holochain': 0.0.1-alpha.17
       '@valueflows/vf-graphql-shared-queries': link:../../graphql/shared-queries
       '@valueflows/vf-graphql-type-fragments': link:../../graphql/type-fragments
       graphql-tag: 2.12.6
@@ -236,7 +236,6 @@ importers:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
-      '@open-wc/dedupe-mixin': ^1.3.1
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
@@ -247,7 +246,6 @@ importers:
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
-      '@open-wc/dedupe-mixin': 1.3.1
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
       '@valueflows/vf-graphql': 0.9.0-alpha.9
@@ -2508,6 +2506,17 @@ packages:
       tslib: 2.5.0
     dev: false
 
+  /@graphql-tools/schema/9.0.15:
+    resolution: {integrity: sha512-p2DbpkOBcsi+yCEjwoS+r4pJ5z+3JjlJdhbPkCwC4q8lGf5r93dVYrExOrqGKTU5kxLXI/mxabSxcunjNIsDIg==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      '@graphql-tools/merge': 8.3.17
+      '@graphql-tools/utils': 9.2.0
+      tslib: 2.5.0
+      value-or-promise: 1.0.12
+    dev: false
+
   /@graphql-tools/schema/9.0.15_graphql@15.8.0:
     resolution: {integrity: sha512-p2DbpkOBcsi+yCEjwoS+r4pJ5z+3JjlJdhbPkCwC4q8lGf5r93dVYrExOrqGKTU5kxLXI/mxabSxcunjNIsDIg==}
     peerDependencies:
@@ -4620,6 +4629,27 @@ packages:
       '@ui5/webcomponents-theming': 1.10.3
     dev: false
 
+  /@valueflows/vf-graphql-holochain/0.0.1-alpha.17:
+    resolution: {integrity: sha512-4t30xp8CZP6LGf9kW8SgLgHcHAa1czD/a8h0gyxRhrPeasMY+MxuKlm8NSFbcCyRvqtmgvnri3baAKMiRbmaPA==}
+    peerDependencies:
+      graphql: '>=14'
+    dependencies:
+      '@graphql-tools/schema': 9.0.15
+      '@graphql-tools/utils': 9.2.0
+      '@holochain/client': 0.12.0
+      '@valueflows/vf-graphql': 0.9.0-alpha.9
+      big.js: 6.2.1
+      buffer: 6.0.3
+      dataloader: 1.4.0
+      deep-for-each: 3.0.0
+      fecha: 4.2.3
+      graphql-scalars: 1.20.1
+      is-object: 1.0.2
+      js-base64: 3.7.4
+    transitivePeerDependencies:
+      - ws
+    dev: false
+
   /@valueflows/vf-graphql-holochain/0.0.1-alpha.17_graphql@15.8.0:
     resolution: {integrity: sha512-4t30xp8CZP6LGf9kW8SgLgHcHAa1czD/a8h0gyxRhrPeasMY+MxuKlm8NSFbcCyRvqtmgvnri3baAKMiRbmaPA==}
     peerDependencies:
@@ -6708,6 +6738,15 @@ packages:
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
     dev: true
+
+  /graphql-scalars/1.20.1:
+    resolution: {integrity: sha512-HCSosMh8l/DVYL3/wCesnZOb+gbiaO/XlZQEIKOkWDJUGBrc15xWAs5TCQVmrycT0tbEInii+J8eoOyMwxx8zg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      tslib: 2.4.1
+    dev: false
 
   /graphql-scalars/1.20.1_graphql@15.8.0:
     resolution: {integrity: sha512-HCSosMh8l/DVYL3/wCesnZOb+gbiaO/XlZQEIKOkWDJUGBrc15xWAs5TCQVmrycT0tbEInii+J8eoOyMwxx8zg==}
