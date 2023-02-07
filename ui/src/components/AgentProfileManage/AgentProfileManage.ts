@@ -1,32 +1,24 @@
 /**
  * Manage an agent profile
  *
- * :TODO: add other profile metadata fields
  * :TODO: handle unexpected errors from read API
+ * :TODO: add other profile metadata fields
  * :TODO: decide whether this control should also handle edits, and edits to other profiles
  */
-import { query, state, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { LitElement, html, css } from "lit";
-import { ApolloQueryController, ApolloMutationController } from '@apollo-elements/core'
+import { ApolloMutationController } from '@apollo-elements/core'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core'
 
 import { Button, TextField } from '@scoped-elements/material-web'
 
+import { WhoAmI } from '@valueflows/vf-graphql-shared-queries'
 import {
-  // WhoAmI, WhoAmIQueryResult, :TODO: read existing values
-  Agent,
- } from '@valueflows/vf-graphql-shared-queries'
-import { ProfileAssociateMutation, ProfileCreateMutation } from "./mutations"
-
-type AgentWithType = Agent & { agentType: string }
-interface AgentWithTypeResponse {
-  agent: AgentWithType
-}
-
-interface CreatePersonResponse {
-  createPerson: AgentWithTypeResponse
-}
+  ProfileCreateMutation, ProfileAssociateMutation,
+  CreatePersonResponse, AgentAssociationResponse,
+  AgentWithTypeResponse, AgentWithType,
+} from "./mutations"
 
 // a temporary initialiser for the agent's name so that testing is more streamlined
 // :TODO: this should probably be replaced with Holochain Profiles integration someday
@@ -39,22 +31,27 @@ export class AgentProfileManage extends ScopedElementsMixin(LitElement) {
   @property({ attribute: false })
   client!: ApolloClient<NormalizedCacheObject>
 
-  // me: ApolloQueryController<WhoAmIQueryResult> = new ApolloQueryController(this, WhoAmI)
-
   createProfile: ApolloMutationController<CreatePersonResponse> = new ApolloMutationController(this, ProfileCreateMutation)
 
-  associateProfile: ApolloMutationController<boolean> = new ApolloMutationController(this, ProfileAssociateMutation)
+  associateProfile: ApolloMutationController<AgentAssociationResponse> = new ApolloMutationController(this, ProfileAssociateMutation, {
+    update: (cache, _result) => {
+      cache.writeQuery({
+        query: WhoAmI,
+        data: { myAgent: this.createProfile.data?.createPerson?.agent },
+        overwrite: true,
+      })
+    }
+  })
 
   // a temporary initialiser for the agent's name so that testing is more streamlined
   // :TODO: this should probably be replaced with Holochain Profiles integration someday
-  @state()
   profileName: string = DEFAULT_PROFILE_NAME
 
   render() {
     return html`
       <section class="agent-profile">
         Enter your name:
-        <mwc-textfield value=${DEFAULT_PROFILE_NAME} @keyUp=${this.onProfileNameChanged}></mwc-textfield>
+        <mwc-textfield value=${DEFAULT_PROFILE_NAME} @change=${this.onProfileNameChanged}></mwc-textfield>
         <mwc-button @click=${this.handleSubmission}>Create profile</mwc-button>
       </section>
     `
@@ -66,7 +63,14 @@ export class AgentProfileManage extends ScopedElementsMixin(LitElement) {
   }
 
   async handleSubmission() {
-    await this.saveProfile(this.profileName)
+    const agent = await this.saveProfile(this.profileName)
+    if (agent) {  // :TODO: check should not be necessary- `saveProfile` should throw errors to be displayed to component
+      this.dispatchEvent(new CustomEvent<AgentWithTypeResponse>('agentProfileCreated', {
+        detail: { agent } as AgentWithTypeResponse,
+        bubbles: true,
+        composed: true,
+      }))
+    }
   }
 
   async saveProfile(name: string): Promise<AgentWithType | null> {
@@ -77,11 +81,11 @@ export class AgentProfileManage extends ScopedElementsMixin(LitElement) {
       },
     })) as { data: CreatePersonResponse }).data?.createPerson
 
-    const associated = await this.associateProfile.mutate({
+    const associated: boolean = ((await this.associateProfile.mutate({
       variables: {
         agentId: me.agent.id,
       },
-    })
+    })) as { data: AgentAssociationResponse }).data?.associateMyAgent
 
     return associated ? me.agent : null
   }

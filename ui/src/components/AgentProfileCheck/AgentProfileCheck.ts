@@ -1,6 +1,10 @@
 /**
  * Check for the existence of a valid profile for the currently active agent
  * and conditionally render child slots based on validity.
+ *
+ * Child nodes may fire an `agentProfileCreated` event in order to trigger
+ * a refresh of the agent profile data from the GraphQL client cache.
+ * It is presumed that the cache has been updated prior to firing this event.
  */
 import { LitElement, html, css } from 'lit';
 import { property } from 'lit/decorators.js';
@@ -8,6 +12,9 @@ import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { ApolloQueryController } from '@apollo-elements/core'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core'
 
+// import {
+//   AgentWithTypeResponse, AgentWithType,
+// } from '@valueflows/vf-graphql-holochain/queries/agent'
 import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
 import { CircularProgress } from '@scoped-elements/material-web'
@@ -47,12 +54,21 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement) {
     }
 
     if (noProfile) {
-      return html`<slot name="profile-missing"></slot>`
+      return html`<slot name="profile-missing" @agentProfileCreated=${this.onProfileCreated}></slot>`
     }
 
     const profile = this.me?.data as WhoAmIQueryResult
 
-    return html`<slot name="profile-ok" myAgent=${profile.myAgent}></slot>`;
+    return html`<slot name="profile-ok" agentId=${profile.myAgent.id}></slot>`;
+  }
+
+  async onProfileCreated(_e: CustomEvent) {
+    // :TODO: Update cache directly from event rather than requerying?
+    //        Performance impacts probably negligible as data comes from local Holochain Conductor.
+    // const agent = e.detail as AgentWithTypeResponse
+
+    // @see https://github.com/apollo-elements/apollo-elements/issues/39#issuecomment-476272681
+    this.me.subscribe({ nextFetchPolicy: 'cache-only' })
   }
 
   static styles = css`
