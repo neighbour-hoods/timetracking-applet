@@ -12,9 +12,6 @@ import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { ApolloQueryController } from '@apollo-elements/core'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core'
 
-// import {
-//   AgentWithTypeResponse, AgentWithType,
-// } from '@valueflows/vf-graphql-holochain/queries/agent'
 import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
 import { CircularProgress } from '@scoped-elements/material-web'
@@ -26,6 +23,24 @@ function isEmptyProfile(me ?: ApolloQueryController<WhoAmIQueryResult>) {
     me.error.graphQLErrors.length === 1 &&
     me.error.graphQLErrors[0].message.match('No Agent data is associated with the currently authenticated user')
   ) || (!me?.loading && !me?.data)
+}
+
+/**
+ * Refresh authenticated agent profile query results in any immediate-child
+ * components when switching views.
+ * This works around <slot> items being rendered immediately upon the parent
+ * element being attached to the DOM, resulting in them getting query results
+ * too early.
+ */
+//@ts-ignore
+function handleSlotchange(e) {
+  const childNodes = e.target.assignedNodes({ flatten: true })
+
+  childNodes.forEach((node: Element & { me?: ApolloQueryController<WhoAmIQueryResult> }) => {
+    if (node.me && node.me instanceof ApolloQueryController) {
+      node.me.subscribe({ nextFetchPolicy: 'cache-only' })
+    }
+  })
 }
 
 export class AgentProfileCheck extends ScopedElementsMixin(LitElement) {
@@ -54,21 +69,10 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement) {
     }
 
     if (noProfile) {
-      return html`<slot name="profile-missing" @agentProfileCreated=${this.onProfileCreated}></slot>`
+      return html`<slot name="profile-missing" @slotchange=${handleSlotchange}></slot>`
     }
 
-    const profile = this.me?.data as WhoAmIQueryResult
-
-    return html`<slot name="profile-ok" agentId=${profile.myAgent.id}></slot>`;
-  }
-
-  async onProfileCreated(_e: CustomEvent) {
-    // :TODO: Update cache directly from event rather than requerying?
-    //        Performance impacts probably negligible as data comes from local Holochain Conductor.
-    // const agent = e.detail as AgentWithTypeResponse
-
-    // @see https://github.com/apollo-elements/apollo-elements/issues/39#issuecomment-476272681
-    this.me.subscribe({ nextFetchPolicy: 'cache-only' })
+    return html`<slot name="profile-ok" @slotchange=${handleSlotchange}></slot>`;
   }
 
   static styles = css`

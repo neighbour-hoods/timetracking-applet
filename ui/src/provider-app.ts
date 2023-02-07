@@ -26,26 +26,38 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
   @property()
   sensemakerStore!: SensemakerStore;
 
-  async firstUpdated() {
-  }
-
   render() {
     return html`
       <main>
         <div class="home-page">
           <agent-profile-check>
 
-            <agent-profile-manage slot="profile-missing"></agent-profile-manage>
+            <agent-profile-manage slot="profile-missing" @agentProfileCreated=${this.onProfileCreated}></agent-profile-manage>
 
-            <div slot="profile-ok">
-              <work-input-manual></work-input-manual>
-              <timesheet-entries-list></timesheet-entries-list>
-            </div>
+            <work-input-manual slot="profile-ok"></work-input-manual>
+            <timesheet-entries-list slot="profile-ok"></timesheet-entries-list>
 
           </agent-profile-check>
         </div>
       </main>
     `;
+  }
+
+  /**
+   * Requery agent profiles in AgentProfileCheck component when
+   * profile is created in AgentProfileManage.
+   *
+   * @see https://github.com/apollo-elements/apollo-elements/issues/39#issuecomment-476272681
+   */
+  async onProfileCreated(_e: CustomEvent) {
+    if (!this.shadowRoot) {
+      return
+    }
+
+    const profileCheck: AgentProfileCheck | null = this.shadowRoot.querySelector('agent-profile-check')
+    if (profileCheck) {
+      profileCheck.me.subscribe({ nextFetchPolicy: 'cache-only' })
+    }
   }
 
   // this is an example function of computing a context, since your UI will likely be displaying various contexts
