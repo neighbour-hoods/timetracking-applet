@@ -5,7 +5,7 @@
   "main": "./AgentProfileCheck.ts",
   "dependencies": {
     "@apollo-elements/core": "^2.1.2",
-    "@lit-labs/context": "^0.1.2",
+    "@lit-labs/context": "^0.2.0",
     "@open-wc/scoped-elements": "^2.1.0",
     "@scoped-elements/material-web": "^0.0.19",
     "@valueflows/vf-graphql-holochain": "^0.0.1-alpha.17",
