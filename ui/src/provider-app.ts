@@ -1,14 +1,14 @@
 import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
-import { contextProvider } from '@lit-labs/context';
+import { provide } from '@lit-labs/context';
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 import { get } from 'svelte/store';
 
 import { SensemakerStore } from '@neighbourhoods/nh-we-applet';
 import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
 
-import { hreaGraphQLContext, sensemakerStoreContext } from './contexts';
-import { ApolloClient, NormalizedCacheObject } from './provider-graphql-client.js';
+import { sensemakerStoreContext } from './contexts';
+import { ApolloClientElement, ApolloClient, NormalizedCacheObject } from './provider-graphql-client.js';
 
 import { AgentProfileCheck } from '@neighbourhoods/component-vf-graphql-agent-profile-check'
 import { AgentProfileManage } from '@neighbourhoods/component-vf-graphql-agent-profile-manage'
@@ -17,27 +17,29 @@ import { WorkInputManual } from '@neighbourhoods/component-vf-graphql-work-input
 import cssThemeVars from '@neighbourhoods/applet-vf-timetracker-theme-vars'
 
 export class ProviderApp extends ScopedElementsMixin(LitElement) {
-  // set up the context providers for both stores so that they can be accessed by other components
-  @contextProvider({ context: hreaGraphQLContext })
-  @property()
-  graphqlClient!: ApolloClient<NormalizedCacheObject>;
-
-  @contextProvider({ context: sensemakerStoreContext })
+  // set up context provider for sensemaker store so it can be accessed by other components
+  @provide({ context: sensemakerStoreContext })
   @property()
   sensemakerStore!: SensemakerStore;
+
+  // no context needed for GraphQL Client object; we'll use the `ApolloClientElement` for that
+  @property()
+  graphqlClient!: ApolloClient<NormalizedCacheObject>;
 
   render() {
     return html`
       <main>
         <div class="home-page">
-          <agent-profile-check>
+          <apollo-client .client=${this.graphqlClient}>
+            <agent-profile-check>
 
-            <agent-profile-manage slot="profile-missing" @agentProfileCreated=${this.onProfileCreated}></agent-profile-manage>
+              <agent-profile-manage slot="profile-missing" @agentProfileCreated=${this.onProfileCreated}></agent-profile-manage>
 
-            <work-input-manual slot="profile-ok"></work-input-manual>
-            <timesheet-entries-list slot="profile-ok"></timesheet-entries-list>
+              <work-input-manual slot="profile-ok"></work-input-manual>
+              <timesheet-entries-list slot="profile-ok"></timesheet-entries-list>
 
-          </agent-profile-check>
+            </agent-profile-check>
+          </apollo-client>
         </div>
       </main>
     `;
@@ -75,6 +77,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
 
   static get scopedElements() {
     return {
+      'apollo-client': ApolloClientElement,
       'agent-profile-check': AgentProfileCheck,
       'agent-profile-manage': AgentProfileManage,
       'timesheet-entries-list': TimesheetEntriesList,

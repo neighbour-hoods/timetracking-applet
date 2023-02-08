@@ -9,7 +9,6 @@ import { property } from "lit/decorators.js";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { LitElement, html, css } from "lit";
 import { ApolloMutationController } from '@apollo-elements/core'
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core'
 
 import { Button, TextField } from '@scoped-elements/material-web'
 
@@ -24,13 +23,8 @@ import {
 // :TODO: this should probably be replaced with Holochain Profiles integration someday
 const DEFAULT_PROFILE_NAME = `Test Agent ${(Math.random() * 9e6).toString(36)}`
 
-export class AgentProfileManage extends ScopedElementsMixin(LitElement) {
-  // :NOTE: contextProvided has no effect here, is pulled from window.__APOLLO_CLIENT__ and assigned by Apollo controllers.
-  //        @see https://github.com/lit/lit/issues/2446#issuecomment-1408143222
-  // @contextProvided({ context: hreaGraphQLContext, subscribe: true })
-  @property({ attribute: false })
-  client!: ApolloClient<NormalizedCacheObject>
-
+export class AgentProfileManage extends ScopedElementsMixin(LitElement)
+{
   createProfile: ApolloMutationController<CreatePersonResponse> = new ApolloMutationController(this, ProfileCreateMutation)
 
   associateProfile: ApolloMutationController<AgentAssociationResponse> = new ApolloMutationController(this, ProfileAssociateMutation, {

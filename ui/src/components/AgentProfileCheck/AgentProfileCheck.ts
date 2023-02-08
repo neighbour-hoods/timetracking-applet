@@ -10,7 +10,6 @@ import { LitElement, html, css } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { ApolloQueryController } from '@apollo-elements/core'
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core'
 
 import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
@@ -43,13 +42,8 @@ function handleSlotchange(e) {
   })
 }
 
-export class AgentProfileCheck extends ScopedElementsMixin(LitElement) {
-  // :NOTE: contextProvided has no effect here, is pulled from window.__APOLLO_CLIENT__ and assigned by Apollo controllers.
-  //        @see https://github.com/lit/lit/issues/2446#issuecomment-1408143222
-  // @contextProvided({ context: hreaGraphQLContext, subscribe: true })
-  @property({ attribute: false })
-  client!: ApolloClient<NormalizedCacheObject>
-
+export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
+{
   me: ApolloQueryController<WhoAmIQueryResult> = new ApolloQueryController(this, WhoAmI)
 
   render() {

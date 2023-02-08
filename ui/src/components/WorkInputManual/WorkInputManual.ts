@@ -11,14 +11,14 @@
  * @since   2023-02-01
 */
 
-import { contextProvided } from "@lit-labs/context"
+// import { contextProvided } from "@lit-labs/context"
 import { property, state } from "lit/decorators.js"
 import { ScopedElementsMixin } from "@open-wc/scoped-elements"
 import { LitElement, html, css } from "lit"
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
-import { ApolloClient, NormalizedCacheObject } from "../../provider-graphql-client"
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core';
 
-import { hreaGraphQLContext } from "../../contexts"
+// import { hreaGraphQLContext } from "../../contexts"
 import { EconomicEventResponse, Agent, IMeasure } from '@valueflows/vf-graphql'
 
 import { EventCreateMutation } from './mutations'
@@ -30,16 +30,11 @@ interface ProfileQueryResult {
   myAgent: Agent
 }
 
-export class WorkInputManual extends ScopedElementsMixin(LitElement) {
-  // :NOTE: contextProvided has no effect here, is pulled from window.__APOLLO_CLIENT__ and assigned by Apollo controllers.
-  //        @see https://github.com/lit/lit/issues/2446#issuecomment-1408143222
-  @contextProvided({ context: hreaGraphQLContext, subscribe: true })
-  @property({ attribute: false })
-  client!: ApolloClient<NormalizedCacheObject>
+export class WorkInputManual extends ScopedElementsMixin(LitElement)
+{
+  me: ApolloQueryController<WhoAmIQueryResult> = new ApolloQueryController(this, WhoAmI)
 
   createEvent: ApolloMutationController<EconomicEventResponse> = new ApolloMutationController(this, EventCreateMutation)
-
-  me: ApolloQueryController<ProfileQueryResult> = new ApolloQueryController(this, WhoAmI)
 
   @state()
   note: string = ""

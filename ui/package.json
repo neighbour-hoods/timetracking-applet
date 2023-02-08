@@ -19,6 +19,7 @@
     "package": "npm run build && cd dist && bestzip ../dist.zip *"
   },
   "dependencies": {
+    "@apollo-elements/components": "^3.0.5",
     "@apollo/client": "^3.7.0",
     "@holochain/client": "0.11.9",
     "@lit-labs/context": "^0.2.0",
@@ -35,8 +36,8 @@
     "@scoped-elements/material-web": "^0.0.19",
     "@type-craft/content": "^0.0.7",
     "@type-craft/title": "^0.0.8",
-    "@vf-ui/graphql-client-holochain": "^0.0.1-alpha.17",
     "@valueflows/vf-graphql-holochain": "*",
+    "@vf-ui/graphql-client-holochain": "^0.0.1-alpha.17",
     "graphql": "^15.8.0",
     "lit": "^2.6.1",
     "svelte": "*"
