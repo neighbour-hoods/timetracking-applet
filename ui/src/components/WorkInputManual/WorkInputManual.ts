@@ -16,18 +16,108 @@ import { property, state } from "lit/decorators.js"
 import { ScopedElementsMixin } from "@open-wc/scoped-elements"
 import { LitElement, html, css } from "lit"
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core';
+import dayjs from 'dayjs'
 
 // import { hreaGraphQLContext } from "../../contexts"
 import { EconomicEventResponse, Agent, IMeasure } from '@valueflows/vf-graphql'
 
 import { EventCreateMutation } from './mutations'
-import { WhoAmI } from '@valueflows/vf-graphql-shared-queries'
+import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
 import { TextField, Button } from '@scoped-elements/material-web'
 
-interface ProfileQueryResult {
-  myAgent: Agent
+enum TimeMeasure {
+  Hour = "h",
+  Minute = "m",
+  Second = "s",
+}
+
+interface Duration {
+  [TimeMeasure.Hour]?: number
+  [TimeMeasure.Minute]?: number
+  [TimeMeasure.Second]?: number
+}
+
+const VF_DATE_FORMAT = 'YYYY-MM-DD'
+
+// Used for linking into external RDF vocabs for well-known measurement unit types in `EconomicEvent`
+export const TIME_MEASURE_ONTOLOGY_URIS = {
+  [TimeMeasure.Hour]: "http://www.ontology-of-units-of-measure.org/resource/om-2/hour",
+  [TimeMeasure.Minute]: "http://www.ontology-of-units-of-measure.org/resource/om-2/minute-Time",
+  [TimeMeasure.Second]: "http://www.ontology-of-units-of-measure.org/resource/om-2/second-Time",
+}
+
+/**
+ * Parse input in 'X h(ours), Y m' format. Unitless numbers default to hours.
+ */
+function parseInterval(rawTimeStr: string): Duration | null {
+  const matches = rawTimeStr.match(/\s*((\d+)\s*h?\s*)?((\d+)\s*m\s*)?((\d+)\s*s\s*)?/i)
+  if (!matches) {
+    return null
+  }
+  const [, , h, , m, , s] = matches
+  return { h: parseInt(h || '0', 10), m: parseInt(m || '0', 10), s: parseInt(s || '0', 10) }
+}
+
+/**
+ * Compute value to display when autocompleting the text input field
+ */
+function renderAutocompleted(duration: Duration) {
+  const { h, m, s } = duration
+
+  return [h ? `${h} hr` : null, m ? `${m} min` : null, s ? `${s} sec` : null].filter(v => v !== null).join(' ')
+}
+
+/**
+ * Compute the values to be sent to VF backend (finest necessary measure of precision)
+ */
+function finestMeasure(duration: Duration) {
+  if (duration[TimeMeasure.Second]) return TimeMeasure.Second
+  if (duration[TimeMeasure.Minute]) return TimeMeasure.Minute
+  if (duration[TimeMeasure.Hour]) return TimeMeasure.Hour
+  return TimeMeasure.Second // fallback to seconds-precision which in some cases may make sense for zeroes?
+}
+
+/**
+ * Compute the raw numeric value of a unit conversion against all separate elements in a `Duration`,
+ * based on a lowest-common-denominator base `TimeMeasure` unit.
+ */
+function convertToMeasure(measure: TimeMeasure, duration: Duration): number {
+  let value = 0
+  if (duration[TimeMeasure.Hour]) {
+    if (measure === TimeMeasure.Minute) {
+      value += duration[TimeMeasure.Hour] * 60
+    }
+    if (measure === TimeMeasure.Second) {
+      value += duration[TimeMeasure.Hour] * 3600
+    }
+    if (measure === TimeMeasure.Hour) {
+      value += duration[TimeMeasure.Hour]
+    }
+  }
+  if (duration[TimeMeasure.Minute]) {
+    if (measure === TimeMeasure.Hour) {
+      value += duration[TimeMeasure.Minute] / 60
+    }
+    if (measure === TimeMeasure.Second) {
+      value += duration[TimeMeasure.Minute] * 60
+    }
+    if (measure === TimeMeasure.Minute) {
+      value += duration[TimeMeasure.Minute]
+    }
+  }
+  if (duration[TimeMeasure.Second]) {
+    if (measure === TimeMeasure.Minute) {
+      value += duration[TimeMeasure.Second] * 60
+    }
+    if (measure === TimeMeasure.Hour) {
+      value += duration[TimeMeasure.Second] / 3600
+    }
+    if (measure === TimeMeasure.Second) {
+      value += duration[TimeMeasure.Second]
+    }
+  }
+  return value
 }
 
 export class WorkInputManual extends ScopedElementsMixin(LitElement)
@@ -40,17 +130,32 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
   note: string = ""
 
   @state()
-  numMinutes: number = 0
+  timeRaw: string = ""
 
-  async saveEvent(myAgentId: string, effortQuantity: IMeasure, onDate: Date): Promise<EconomicEventResponse> {
+  // interpreted from `timeRaw`
+  @state()
+  timeQty: number = 0
+
+  // interpreted from `timeRaw`
+  @state()
+  timeUnits: TimeMeasure = TimeMeasure.Second
+
+  @state()
+  onDate: string = dayjs().startOf('day').format(VF_DATE_FORMAT)
+
+  async saveEvent(): Promise<EconomicEventResponse> {
+    const myAgentId = this.me.data?.myAgent.id
     return ((await this.createEvent.mutate({ variables: {
       event: {
         action: 'raise',  // 'raise' means "raise the accounting value in the ledger by this amount"
-        hasBeginning: onDate,
-        hasEnd: new Date(onDate.getTime() + 24 * 3600 * 1000),
+        hasBeginning: this.onDate,
+        hasEnd: dayjs(this.onDate).endOf('day').format(VF_DATE_FORMAT),
         note: this.note,
         // resourceClassifiedAs: ['vf:correction'], :TODO: UI for editing events
-        effortQuantity,
+        effortQuantity: {
+          hasUnit: TIME_MEASURE_ONTOLOGY_URIS[this.timeUnits],
+          hasNumericalValue: this.timeQty,
+        },
         provider: myAgentId,
         // receiver: :TODO: active project / client
         receiver: myAgentId,
@@ -58,51 +163,75 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     } })) as { createEconomicEvent: EconomicEventResponse }).createEconomicEvent
   }
 
+  onDateChanged(e: Event) {
+    // @ts-ignore
+    this.onDate = dayjs(e.target?.value).format(VF_DATE_FORMAT)
+  }
+
+  onTimeInputChanged(e: Event) {
+    this.timeUnits = TimeMeasure.Second
+    this.timeQty = 0
+    // @ts-ignore
+    this.timeRaw = e.target?.value
+  }
+
+  onTimeInputKeypress(e: KeyboardEvent) {
+    // update component state from input
+    this.onTimeInputChanged(e)
+
+    const keycode = (e.keyCode ? e.keyCode : e.which)
+    // on enter or tab keypress, select matched time duration
+    if (keycode === 13 || keycode === 9) {
+      if (parseInterval(this.timeRaw)) {
+        this.chooseTime()
+      }
+    }
+  }
+
+  // update interpreted time values from raw input upon selection
+  chooseTime(_e?: InputEvent) {
+    const duration = parseInterval(this.timeRaw)
+    if (!duration) return
+
+    const baseUnit = finestMeasure(duration)
+    this.timeUnits = baseUnit
+    this.timeQty = convertToMeasure(baseUnit, duration)
+    this.timeRaw = renderAutocompleted(duration)
+  }
+
   render() {
-    const profile = this.me?.data as ProfileQueryResult
-
-    // initial loading states- retrieving agent identifier
-    if (this.me?.error) {
-      return html`
-        <div>
-          <h3>Error!</h3>
-          <p>${this.me.error}</p>
-        </div>
-      `
-    }
-    if (!profile || this.me?.loading) {
-      return html`
-        <div>
-          <p>Loading...</p>
-        </div>
-      `
-    }
-
     // successful save state
     if (this.createEvent.data) {
       return html`
-        <section className="outer">
+        <section class="outer">
           <p>Entry logged.</p>
         </section>
       `
     }
 
     // primary layout to receive participant input
-    const myAgentId = profile?.myAgent?.id
+    const duration = parseInterval(this.timeRaw)
+
+    const canSave = !!(this.onDate && this.timeUnits && this.timeQty)
+    const showAutocomplete = duration && !canSave
 
     return html`
-      <section className="outer">
-// :TODO: duration input
+      <section class="outer">
+
+        <date-picker placeholder="Select workday" value=${this.onDate} @input=${this.onDateChanged}></date-picker>
+
+        <div class="time-input">
+          <mwc-textfield placeholder="Enter time (eg. 1h 30m)" value=${this.timeRaw} @change=${this.onTimeInputChanged} @keyup=${this.onTimeInputKeypress}></mwc-textfield>
+          ${showAutocomplete ? (html`
+            <div class="popup">
+              <mwc-button fullwidth=1 @click=${this.chooseTime}>${renderAutocompleted(duration)}</mwc-button>
+            </div>
+          `) : null}
+        </div>
+
         <mwc-textfield label="Notes" placeholder="(no description)" value=${this.note}></mwc-textfield>
 
-        <mwc-button label="Save" @click="${() => this.saveEvent(
-          myAgentId,
-          {
-            hasUnit: 'minutes',
-            hasNumericalValue: this.numMinutes,
-          },
-          new Date(),
-        )}"></mwc-button>
+        <mwc-button ?disabled=${!canSave} label="Save" @click="${this.saveEvent}"></mwc-button>
       </section>
     `
   }
@@ -110,6 +239,25 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
   static styles = css`
     .outer {
       max-width: 40em;
+      background-color: var(--nh-timetracker-form-background-color);
+    }
+
+    .time-input {
+      position: relative;
+      overflow: visible;
+      margin-bottom: 1em;
+    }
+
+    .popup {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    footer {
+      margin-top: 1em;
     }
   `
 
@@ -117,6 +265,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     return {
       'mwc-textfield': TextField,
       'mwc-button': Button,
+      // 'date-picker': DatePicker,
     };
   }
 }
