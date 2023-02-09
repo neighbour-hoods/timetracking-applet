@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "main": "theme-vars.ts",
   "dependencies": {
-    "lit": "^2.0.2"
+    "lit": "^2.6.1"
   }
 }

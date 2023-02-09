@@ -12,6 +12,6 @@
     "@valueflows/vf-graphql-shared-queries": "workspace:*",
     "@valueflows/vf-graphql-type-fragments": "workspace:*",
     "graphql-tag": "^2.12.6",
-    "lit": "^2.0.2"
+    "lit": "^2.6.1"
   }
 }

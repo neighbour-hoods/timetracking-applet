@@ -10,6 +10,6 @@
     "@scoped-elements/material-web": "^0.0.19",
     "@valueflows/vf-graphql-holochain": "^0.0.1-alpha.17",
     "@valueflows/vf-graphql-shared-queries": "workspace:*",
-    "lit": "^2.0.2"
+    "lit": "^2.6.1"
   }
 }
