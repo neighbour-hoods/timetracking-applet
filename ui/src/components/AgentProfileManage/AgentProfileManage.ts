@@ -5,7 +5,6 @@
  * :TODO: add other profile metadata fields
  * :TODO: decide whether this control should also handle edits, and edits to other profiles
  */
-import { property } from "lit/decorators.js";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { LitElement, html, css } from "lit";
 import { ApolloMutationController } from '@apollo-elements/core'
