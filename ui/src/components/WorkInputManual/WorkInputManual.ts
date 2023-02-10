@@ -51,7 +51,7 @@ export const TIME_MEASURE_ONTOLOGY_URIS = {
  * Parse input in 'X h(ours), Y m' format. Unitless numbers default to hours.
  */
 function parseInterval(rawTimeStr: string): Duration | null {
-  const matches = rawTimeStr.match(/\s*((\d+)\s*h?\s*)?((\d+)\s*m\s*)?((\d+)\s*s\s*)?/i)
+  const matches = rawTimeStr.match(/\s*((\d+)\s*h?\w*\s*)?((\d+)\s*m\w*\s*)?((\d+)\s*s\w*\s*)?/i)
   if (!matches) {
     return null
   }
