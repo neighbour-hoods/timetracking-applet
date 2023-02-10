@@ -14,9 +14,9 @@
 // import { contextProvided } from "@lit-labs/context"
 import { property, state } from "lit/decorators.js"
 import { ScopedElementsMixin } from "@open-wc/scoped-elements"
-import { LitElement, html, css } from "lit"
+import { LitElement, html, css, PropertyValues } from "lit"
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 
 // import { hreaGraphQLContext } from "../../contexts"
 import { EconomicEventResponse, Agent, IMeasure } from '@valueflows/vf-graphql'
@@ -25,6 +25,8 @@ import { EventCreateMutation } from './mutations'
 import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
 import { TextField, Button } from '@scoped-elements/material-web'
+// @ts-ignore
+import Litepicker from 'litepicker'
 
 enum TimeMeasure {
   Hour = "h",
@@ -37,8 +39,6 @@ interface Duration {
   [TimeMeasure.Minute]?: number
   [TimeMeasure.Second]?: number
 }
-
-const VF_DATE_FORMAT = 'YYYY-MM-DD'
 
 // Used for linking into external RDF vocabs for well-known measurement unit types in `EconomicEvent`
 export const TIME_MEASURE_ONTOLOGY_URIS = {
@@ -141,15 +141,38 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
   timeUnits: TimeMeasure = TimeMeasure.Second
 
   @state()
-  onDate: string = dayjs().startOf('day').format(VF_DATE_FORMAT)
+  onDate: Dayjs = dayjs().startOf('day')
+
+  _datepicker?: Litepicker
+
+  protected firstUpdated(_changedProperties: PropertyValues): void {
+    this.initDatepicker()
+  }
+
+  disconnectedCallback(): void {
+    this.cleanupDatepicker()
+  }
+
+  private initDatepicker() {
+    const element = this.renderRoot.querySelector('.datepicker')
+    if (!element) return
+    this._datepicker = new Litepicker({
+      element: element as HTMLInputElement,
+    })
+  }
+
+  private cleanupDatepicker() {
+    if (!this._datepicker) return
+    this._datepicker.destroy()
+  }
 
   async saveEvent(): Promise<EconomicEventResponse> {
     const myAgentId = this.me.data?.myAgent.id
     return ((await this.createEvent.mutate({ variables: {
       event: {
         action: 'raise',  // 'raise' means "raise the accounting value in the ledger by this amount"
-        hasBeginning: this.onDate,
-        hasEnd: dayjs(this.onDate).endOf('day').format(VF_DATE_FORMAT),
+        hasBeginning: this.onDate.toISOString(),
+        hasEnd: dayjs(this.onDate).endOf('day').toISOString(),
         note: this.note,
         // resourceClassifiedAs: ['vf:correction'], :TODO: UI for editing events
         effortQuantity: {
@@ -165,7 +188,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
   onDateChanged(e: Event) {
     // @ts-ignore
-    this.onDate = dayjs(e.target?.value).format(VF_DATE_FORMAT)
+    this.onDate = dayjs(e.target?.value)
   }
 
   onTimeInputChanged(e: Event) {
@@ -218,7 +241,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     return html`
       <section class="outer">
 
-        <date-picker placeholder="Select workday" value=${this.onDate} @input=${this.onDateChanged}></date-picker>
+        <input class="datepicker" placeholder="Select date" value=${this.onDate} @change=${this.onDateChanged}></input>
 
         <div class="time-input">
           <mwc-textfield placeholder="Enter time (eg. 1h 30m)" value=${this.timeRaw} @change=${this.onTimeInputChanged} @keyup=${this.onTimeInputKeypress}></mwc-textfield>
@@ -265,7 +288,6 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     return {
       'mwc-textfield': TextField,
       'mwc-button': Button,
-      // 'date-picker': DatePicker,
     };
   }
 }
