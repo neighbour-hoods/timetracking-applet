@@ -83,6 +83,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^4.29.2
       '@typescript-eslint/parser': ^4.29.2
       '@valueflows/vf-graphql-holochain': '*'
+      '@vf-ui/component-provide-time-units': workspace:*
       '@vf-ui/graphql-client-holochain': ^0.0.1-alpha.17
       '@web/dev-server': 0.1.21
       '@web/dev-server-rollup': ^0.3.10
@@ -126,6 +127,7 @@ importers:
       '@type-craft/content': 0.0.7
       '@type-craft/title': 0.0.8
       '@valueflows/vf-graphql-holochain': 0.0.1-alpha.17_graphql@15.8.0
+      '@vf-ui/component-provide-time-units': link:src/components/ProvideTimeUnits
       '@vf-ui/graphql-client-holochain': 0.0.1-alpha.17_4slemuizzhrsdtvzhdjutoak2y
       graphql: 15.8.0
       lit: 2.6.1
@@ -168,7 +170,6 @@ importers:
       '@lit-labs/context': ^0.2.0
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
-      '@valueflows/vf-graphql-holochain': ^0.0.1-alpha.17
       '@valueflows/vf-graphql-shared-queries': workspace:*
       lit: ^2.6.1
     dependencies:
@@ -176,14 +177,12 @@ importers:
       '@lit-labs/context': 0.2.0
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
-      '@valueflows/vf-graphql-holochain': 0.0.1-alpha.17
       '@valueflows/vf-graphql-shared-queries': link:../../graphql/shared-queries
       lit: 2.6.1
 
   ui/src/components/AgentProfileManage:
     specifiers:
       '@apollo-elements/core': ^2.1.2
-      '@lit-labs/context': ^0.2.0
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
       '@valueflows/vf-graphql-holochain': ^0.0.1-alpha.17
@@ -193,7 +192,6 @@ importers:
       lit: ^2.6.1
     dependencies:
       '@apollo-elements/core': 2.1.2
-      '@lit-labs/context': 0.2.0
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
       '@valueflows/vf-graphql-holochain': 0.0.1-alpha.17
@@ -214,6 +212,22 @@ importers:
       '@open-wc/dedupe-mixin': 1.3.1
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
+      lit: 2.6.1
+
+  ui/src/components/ProvideTimeUnits:
+    specifiers:
+      '@apollo-elements/core': ^2.1.2
+      '@open-wc/scoped-elements': ^2.1.0
+      '@scoped-elements/material-web': ^0.0.19
+      '@valueflows/vf-graphql': ^0.9.0-alpha.9
+      graphql-tag: ^2.12.6
+      lit: ^2.6.1
+    dependencies:
+      '@apollo-elements/core': 2.1.2
+      '@open-wc/scoped-elements': 2.1.4
+      '@scoped-elements/material-web': 0.0.19
+      '@valueflows/vf-graphql': 0.9.0-alpha.9
+      graphql-tag: 2.12.6
       lit: 2.6.1
 
   ui/src/components/TimesheetEntriesList:
@@ -243,9 +257,11 @@ importers:
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
       '@valueflows/vf-graphql-shared-queries': workspace:*
       '@valueflows/vf-graphql-type-fragments': workspace:*
+      '@vf-ui/component-provide-time-units': workspace:*
       dayjs: ^1.11.7
       graphql-tag: ^2.12.6
       lit: ^2.6.1
+      litepicker: ^2.0.12
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
@@ -254,9 +270,11 @@ importers:
       '@valueflows/vf-graphql': 0.9.0-alpha.9
       '@valueflows/vf-graphql-shared-queries': link:../../graphql/shared-queries
       '@valueflows/vf-graphql-type-fragments': link:../../graphql/type-fragments
+      '@vf-ui/component-provide-time-units': link:../ProvideTimeUnits
       dayjs: 1.11.7
       graphql-tag: 2.12.6
       lit: 2.6.1
+      litepicker: 2.0.12
 
   ui/src/graphql/shared-queries:
     specifiers:
@@ -7641,6 +7659,10 @@ packages:
       '@lit/reactive-element': 1.6.1
       lit-element: 3.2.2
       lit-html: 2.6.1
+    dev: false
+
+  /litepicker/2.0.12:
+    resolution: {integrity: sha512-1N0sZJca/eALvS1hbJsVqKXwJAmp0BsJn73kZKWGGLjZkvjKr7HXGPV+/shu60aEY/JXoOg2XUmo7hbdIOsFpQ==}
     dev: false
 
   /locate-path/3.0.0:
