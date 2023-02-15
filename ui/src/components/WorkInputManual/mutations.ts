@@ -5,8 +5,8 @@ import { WORK_EVENT_FIELDS } from '@valueflows/vf-graphql-type-fragments/economi
 
 export const EventCreateMutation = gql`
 ${WORK_EVENT_FIELDS}
-mutation CreateEconomicEvent($e: EconomicEventCreateParams!) {
-  createEconomicEvent(event: $e) {
+mutation CreateEconomicEvent($event: EconomicEventCreateParams!) {
+  createEconomicEvent(event: $event) {
     economicEvent {
       ...WorkEventFields
     }
