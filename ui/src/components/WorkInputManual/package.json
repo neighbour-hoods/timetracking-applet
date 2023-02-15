@@ -14,6 +14,7 @@
     "@vf-ui/component-provide-time-units": "workspace:*",
     "dayjs": "^1.11.7",
     "graphql-tag": "^2.12.6",
-    "lit": "^2.6.1"
+    "lit": "^2.6.1",
+    "litepicker": "^2.0.12"
   }
 }
