@@ -13,6 +13,7 @@ import { ApolloClientElement, ApolloClient, NormalizedCacheObject } from './prov
 import { AgentProfileCheck } from '@neighbourhoods/component-vf-graphql-agent-profile-check'
 import { AgentProfileManage } from '@neighbourhoods/component-vf-graphql-agent-profile-manage'
 import { TimesheetEntriesList } from '@neighbourhoods/component-vf-graphql-time-entries-list'
+import { ProvideTimeUnits } from '@vf-ui/component-provide-time-units'
 import { WorkInputManual } from '@neighbourhoods/component-vf-graphql-work-input-daily'
 import cssThemeVars from '@neighbourhoods/applet-vf-timetracker-theme-vars'
 
@@ -35,7 +36,9 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
 
               <agent-profile-manage slot="profile-missing" @agentProfileCreated=${this.onProfileCreated}></agent-profile-manage>
 
-              <work-input-manual slot="profile-ok"></work-input-manual>
+              <provide-time-units slot="profile-ok">
+                <work-input-manual></work-input-manual>
+              </provide-time-units>
               <timesheet-entries-list slot="profile-ok"></timesheet-entries-list>
 
             </agent-profile-check>
@@ -81,6 +84,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
       'agent-profile-check': AgentProfileCheck,
       'agent-profile-manage': AgentProfileManage,
       'timesheet-entries-list': TimesheetEntriesList,
+      'provide-time-units': ProvideTimeUnits,
       'work-input-manual': WorkInputManual,
     };
   }

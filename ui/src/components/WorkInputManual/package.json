@@ -11,6 +11,7 @@
     "@valueflows/vf-graphql": "^0.9.0-alpha.9",
     "@valueflows/vf-graphql-shared-queries": "workspace:*",
     "@valueflows/vf-graphql-type-fragments": "workspace:*",
+    "@vf-ui/component-provide-time-units": "workspace:*",
     "dayjs": "^1.11.7",
     "graphql-tag": "^2.12.6",
     "lit": "^2.6.1"

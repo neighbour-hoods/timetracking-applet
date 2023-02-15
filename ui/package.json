@@ -37,6 +37,7 @@
     "@type-craft/content": "^0.0.7",
     "@type-craft/title": "^0.0.8",
     "@valueflows/vf-graphql-holochain": "*",
+    "@vf-ui/component-provide-time-units": "workspace:*",
     "@vf-ui/graphql-client-holochain": "^0.0.1-alpha.17",
     "graphql": "^15.8.0",
     "lit": "^2.6.1",

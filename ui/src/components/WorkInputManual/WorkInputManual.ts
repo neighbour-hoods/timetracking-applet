@@ -7,6 +7,10 @@
  * - "amount worked" takes time duration as input
  * The event is thus written to say "X minutes of work occurred within this day".
  *
+ * This CustomElement should be wrapped in a `@vf-ui/component-provide-time-units`
+ * in order to have its `timeUnitDefs` property automatically assigned to default
+ * values (hours, minutes, seconds) for quantifying work input.
+ *
  * @package Neighbourhoods/We Timesheet applet
  * @since   2023-02-01
 */
@@ -23,28 +27,22 @@ import { EconomicEventResponse, Agent, IMeasure } from '@valueflows/vf-graphql'
 
 import { EventCreateMutation } from './mutations'
 import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
+import { ITimeUnits } from '@vf-ui/component-provide-time-units'
 
 import { TextField, Button } from '@scoped-elements/material-web'
 // @ts-ignore
 import Litepicker from 'litepicker'
 
 enum TimeMeasure {
-  Hour = "h",
-  Minute = "m",
-  Second = "s",
+  Hour = "hours",
+  Minute = "minutes",
+  Second = "seconds",
 }
 
 interface Duration {
   [TimeMeasure.Hour]?: number
   [TimeMeasure.Minute]?: number
   [TimeMeasure.Second]?: number
-}
-
-// Used for linking into external RDF vocabs for well-known measurement unit types in `EconomicEvent`
-export const TIME_MEASURE_ONTOLOGY_URIS = {
-  [TimeMeasure.Hour]: "http://www.ontology-of-units-of-measure.org/resource/om-2/hour",
-  [TimeMeasure.Minute]: "http://www.ontology-of-units-of-measure.org/resource/om-2/minute-Time",
-  [TimeMeasure.Second]: "http://www.ontology-of-units-of-measure.org/resource/om-2/second-Time",
 }
 
 /**
@@ -56,16 +54,16 @@ function parseInterval(rawTimeStr: string): Duration | null {
     return null
   }
   const [, , h, , m, , s] = matches
-  return { h: parseInt(h || '0', 10), m: parseInt(m || '0', 10), s: parseInt(s || '0', 10) }
+  return { hours: parseInt(h || '0', 10), minutes: parseInt(m || '0', 10), seconds: parseInt(s || '0', 10) }
 }
 
 /**
  * Compute value to display when autocompleting the text input field
  */
 function renderAutocompleted(duration: Duration) {
-  const { h, m, s } = duration
+  const { hours, minutes, seconds } = duration
 
-  return [h ? `${h} hr` : null, m ? `${m} min` : null, s ? `${s} sec` : null].filter(v => v !== null).join(' ')
+  return [hours ? `${hours} h` : null, minutes ? `${minutes} m` : null, seconds ? `${seconds} s` : null].filter(v => v !== null).join(' ')
 }
 
 /**
@@ -126,6 +124,10 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
   createEvent: ApolloMutationController<EconomicEventResponse> = new ApolloMutationController(this, EventCreateMutation)
 
+  // `Unit` record definitions loaded from Valueflows API. Assign from helper provider component.
+  @property()
+  timeUnitDefs!: ITimeUnits
+
   @state()
   note: string = ""
 
@@ -168,6 +170,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
   async saveEvent(): Promise<EconomicEventResponse> {
     const myAgentId = this.me.data?.myAgent.id
+    const hasUnit = this.timeUnitDefs[this.timeUnits].id
     return ((await this.createEvent.mutate({ variables: {
       event: {
         action: 'raise',  // 'raise' means "raise the accounting value in the ledger by this amount"
@@ -176,7 +179,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
         note: this.note,
         // resourceClassifiedAs: ['vf:correction'], :TODO: UI for editing events
         effortQuantity: {
-          hasUnit: TIME_MEASURE_ONTOLOGY_URIS[this.timeUnits],
+          hasUnit,
           hasNumericalValue: this.timeQty,
         },
         provider: myAgentId,
@@ -255,6 +258,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
         <mwc-textfield label="Notes" placeholder="(no description)" value=${this.note}></mwc-textfield>
 
         <mwc-button ?disabled=${!canSave} label="Save" @click="${this.saveEvent}"></mwc-button>
+
       </section>
     `
   }
