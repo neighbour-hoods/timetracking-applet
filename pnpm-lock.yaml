@@ -214,6 +214,22 @@ importers:
       '@scoped-elements/material-web': 0.0.19
       lit: 2.6.1
 
+  ui/src/components/InputWorkType:
+    specifiers:
+      '@apollo-elements/core': ^2.1.2
+      '@open-wc/scoped-elements': ^2.1.0
+      '@scoped-elements/material-web': ^0.0.19
+      '@valueflows/vf-graphql': ^0.9.0-alpha.9
+      graphql-tag: ^2.12.6
+      lit: ^2.6.1
+    dependencies:
+      '@apollo-elements/core': 2.1.2
+      '@open-wc/scoped-elements': 2.1.4
+      '@scoped-elements/material-web': 0.0.19
+      '@valueflows/vf-graphql': 0.9.0-alpha.9
+      graphql-tag: 2.12.6
+      lit: 2.6.1
+
   ui/src/components/ProvideTimeUnits:
     specifiers:
       '@apollo-elements/core': ^2.1.2
@@ -257,6 +273,7 @@ importers:
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
       '@valueflows/vf-graphql-shared-queries': workspace:*
       '@valueflows/vf-graphql-type-fragments': workspace:*
+      '@vf-ui/component-input-work-type': workspace:*
       '@vf-ui/component-provide-time-units': workspace:*
       dayjs: ^1.11.7
       graphql-tag: ^2.12.6
@@ -270,6 +287,7 @@ importers:
       '@valueflows/vf-graphql': 0.9.0-alpha.9
       '@valueflows/vf-graphql-shared-queries': link:../../graphql/shared-queries
       '@valueflows/vf-graphql-type-fragments': link:../../graphql/type-fragments
+      '@vf-ui/component-input-work-type': link:../InputWorkType
       '@vf-ui/component-provide-time-units': link:../ProvideTimeUnits
       dayjs: 1.11.7
       graphql-tag: 2.12.6
