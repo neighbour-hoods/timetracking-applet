@@ -37,7 +37,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
               <agent-profile-manage slot="profile-missing" @agentProfileCreated=${this.onProfileCreated}></agent-profile-manage>
 
               <provide-time-units slot="profile-ok">
-                <work-input-manual></work-input-manual>
+                <work-input-manual @economicEventCreated=${this.onWorkLogged}></work-input-manual>
               </provide-time-units>
               <timesheet-entries-list slot="profile-ok"></timesheet-entries-list>
 
@@ -61,7 +61,23 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
 
     const profileCheck: AgentProfileCheck | null = this.shadowRoot.querySelector('agent-profile-check')
     if (profileCheck) {
-      profileCheck.me.subscribe({ nextFetchPolicy: 'cache-only' })
+      profileCheck.me.subscribe({ fetchPolicy: 'no-cache' })
+    }
+    const workInput: WorkInputManual | null = this.shadowRoot.querySelector('work-input-manual')
+    if (workInput) {
+      workInput.me.subscribe({ fetchPolicy: 'no-cache' })
+    }
+  }
+
+  async onWorkLogged(_e: CustomEvent) {
+    console.log('WORK LOGD', _e)
+    if (!this.shadowRoot) {
+      return
+    }
+
+    const entriesList: TimesheetEntriesList | null = this.shadowRoot.querySelector('timesheet-entries-list')
+    if (entriesList) {
+      entriesList.entries?.subscribe({ fetchPolicy: 'no-cache' })
     }
   }
 

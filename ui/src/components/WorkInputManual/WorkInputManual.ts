@@ -206,6 +206,13 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       console.error(e)
       throw e
     }
+
+    this.dispatchEvent(new CustomEvent<EconomicEventResponse>('economicEventCreated', {
+      detail: resp,
+      bubbles: true,
+      composed: true,
+    }))
+
     return resp
   }
 
