@@ -253,6 +253,7 @@ importers:
       '@open-wc/scoped-elements': ^2.1.0
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
       '@valueflows/vf-graphql-type-fragments': workspace:*
+      dayjs: ^1.11.7
       graphql-tag: ^2.12.6
       lit: ^2.6.1
     dependencies:
@@ -261,6 +262,7 @@ importers:
       '@open-wc/scoped-elements': 2.1.4
       '@valueflows/vf-graphql': 0.9.0-alpha.9
       '@valueflows/vf-graphql-type-fragments': link:../../graphql/type-fragments
+      dayjs: 1.11.7
       graphql-tag: 2.12.6
       lit: 2.6.1
 
