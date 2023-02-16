@@ -21,17 +21,19 @@ import { ScopedElementsMixin } from "@open-wc/scoped-elements"
 import { LitElement, html, css, PropertyValues } from "lit"
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 import dayjs, { Dayjs } from 'dayjs'
-
-// import { hreaGraphQLContext } from "../../contexts"
-import { EconomicEventResponse, Agent, IMeasure } from '@valueflows/vf-graphql'
-
-import { EventCreateMutation } from './mutations'
-import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
-import { ITimeUnits } from '@vf-ui/component-provide-time-units'
-
-import { TextField, Button } from '@scoped-elements/material-web'
 // @ts-ignore
 import Litepicker from 'litepicker'
+
+// import { hreaGraphQLContext } from "../../contexts"
+import { EconomicEventResponse } from '@valueflows/vf-graphql'
+
+import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
+import { ITimeUnits } from '@vf-ui/component-provide-time-units'
+import { InputWorkType } from '@vf-ui/component-input-work-type'
+
+import { TextField, Button } from '@scoped-elements/material-web'
+
+import { EventCreateMutation } from './mutations'
 
 enum TimeMeasure {
   Hour = "hours",
@@ -131,6 +133,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
   @state()
   note: string = ""
 
+  // raw text into time input field
   @state()
   timeRaw: string = ""
 
@@ -144,6 +147,9 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
   @state()
   onDate: Dayjs = dayjs().startOf('day')
+
+  @state()
+  workType: string | null = null
 
   _datepicker?: Litepicker
 
@@ -171,22 +177,35 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
   async saveEvent(): Promise<EconomicEventResponse> {
     const myAgentId = this.me.data?.myAgent.id
     const hasUnit = this.timeUnitDefs[this.timeUnits].id
-    return ((await this.createEvent.mutate({ variables: {
-      event: {
-        action: 'raise',  // 'raise' means "raise the accounting value in the ledger by this amount"
-        hasBeginning: this.onDate.toISOString(),
-        hasEnd: dayjs(this.onDate).endOf('day').toISOString(),
-        note: this.note,
-        // resourceClassifiedAs: ['vf:correction'], :TODO: UI for editing events
-        effortQuantity: {
-          hasUnit,
-          hasNumericalValue: this.timeQty,
-        },
-        provider: myAgentId,
-        // receiver: :TODO: active project / client
-        receiver: myAgentId,
+    const event = {
+      action: 'work',
+      hasBeginning: this.onDate.toISOString(),
+      hasEnd: dayjs(this.onDate).endOf('day').toISOString(),
+      note: this.note,
+      resourceConformsTo: this.workType,
+      // resourceClassifiedAs: ['vf:correction'], :TODO: UI for editing events
+      effortQuantity: {
+        hasUnit,
+        hasNumericalValue: this.timeQty,
       },
-    } })) as { createEconomicEvent: EconomicEventResponse }).createEconomicEvent
+      provider: myAgentId,
+      // receiver: :TODO: active project / client
+      receiver: myAgentId,
+    }
+
+    let resp
+    try {
+      resp = ((await this.createEvent.mutate({ variables: { event } })) as { createEconomicEvent: EconomicEventResponse }).createEconomicEvent
+    } catch (e) {
+      console.error(e)
+      throw e
+    }
+    return resp
+  }
+
+  onResourceSpecificationChanged(e: Event) {
+    // @ts-ignore
+    this.workType = e.detail?.value
   }
 
   onDateChanged(e: Event) {
@@ -194,6 +213,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     this.onDate = dayjs(e.target?.value)
   }
 
+  // on any input to time autocomplete field, clear selection & update raw input state
   onTimeInputChanged(e: Event) {
     this.timeUnits = TimeMeasure.Second
     this.timeQty = 0
@@ -220,8 +240,10 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     if (!duration) return
 
     const baseUnit = finestMeasure(duration)
+    // save autocomplete selection to component state
     this.timeUnits = baseUnit
     this.timeQty = convertToMeasure(baseUnit, duration)
+    // update input text with normalised format
     this.timeRaw = renderAutocompleted(duration)
   }
 
@@ -235,27 +257,48 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       `
     }
 
+    // error saving event
+    // :TODO: standardize error display component
+    if (this.createEvent.error) {
+      return html`
+        <section class="error">
+          <h3>Error logging work</h3>
+          <p>${this.createEvent.error}</p>
+        </section>
+      `
+    }
+
     // primary layout to receive participant input
     const duration = parseInterval(this.timeRaw)
 
-    const canSave = !!(this.onDate && this.timeUnits && this.timeQty)
+    const canSave = !!(this.onDate && this.timeUnits && this.timeQty && this.workType)
     const showAutocomplete = duration && !canSave
 
     return html`
       <section class="outer">
 
-        <input class="datepicker" placeholder="Select date" value=${this.onDate} @change=${this.onDateChanged}></input>
-
-        <div class="time-input">
-          <mwc-textfield placeholder="Enter time (eg. 1h 30m)" value=${this.timeRaw} @change=${this.onTimeInputChanged} @keyup=${this.onTimeInputKeypress}></mwc-textfield>
-          ${showAutocomplete ? (html`
-            <div class="popup">
-              <mwc-button fullwidth=1 @click=${this.chooseTime}>${renderAutocompleted(duration)}</mwc-button>
-            </div>
-          `) : null}
+        <div class="input">
+          <input class="datepicker" placeholder="Select date" value=${this.onDate} @change=${this.onDateChanged}></input>
         </div>
 
-        <mwc-textfield label="Notes" placeholder="(no description)" value=${this.note}></mwc-textfield>
+        <div class="input">
+          <div class="time-input">
+            <mwc-textfield placeholder="Enter time (eg. 1h 30m)" value=${this.timeRaw} @change=${this.onTimeInputChanged} @keyup=${this.onTimeInputKeypress}></mwc-textfield>
+            ${showAutocomplete ? (html`
+              <div class="popup">
+                <mwc-button fullwidth=1 @click=${this.chooseTime}>${renderAutocompleted(duration)}</mwc-button>
+              </div>
+            `) : null}
+          </div>
+        </div>
+
+        <div class="input">
+          <vf-input-worktype placeholder="What were you doing?" value=${this.workType} @change=${this.onResourceSpecificationChanged}></vf-input-worktype>
+        </div>
+
+        <div class="input">
+          <mwc-textfield label="Notes" placeholder="(no description)" value=${this.note}></mwc-textfield>
+        </div>
 
         <mwc-button ?disabled=${!canSave} label="Save" @click="${this.saveEvent}"></mwc-button>
 
@@ -269,7 +312,12 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       background-color: var(--nh-timetracker-form-background-color);
     }
 
+    .input {
+      padding: 0 0.2em;
+    }
+
     .time-input {
+      display: inline-block;
       position: relative;
       overflow: visible;
       margin-bottom: 1em;
@@ -290,6 +338,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
   static get scopedElements() {
     return {
+      'vf-input-worktype': InputWorkType,
       'mwc-textfield': TextField,
       'mwc-button': Button,
     };
