@@ -180,7 +180,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     const myAgentId = this.me.data?.myAgent.id
     const hasUnit = this.timeUnitDefs[this.timeUnits].id
     const event = {
-      action: 'work',
+      action: 'raise',
       hasBeginning: this.onDate.format(LONG_DATETIME_FORMAT),
       hasEnd: dayjs(this.onDate).endOf('day').format(LONG_DATETIME_FORMAT),
       note: this.note,
