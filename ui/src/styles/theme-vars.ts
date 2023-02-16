@@ -35,6 +35,7 @@ export default css`
 
   --nh-applet-secondary-text-color: var(--nh-purple-mid);
   --nh-applet-error-color: var(--nh-red);
+  --nh-applet-success-color: var(--nh-green-mid);
 
   --nh-timetracker-form-background-color: var(--nh-applet-background-color);
 

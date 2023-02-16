@@ -254,15 +254,15 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
   }
 
   render() {
-    // successful save state
-    if (this.createEvent.data) {
+    // error loading context user
+    if (this.me.error) {
       return html`
-        <section class="outer">
-          <p>Entry logged.</p>
+        <section class="error">
+          <h3>Error loading Agent profile</h3>
+          <p>${this.me.error}</p>
         </section>
       `
     }
-
     // error saving event
     // :TODO: standardize error display component
     if (this.createEvent.error) {
@@ -282,6 +282,11 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
     return html`
       <section class="outer">
+        ${this.createEvent.data ? html`
+          <div class="notify">
+            <p>Entry logged.</p>
+          </div>
+        ` : ``}
 
         <div class="input">
           <input class="datepicker" placeholder="Select date" value=${this.onDate} @change=${this.onDateChanged}></input>
@@ -339,6 +344,12 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
     footer {
       margin-top: 1em;
+    }
+
+    .notify {
+      font-size: 0.8em;
+      font-weight: bold;
+      color: var(--nh-applet-success-color);
     }
   `
 
