@@ -6,6 +6,9 @@
  * about the management of `Unit` types within a collaboration space.
  *
  * :TODO: update to use `Unit` query API once finalised in VF & implemented in hREA
+
+ * @package Neighbourhoods/We Timesheet applet
+ * @since   2023-02-13
  */
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { LitElement, html, css } from "lit";
