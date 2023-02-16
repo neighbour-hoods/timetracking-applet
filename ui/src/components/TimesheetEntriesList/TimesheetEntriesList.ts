@@ -7,8 +7,12 @@
  *
  * - `EconomicEvent.triggeredBy` of the appending / updating event must reference the
  *   original `EconomicEvent` being corrected; and
- * - `EconomicEvent.resourceClassifiedAs` must include the value `"vf:EconomicEventModifies"`.
+ * - `EconomicEvent.resourceClassifiedAs` must include the value `"vf:corrects"`.
  *       :TODO: sign off on this identifier in the official spec!
+ *
+ * :TODO:
+ * - update to handle all conditions for `EconomicEvent` resource-related metadata
+ * - update to handle display of `Process`-based work
  *
  * @package Neighbourhoods/We Timesheet applet
  * @since   2023-02-01
@@ -21,6 +25,8 @@ import { LitElement, html, css } from "lit";
 import { ApolloQueryController } from '@apollo-elements/core';
 import { EconomicEventConnection } from '@valueflows/vf-graphql';
 
+// import { ResourceSpecificationRow } from '@vf-ui/component-resource-specification-row'
+
 import { EventsListQuery } from './queries'
 
 interface QueryResult {
@@ -29,43 +35,61 @@ interface QueryResult {
 
 export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 {
-    entries?: ApolloQueryController<QueryResult> = new ApolloQueryController(this, EventsListQuery)
+  entries?: ApolloQueryController<QueryResult> = new ApolloQueryController(this, EventsListQuery)
 
-    render() {
-        const data = this.entries?.data as QueryResult
+  render() {
+    const data = this.entries?.data as QueryResult
 
-        if (this.entries?.error) {
-          return html`
-            <div>
-              <h3>Error!</h3>
-              <p>${this.entries.error.toString()}</p>
-            </div>
-          `
-        }
-        if (!data || this.entries?.loading) {
-          return html`
-            <div>
-              <p>Loading...</p>
-            </div>
-          `
-        }
-        if ((data?.economicEvents?.edges || []).length === 0) {
-          return html`
-            <div>
-              <p>Nothing tracked yet!</p>
-            </div>
-          `
-        }
-        return html`
-          <div>
-            <p1>this is a provider component!</p1>
-          </div>
-        `
+    if (this.entries?.error) {
+      return html`
+        <div>
+          <h1>Error!</h1>
+          <p>${this.entries.error.toString()}</p>
+        </div>
+      `
+    }
+    if (!data || this.entries?.loading) {
+      return html`
+        <div>
+          <p>Loading...</p>
+        </div>
+      `
     }
 
-    static get scopedElements() {
-        return {
-        };
+    const events = (data?.economicEvents?.edges || [])
+      // only interested in 'effort-based' EconomicEvents (with an `effortQuantity`)
+      .filter(({ node }) => node.effortQuantity && node.effortQuantity.hasUnit)
+
+    if (events.length === 0) {
+      return html`
+        <div>
+          <p>Nothing tracked yet!</p>
+        </div>
+      `
+    }
+    return html`
+      <section class="timesheet-list">
+      ${events.map(({ node }) => html`
+          <article>
+            <header>
+              <h3>${node.note}</h3>
+            </header>
+            <div class="body">
+              ${/* <vf-resource-specification-row byId=${node.resourceConformsTo}></vf-resource-specification-display> */html``}
+            </div>
+            <footer>
+            </footer>
+          </article>
+        `)
+      }
+      </section>
+    `
+  }
+
+  static get scopedElements() {
+    return {
+      // 'vf-resource-specification-row': ResourceSpecificationRow,
+    };
   }
 
   static styles = css`
