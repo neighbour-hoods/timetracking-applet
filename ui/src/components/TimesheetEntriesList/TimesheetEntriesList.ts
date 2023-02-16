@@ -11,6 +11,7 @@
  *       :TODO: sign off on this identifier in the official spec!
  *
  * :TODO:
+ * - handle displays of arbitrary time periods (as opposed to dates)
  * - update to handle all conditions for `EconomicEvent` resource-related metadata
  * - update to handle display of `Process`-based work
  *
@@ -23,7 +24,8 @@ import { property } from "lit/decorators.js";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { LitElement, html, css } from "lit";
 import { ApolloQueryController } from '@apollo-elements/core';
-import { EconomicEventConnection } from '@valueflows/vf-graphql';
+import dayjs, { Dayjs } from 'dayjs'
+import { EconomicEventConnection, EconomicEvent } from '@valueflows/vf-graphql';
 
 // import { ResourceSpecificationRow } from '@vf-ui/component-resource-specification-row'
 
@@ -32,6 +34,8 @@ import { EventsListQuery } from './queries'
 interface QueryResult {
   economicEvents: EconomicEventConnection
 }
+
+const SHORT_DATE_FORMAT = 'YYYY-MM-DD'
 
 export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 {
@@ -67,21 +71,33 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
         </div>
       `
     }
+
+    // reduce events into daily chunks
+    const dailyEvents = events.reduce<Record<string, Array<EconomicEvent>>>((res, e) => {
+      const onDate = dayjs(e.node.hasBeginning).format(SHORT_DATE_FORMAT)
+      if (!res[onDate]) res[onDate] = []
+      res[onDate].push(e.node)
+      return res
+    }, {})
+
     return html`
       <section class="timesheet-list">
-      ${events.map(({ node }) => html`
+      ${Object.keys(dailyEvents).map(onDate => [html`
+          <header>
+            <time datetime=${onDate}>${onDate}</time>
+          </header>
+        `].concat(dailyEvents[onDate].map(node => html`
           <article>
-            <header>
-              <h3>${node.note}</h3>
-            </header>
             <div class="body">
               ${/* <vf-resource-specification-row byId=${node.resourceConformsTo}></vf-resource-specification-display> */html``}
+              <h3>${node.note}</h3>
             </div>
             <footer>
+              <!-- :TODO: agent display for multi-agent networks -->
             </footer>
           </article>
-        `)
-      }
+        `))
+      )}
       </section>
     `
   }
@@ -93,5 +109,15 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   }
 
   static styles = css`
+    article {
+      display: flex;
+      flex-direction: column;
+    }
+    header, footer {
+      flex: 0;
+    }
+    .body {
+      flex: 1;
+    }
   `
 }
