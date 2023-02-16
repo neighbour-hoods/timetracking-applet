@@ -1,10 +1,8 @@
 import { gql } from 'graphql-tag'
 
-import { QUANTITY_VALUE_FIELDS } from './quantityValue.fragments'
 import { AGENT_CORE_FIELDS } from './agent.fragments'
 
 export const WORK_EVENT_FIELDS = gql`
-  ${QUANTITY_VALUE_FIELDS}
   ${AGENT_CORE_FIELDS}
   fragment WorkEventFields on EconomicEvent {
     # identifiers
@@ -24,7 +22,12 @@ export const WORK_EVENT_FIELDS = gql`
 
     # how much work being done, specified in https://github.com/HajoRijgersberg/OM -compatible format
     effortQuantity {
-      ...QuantityValueFields
+      hasNumericalValue
+      hasUnit {
+        id
+        label
+        symbol
+      }
     }
 
     # :TODO: triggeredBy & event adjustments
