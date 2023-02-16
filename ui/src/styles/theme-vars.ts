@@ -33,9 +33,12 @@ export default css`
   --nh-applet-primary-color: var(--nh-salmon);
   --nh-applet-primary-text-color: var(--nh-darkgrey);
 
+  --nh-applet-secondary-text-color: var(--nh-purple-mid);
   --nh-applet-error-color: var(--nh-red);
 
-  --nh-timetracker-form-background-color: var(--nh-purple-light);
+  --nh-timetracker-form-background-color: var(--nh-applet-background-color);
+
+  --nh-specification-input-bg-color: var(--nh-purple-light);
 
   /* BELOW THIS LINE IS CONSIDERED INTERNAL IMPLEMENTATION DETAILS,
      MODIFY AT YOUR PERIL! */
