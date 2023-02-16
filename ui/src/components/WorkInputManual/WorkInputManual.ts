@@ -120,6 +120,8 @@ function convertToMeasure(measure: TimeMeasure, duration: Duration): number {
   return value
 }
 
+const LONG_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
+
 export class WorkInputManual extends ScopedElementsMixin(LitElement)
 {
   me: ApolloQueryController<WhoAmIQueryResult> = new ApolloQueryController(this, WhoAmI)
@@ -179,8 +181,8 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     const hasUnit = this.timeUnitDefs[this.timeUnits].id
     const event = {
       action: 'work',
-      hasBeginning: this.onDate.toISOString(),
-      hasEnd: dayjs(this.onDate).endOf('day').toISOString(),
+      hasBeginning: this.onDate.format(LONG_DATETIME_FORMAT),
+      hasEnd: dayjs(this.onDate).endOf('day').format(LONG_DATETIME_FORMAT),
       note: this.note,
       resourceConformsTo: this.workType,
       // resourceClassifiedAs: ['vf:correction'], :TODO: UI for editing events
