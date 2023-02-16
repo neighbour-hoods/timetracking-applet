@@ -176,7 +176,11 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     this._datepicker.destroy()
   }
 
-  async saveEvent(): Promise<EconomicEventResponse> {
+  async saveEvent(): Promise<EconomicEventResponse | undefined> {
+    if (!this.me.data) {
+      return // do nothing if active agent ID cannot be determined, this means the UI is still loading
+    }
+
     const myAgentId = this.me.data?.myAgent.id
     const hasUnit = this.timeUnitDefs[this.timeUnits].id
     const event = {
