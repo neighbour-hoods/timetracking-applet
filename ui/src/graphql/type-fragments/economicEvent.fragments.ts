@@ -42,10 +42,23 @@ export const WORK_EVENT_FIELDS = gql`
 
     # Requires \`hrea_specification\` module.
 
-    resourceSpecifiedAs {
+    resourceConformsTo {
       id
       revisionId
       name
+      note
+      image
+      resourceClassifiedAs
+      defaultUnitOfResource {
+        id
+        symbol
+        label
+      }
+      defaultUnitOfEffort {
+        id
+        symbol
+        label
+      }
     }
 
     # Requires \`hrea_agent\` module.
