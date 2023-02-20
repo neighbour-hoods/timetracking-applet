@@ -1,0 +1,15 @@
+{
+  "name": "@vf-ui/component-resource-specification-list-row",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./ResourceSpecificationListRow.ts",
+  "dependencies": {
+    "@apollo-elements/core": "^2.1.2",
+    "@lit-labs/context": "^0.2.0",
+    "@open-wc/scoped-elements": "^2.1.0",
+    "@valueflows/vf-graphql": "^0.9.0-alpha.9",
+    "@valueflows/vf-graphql-type-fragments": "workspace:*",
+    "graphql-tag": "^2.12.6",
+    "lit": "^2.6.1"
+  }
+}
