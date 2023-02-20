@@ -29,20 +29,16 @@ import { EconomicEventConnection, EconomicEvent } from '@valueflows/vf-graphql';
 
 // import { ResourceSpecificationRow } from '@vf-ui/component-resource-specification-row'
 
-import { EventsListQuery } from './queries'
-
-interface QueryResult {
-  economicEvents: EconomicEventConnection
-}
+import { EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
 const SHORT_DATE_FORMAT = 'YYYY-MM-DD'
 
 export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 {
-  entries?: ApolloQueryController<QueryResult> = new ApolloQueryController(this, EventsListQuery)
+  entries?: ApolloQueryController<EventsListQueryResult> = new ApolloQueryController(this, EventsListQuery)
 
   render() {
-    const data = this.entries?.data as QueryResult
+    const data = this.entries?.data as EventsListQueryResult
 
     if (this.entries?.error) {
       return html`

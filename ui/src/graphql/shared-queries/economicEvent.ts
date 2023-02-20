@@ -1,5 +1,6 @@
 import { gql } from 'graphql-tag'
 
+import { EconomicEventConnection } from '@valueflows/vf-graphql'
 import { WORK_EVENT_FIELDS } from '@valueflows/vf-graphql-type-fragments/economicEvent.fragments'
 
 export const EventsListQuery = gql`
@@ -21,3 +22,7 @@ query {
   }
 }
 `
+
+export interface EventsListQueryResult {
+  economicEvents: EconomicEventConnection
+}

@@ -27,13 +27,13 @@ import Litepicker from 'litepicker'
 // import { hreaGraphQLContext } from "../../contexts"
 import { EconomicEventResponse } from '@valueflows/vf-graphql'
 
-import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
+import { WhoAmI, WhoAmIQueryResult, EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 import { ITimeUnits } from '@vf-ui/component-provide-time-units'
 import { InputWorkType } from '@vf-ui/component-input-work-type'
 
 import { TextField, Button } from '@scoped-elements/material-web'
 
-import { EventCreateMutation } from './mutations'
+import { EventCreateMutation, EventCreateResponse } from './mutations'
 
 enum TimeMeasure {
   Hour = "hours",
@@ -126,7 +126,29 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 {
   me: ApolloQueryController<WhoAmIQueryResult> = new ApolloQueryController(this, WhoAmI)
 
-  createEvent: ApolloMutationController<EconomicEventResponse> = new ApolloMutationController(this, EventCreateMutation)
+  createEvent: ApolloMutationController<EventCreateResponse> = new ApolloMutationController(this, EventCreateMutation, {
+    // prepend to readAll query when write request completes
+    update: (cache, result) => {
+      const existing = (cache.readQuery({
+        query: EventsListQuery,
+      }) as EventsListQueryResult)
+      const current = existing ? existing.economicEvents.edges : []
+      const created = result.data?.createEconomicEvent.economicEvent
+
+      cache.writeQuery({
+        query: EventsListQuery,
+        data: {
+          economicEvents: {
+            pageInfo: existing?.economicEvents.pageInfo,
+            edges: [{
+              node: created,
+            }].concat(current),
+          },
+        },
+        overwrite: true,
+      })
+    },
+  })
 
   // `Unit` record definitions loaded from Valueflows API. Assign from helper provider component.
   @property()

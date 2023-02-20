@@ -1,5 +1,6 @@
 import { gql } from 'graphql-tag'
 
+import { EconomicEventResponse } from '@valueflows/vf-graphql'
 import { WORK_EVENT_FIELDS } from '@valueflows/vf-graphql-type-fragments/economicEvent.fragments'
 // import { WORK_RESOURCE_FIELDS } from '@valueflows/vf-graphql-type-fragments/economicResource.fragments'
 
@@ -16,3 +17,7 @@ mutation CreateEconomicEvent($event: EconomicEventCreateParams!) {
   }
 }
 `
+
+export interface EventCreateResponse {
+  createEconomicEvent: EconomicEventResponse
+}
