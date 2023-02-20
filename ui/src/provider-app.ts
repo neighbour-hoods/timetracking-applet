@@ -61,23 +61,28 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
 
     const profileCheck: AgentProfileCheck | null = this.shadowRoot.querySelector('agent-profile-check')
     if (profileCheck) {
-      profileCheck.me.subscribe({ fetchPolicy: 'no-cache' })
+      profileCheck.me.subscribe()
     }
     const workInput: WorkInputManual | null = this.shadowRoot.querySelector('work-input-manual')
     if (workInput) {
-      workInput.me.subscribe({ fetchPolicy: 'no-cache' })
+      workInput.me.subscribe()
     }
   }
 
+  /**
+   * Requery timesheet entries list in TimesheetEntriesList component when
+   * entry is created in WorkInputManual.
+   *
+   * @see https://github.com/apollo-elements/apollo-elements/issues/39#issuecomment-476272681
+   */
   async onWorkLogged(_e: CustomEvent) {
-    console.log('WORK LOGD', _e)
     if (!this.shadowRoot) {
       return
     }
 
     const entriesList: TimesheetEntriesList | null = this.shadowRoot.querySelector('timesheet-entries-list')
     if (entriesList) {
-      entriesList.entries?.subscribe({ fetchPolicy: 'no-cache' })
+      entriesList.entries?.subscribe()
     }
   }
 
