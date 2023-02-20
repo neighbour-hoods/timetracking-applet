@@ -24,14 +24,42 @@ import { property } from "lit/decorators.js";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { LitElement, html, css } from "lit";
 import { ApolloQueryController } from '@apollo-elements/core';
+// @ts-ignore
 import dayjs, { Dayjs } from 'dayjs'
-import { EconomicEventConnection, EconomicEvent } from '@valueflows/vf-graphql';
+// @ts-ignore
+import pluralize from 'pluralize'
+import { EconomicEvent } from '@valueflows/vf-graphql';
 
-// import { ResourceSpecificationRow } from '@vf-ui/component-resource-specification-row'
+import { ResourceSpecificationListRow } from '@vf-ui/component-resource-specification-list-row'
 
 import { EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
 const SHORT_DATE_FORMAT = 'YYYY-MM-DD'
+const LONG_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
+const READABLE_TIME_FORMAT = 'LT'
+
+// formatting helpers
+const getEventStartTime = (node: EconomicEvent): Dayjs => dayjs(node.hasBeginning || node.hasPointInTime || node.hasEnd)
+const workEffort = (node: EconomicEvent): number => node.effortQuantity?.hasNumericalValue
+const workUnitLabel = (node: EconomicEvent): string | undefined => node.effortQuantity?.hasUnit?.label
+const isDailyWorklog = (node: EconomicEvent): boolean => !!(
+  node.hasBeginning &&
+  dayjs(node.hasBeginning).startOf('day').isSame(node.hasBeginning) &&
+  node.hasEnd &&
+  dayjs(node.hasEnd).endOf('day').isSame(node.hasEnd)
+)
+const getTimeDisplayText = (node: EconomicEvent): string | null => {
+  if (node.hasPointInTime) {
+    return dayjs(node.hasPointInTime).format(READABLE_TIME_FORMAT)
+  }
+  if (isDailyWorklog(node)) {
+    return null
+  }
+  return [
+    dayjs(node.hasBeginning).format(READABLE_TIME_FORMAT),
+    dayjs(node.hasEnd).format(READABLE_TIME_FORMAT),
+  ].join(' - ')
+}
 
 export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 {
@@ -40,6 +68,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   render() {
     const data = this.entries?.data as EventsListQueryResult
 
+    // :TODO: standardize components
     if (this.entries?.error) {
       return html`
         <div>
@@ -82,17 +111,25 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
           <header>
             <time datetime=${onDate}>${onDate}</time>
           </header>
-        `].concat(dailyEvents[onDate].map(node => html`
-          <article>
-            <div class="body">
-              ${/* <vf-resource-specification-row byId=${node.resourceConformsTo}></vf-resource-specification-display> */html``}
-              <h3>${node.note}</h3>
-            </div>
-            <footer>
-              <!-- :TODO: agent display for multi-agent networks -->
-            </footer>
-          </article>
-        `))
+        `].concat(dailyEvents[onDate].map(node => {
+          const evtTime = getEventStartTime(node)
+          const effort = workEffort(node)
+          return html`
+            <article>
+              <header>
+                <time datetime=${evtTime.format(LONG_DATETIME_FORMAT)}>${getTimeDisplayText(node)}</time>
+                <span>${pluralize(workUnitLabel(node), effort, true)}</span>
+              </header>
+              <div class="body">
+                <vf-resource-specification-row .record=${node.resourceConformsTo}></vf-resource-specification-row>
+                <h3>${node.note}</h3>
+              </div>
+              <footer>
+                <!-- :TODO: agent display for multi-agent networks -->
+              </footer>
+            </article>
+          `
+        }))
       )}
       </section>
     `
@@ -100,7 +137,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 
   static get scopedElements() {
     return {
-      // 'vf-resource-specification-row': ResourceSpecificationRow,
+      'vf-resource-specification-row': ResourceSpecificationListRow,
     };
   }
 
