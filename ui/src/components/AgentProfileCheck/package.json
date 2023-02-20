@@ -1,5 +1,5 @@
 {
-  "name": "@neighbourhoods/component-vf-graphql-agent-profile-check",
+  "name": "@vf-ui/component-agent-profile-check",
   "version": "0.0.1",
   "type": "module",
   "main": "./AgentProfileCheck.ts",

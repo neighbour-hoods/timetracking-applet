@@ -10,11 +10,11 @@ import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
 import { sensemakerStoreContext } from './contexts';
 import { ApolloClientElement, ApolloClient, NormalizedCacheObject } from './provider-graphql-client.js';
 
-import { AgentProfileCheck } from '@neighbourhoods/component-vf-graphql-agent-profile-check'
-import { AgentProfileManage } from '@neighbourhoods/component-vf-graphql-agent-profile-manage'
-import { TimesheetEntriesList } from '@neighbourhoods/component-vf-graphql-time-entries-list'
+import { AgentProfileCheck } from '@vf-ui/component-agent-profile-check'
+import { AgentProfileManage } from '@vf-ui/component-agent-profile-manage'
+import { TimesheetEntriesList } from '@vf-ui/component-time-entries-list'
 import { ProvideTimeUnits } from '@vf-ui/component-provide-time-units'
-import { WorkInputManual } from '@neighbourhoods/component-vf-graphql-work-input-daily'
+import { WorkInputManual } from '@vf-ui/component-work-input-daily'
 import cssThemeVars from '@neighbourhoods/applet-vf-timetracker-theme-vars'
 
 export class ProviderApp extends ScopedElementsMixin(LitElement) {

@@ -1,5 +1,5 @@
 {
-  "name": "@neighbourhoods/component-vf-graphql-work-input-daily",
+  "name": "@vf-ui/component-work-input-daily",
   "version": "0.0.1",
   "type": "module",
   "main": "./WorkInputManual.ts",

@@ -1,5 +1,5 @@
 {
-  "name": "@neighbourhoods/component-vf-graphql-agent-profile-manage",
+  "name": "@vf-ui/component-agent-profile-manage",
   "version": "0.0.1",
   "type": "module",
   "main": "./AgentProfileManage.ts",

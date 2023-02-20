@@ -1,5 +1,5 @@
 {
-  "name": "@neighbourhoods/component-vf-graphql-time-entries-list",
+  "name": "@vf-ui/component-time-entries-list",
   "version": "0.0.1",
   "type": "module",
   "main": "./TimesheetEntriesList.ts",
