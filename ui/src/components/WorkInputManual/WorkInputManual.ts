@@ -311,11 +311,6 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
     return html`
       <section class="outer">
-        ${this.createEvent.data ? html`
-          <div class="notify">
-            <p>Entry logged.</p>
-          </div>
-        ` : ``}
 
         <div class="input">
           <input class="datepicker" placeholder="Select date" value=${this.onDate} @change=${this.onDateChanged}></input>
