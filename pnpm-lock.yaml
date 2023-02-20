@@ -276,6 +276,7 @@ importers:
       dayjs: ^1.11.7
       graphql-tag: ^2.12.6
       lit: ^2.6.1
+      pluralize: ^8.0.0
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
@@ -287,6 +288,7 @@ importers:
       dayjs: 1.11.7
       graphql-tag: 2.12.6
       lit: 2.6.1
+      pluralize: 8.0.0
 
   ui/src/components/WorkInputManual:
     specifiers:
@@ -8272,6 +8274,11 @@ packages:
     dependencies:
       semver-compare: 1.0.0
     dev: true
+
+  /pluralize/8.0.0:
+    resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
+    engines: {node: '>=4'}
+    dev: false
 
   /polyfills-loader/1.7.6:
     resolution: {integrity: sha512-AiLIgmGFmzcvsqewyKsqWb7H8CnWNTSQBoM0u+Mauzmp0DsjObXmnZdeqvTn0HNwc1wYHHTOta82WjSjG341eQ==}
