@@ -22,6 +22,7 @@ import { CreateOrJoinNh } from '@neighbourhoods/component-create-or-join-nh';
 import { ProviderApp } from './provider-app';
 import appletConfig from './appletConfig'
 
+const HOLOCHAIN_APP_ID = "provider-sensemaker"
 const SENSEMAKER_ROLE_NAME = "sensemaker"
 const PROVIDER_ROLE_NAME = "hrea_observation_0" // :WARNING: this will mean cloned sensemaker cell uses same agentPubKey as plugged Observation cell
 
@@ -96,7 +97,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   }
 
   async initializeSensemakerStore(clonedSensemakerRoleName: string) {
-    const appAgentWebsocket: AppAgentWebsocket = await AppAgentWebsocket.connect(this.appWebsocket, "todo-sensemaker");
+    const appAgentWebsocket: AppAgentWebsocket = await AppAgentWebsocket.connect(this.appWebsocket, this.appInfo.installed_app_id);
     const sensemakerService = new SensemakerService(appAgentWebsocket, clonedSensemakerRoleName)
     this._sensemakerStore = new SensemakerStore(sensemakerService);
   }
@@ -119,8 +120,8 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
 
   async createNeighbourhood(_e: CustomEvent) {
     await this.cloneSensemakerCell(this.agentPubkey)
-    // const _todoConfig = await this._sensemakerStore.registerApplet(appletConfig);
-    // await this.updateSensemakerState()
+    const _todoConfig = await this._sensemakerStore.registerApplet(appletConfig);
+    await this.updateSensemakerState()
     this.loading = false;
   }
 
@@ -129,7 +130,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     console.log('successfully cloned sensemaker cell')
     // wait some time for the dht to sync, otherwise checkIfAppletConfigExists returns null
     setTimeout(async () => {
-      const _todoConfig = await this._sensemakerStore.checkIfAppletConfigExists("todo_applet")
+      const _todoConfig = await this._sensemakerStore.checkIfAppletConfigExists(appletConfig.name)
       await this.updateSensemakerState()
       this.loading = false;
     }, 2000)
@@ -160,7 +161,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     this.appWebsocket = await AppWebsocket.connect(``);
 
     this.appInfo = await this.appWebsocket.appInfo({
-      installed_app_id: 'provider-sensemaker',
+      installed_app_id: HOLOCHAIN_APP_ID,
     });
   }
 
