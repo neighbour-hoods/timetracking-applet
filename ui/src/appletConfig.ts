@@ -171,6 +171,14 @@ const nonFollowupWorkContext: ConfigCulturalContext = {
 }
 
 
+// const highestPayingWorkContext: ConfigCulturalContext = {
+//   "name": "highest_pay",
+//   "resource_type": economicEventRT,
+//   // "thresholds": [hasValues(payAmount)],
+//   "order_by": [[computePay, { "Biggest": null }]]
+// }
+
+
 // create initialisation data for Neighbourhoods Sensemaker
 
 const appletConfig: AppletConfigInput = {
@@ -183,12 +191,14 @@ const appletConfig: AppletConfigInput = {
   "methods": [
     computeTotalVerifications,
     computeTotalFollowups,
+    // computePay,
   ],
   "cultural_contexts": [
     mostVerifiedWorkContext,
     unverifiedWorkContext,
     mostFollowupsWorkContext,
     nonFollowupWorkContext,
+    // highestPayingWorkContext,
   ],
 }
 
