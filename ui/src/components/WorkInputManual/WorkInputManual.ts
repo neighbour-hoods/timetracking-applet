@@ -25,7 +25,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import Litepicker from 'litepicker'
 
 // import { hreaGraphQLContext } from "../../contexts"
-import { EconomicEventResponse } from '@valueflows/vf-graphql'
+import { EconomicEventResponse, IMeasure } from '@valueflows/vf-graphql'
 
 import { WhoAmI, WhoAmIQueryResult, EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 import { ITimeUnits } from '@vf-ui/component-provide-time-units'
@@ -35,13 +35,13 @@ import { TextField, Button } from '@scoped-elements/material-web'
 
 import { EventCreateMutation, EventCreateResponse } from './mutations'
 
-enum TimeMeasure {
+export enum TimeMeasure {
   Hour = "hours",
   Minute = "minutes",
   Second = "seconds",
 }
 
-interface Duration {
+export interface Duration {
   [TimeMeasure.Hour]?: number
   [TimeMeasure.Minute]?: number
   [TimeMeasure.Second]?: number
@@ -82,7 +82,7 @@ function finestMeasure(duration: Duration) {
  * Compute the raw numeric value of a unit conversion against all separate elements in a `Duration`,
  * based on a lowest-common-denominator base `TimeMeasure` unit.
  */
-function convertToMeasure(measure: TimeMeasure, duration: Duration): number {
+export function convertToMeasure(timeUnitDefs: ITimeUnits, measure: TimeMeasure, duration: Duration): IMeasure {
   let value = 0
   if (duration[TimeMeasure.Hour]) {
     if (measure === TimeMeasure.Minute) {
@@ -117,7 +117,10 @@ function convertToMeasure(measure: TimeMeasure, duration: Duration): number {
       value += duration[TimeMeasure.Second]
     }
   }
-  return value
+  return {
+    hasUnit: timeUnitDefs[measure].id,
+    hasNumericalValue: value,
+  }
 }
 
 const LONG_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
@@ -163,11 +166,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
   // interpreted from `timeRaw`
   @state()
-  timeQty: number = 0
-
-  // interpreted from `timeRaw`
-  @state()
-  timeUnits: TimeMeasure = TimeMeasure.Second
+  timeQty: IMeasure | null = null
 
   @state()
   onDate: Dayjs = dayjs().startOf('day')
@@ -204,7 +203,6 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     }
 
     const myAgentId = this.me.data?.myAgent.id
-    const hasUnit = this.timeUnitDefs[this.timeUnits].id
     const event = {
       action: 'raise',
       hasBeginning: this.onDate.format(LONG_DATETIME_FORMAT),
@@ -212,10 +210,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       note: this.note,
       resourceConformsTo: this.workType,
       // resourceClassifiedAs: ['vf:correction'], :TODO: UI for editing events
-      effortQuantity: {
-        hasUnit,
-        hasNumericalValue: this.timeQty,
-      },
+      effortQuantity: this.timeQty,
       provider: myAgentId,
       // receiver: :TODO: active project / client
       receiver: myAgentId,
@@ -250,8 +245,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
   // on any input to time autocomplete field, clear selection & update raw input state
   onTimeInputChanged(e: Event) {
-    this.timeUnits = TimeMeasure.Second
-    this.timeQty = 0
+    this.timeQty = null
     // @ts-ignore
     this.timeRaw = e.target?.value
   }
@@ -274,10 +268,8 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     const duration = parseInterval(this.timeRaw)
     if (!duration) return
 
-    const baseUnit = finestMeasure(duration)
     // save autocomplete selection to component state
-    this.timeUnits = baseUnit
-    this.timeQty = convertToMeasure(baseUnit, duration)
+    this.timeQty = convertToMeasure(this.timeUnitDefs, finestMeasure(duration), duration)
     // update input text with normalised format
     this.timeRaw = renderAutocompleted(duration)
   }
@@ -306,7 +298,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     // primary layout to receive participant input
     const duration = parseInterval(this.timeRaw)
 
-    const canSave = !!(this.onDate && this.timeUnits && this.timeQty && this.workType)
+    const canSave = !!(this.onDate && this.timeQty && this.workType)
     const showAutocomplete = duration && !canSave
 
     return html`
