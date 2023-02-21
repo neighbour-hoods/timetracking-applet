@@ -80,7 +80,6 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
         const clonedSensemakerCell = (allSensemakerClones[0] as { "Cloned": Cell }).Cloned;
         const clonedSensemakerRoleName = clonedSensemakerCell.clone_id!;
         await this.initializeSensemakerStore(clonedSensemakerRoleName);
-        await this.updateSensemakerState();
       }
 
       // construct the provider connector
@@ -121,7 +120,6 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   async createNeighbourhood(_e: CustomEvent) {
     await this.cloneSensemakerCell(this.agentPubkey)
     const _todoConfig = await this._sensemakerStore.registerApplet(appletConfig);
-    await this.updateSensemakerState()
     this.loading = false;
   }
 
@@ -131,7 +129,6 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     // wait some time for the dht to sync, otherwise checkIfAppletConfigExists returns null
     setTimeout(async () => {
       const _todoConfig = await this._sensemakerStore.checkIfAppletConfigExists(appletConfig.name)
-      await this.updateSensemakerState()
       this.loading = false;
     }, 2000)
   }
@@ -163,20 +160,6 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     this.appInfo = await this.appWebsocket.appInfo({
       installed_app_id: HOLOCHAIN_APP_ID,
     });
-  }
-
-  async updateSensemakerState() {
-    // you will need to implement the following methods in your provider dna, this is just an example of fetching sensemaker state
-    /*
-    const allProviderResourceEntryHashes: EntryHash[] = await this._providerStore.allProviderResourceEntryHashes()
-    const dimensionEh = get(this._sensemakerStore.appletConfig()).dimensions["importance"]
-    for (const taskEh of allProviderResourceEntryHashes) {
-      await this._sensemakerStore.getAssessmentForResource({
-        dimension_eh: dimensionEh,
-        resource_eh: taskEh
-      })
-    }
-    */
   }
 
   static get scopedElements() {
