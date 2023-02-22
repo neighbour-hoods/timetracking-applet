@@ -34,6 +34,8 @@ import { ResourceSpecificationListRow } from '@vf-ui/component-resource-specific
 
 import { EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
+export { EconomicEvent }
+
 const SHORT_DATE_FORMAT = 'YYYY-MM-DD'
 const LONG_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
 const READABLE_TIME_FORMAT = 'LT'
