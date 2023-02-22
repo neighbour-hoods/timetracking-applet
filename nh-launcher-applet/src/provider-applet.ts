@@ -3,9 +3,9 @@ import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { CircularProgress } from "@scoped-elements/material-web";
 import { LitElement, html, css } from "lit";
 import { AppletInfo, SensemakerStore } from "@neighbourhoods/nh-launcher-applet";
-import { ProviderApp, ApolloClient, NormalizedCacheObject, provideGraphQLClient } from "@neighbourhoods/provider-applet";
+import { ProviderApp, ApolloClient, NormalizedCacheObject, provideGraphQLClient } from "@neighbourhoods/timetracking-applet";
 import appletConfig from './appletConfig';
-import { AppAgentWebsocket, AppWebsocket, AdminWebsocket, Cell } from "@holochain/client";
+import { AppAgentWebsocket, AppWebsocket, AdminWebsocket } from "@holochain/client";
 
 const PROVIDER_ROLE_NAME = 'provider';
 

@@ -28,6 +28,7 @@ importers:
       '@lit-labs/context': ^0.2.0
       '@neighbourhoods/nh-launcher-applet': 0.0.10
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
+      '@neighbourhoods/timetracking-applet': workspace:*
       '@open-wc/scoped-elements': ^2.1.1
       '@rollup/plugin-babel': ^5.3.0
       '@rollup/plugin-commonjs': 18.0.0
@@ -57,6 +58,7 @@ importers:
       '@lit-labs/context': 0.2.0
       '@neighbourhoods/nh-launcher-applet': 0.0.10
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
+      '@neighbourhoods/timetracking-applet': link:../ui
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
       lit: 2.6.1
