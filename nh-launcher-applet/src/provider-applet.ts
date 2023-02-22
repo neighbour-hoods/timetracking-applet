@@ -2,7 +2,7 @@ import { property, state } from "lit/decorators.js";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { CircularProgress } from "@scoped-elements/material-web";
 import { LitElement, html, css } from "lit";
-import { AppletInfo, SensemakerStore } from "@neighbourhoods/nh-we-applet";
+import { AppletInfo, SensemakerStore } from "@neighbourhoods/nh-launcher-applet";
 import { ProviderApp, ApolloClient, NormalizedCacheObject, provideGraphQLClient } from "@neighbourhoods/provider-applet";
 import appletConfig from './appletConfig';
 import { AppAgentWebsocket, AppWebsocket, AdminWebsocket, Cell } from "@holochain/client";
@@ -40,7 +40,6 @@ export class ProviderApplet extends ScopedElementsMixin(LitElement) {
         conductorUri: this.appWebsocket.client.socket.url,
         // adminConductorUri: this.adminWebsocket.client.socket.url,
       });
-
       this.loaded = true;
     }
     catch (e) {
