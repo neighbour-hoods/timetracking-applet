@@ -91,7 +91,7 @@ const economicEventRT: ConfigResourceType = {
   "dimensions": [
     verifyDimension,
     followupDimension,
-    payRateDimension,
+    // payRateDimension,
     // hoursWorkedDimension,
   ],
 }
@@ -188,6 +188,7 @@ const appletConfig: AppletConfigInput = {
   "dimensions": [
     verifyDimension, totalVerifications,
     followupDimension, totalFollowupsNeeded,
+    // payRateDimension
   ],
   "resource_types": [economicEventRT],
   "methods": [
