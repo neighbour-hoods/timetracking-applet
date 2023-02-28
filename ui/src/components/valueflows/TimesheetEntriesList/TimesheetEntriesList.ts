@@ -35,23 +35,23 @@ import { ResourceSpecificationListRow } from '@vf-ui/component-resource-specific
 
 import { EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
-export { EconomicEvent }
+export { EconomicEvent, pluralize }
 
 const SHORT_DATE_FORMAT = 'YYYY-MM-DD'
 const LONG_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
 const READABLE_TIME_FORMAT = 'LT'
 
 // formatting helpers
-const getEventStartTime = (node: EconomicEvent): Dayjs => dayjs(node.hasBeginning || node.hasPointInTime || node.hasEnd)
-const workEffort = (node: EconomicEvent): number => node.effortQuantity?.hasNumericalValue
-const workUnitLabel = (node: EconomicEvent): string | undefined => node.effortQuantity?.hasUnit?.label
-const isDailyWorklog = (node: EconomicEvent): boolean => !!(
+export const getEventStartTime = (node: EconomicEvent): Dayjs => dayjs(node.hasBeginning || node.hasPointInTime || node.hasEnd)
+export const workEffort = (node: EconomicEvent): number => node.effortQuantity?.hasNumericalValue
+export const workUnitLabel = (node: EconomicEvent): string | undefined => node.effortQuantity?.hasUnit?.label
+export const isDailyWorklog = (node: EconomicEvent): boolean => !!(
   node.hasBeginning &&
   dayjs(node.hasBeginning).startOf('day').isSame(node.hasBeginning) &&
   node.hasEnd &&
   dayjs(node.hasEnd).endOf('day').isSame(node.hasEnd)
 )
-const getTimeDisplayText = (node: EconomicEvent): string | null => {
+export const getTimeDisplayText = (node: EconomicEvent): string | null => {
   if (node.hasPointInTime) {
     return dayjs(node.hasPointInTime).format(READABLE_TIME_FORMAT)
   }
@@ -63,26 +63,23 @@ const getTimeDisplayText = (node: EconomicEvent): string | null => {
     dayjs(node.hasEnd).format(READABLE_TIME_FORMAT),
   ].join(' - ')
 }
+export const getTimeISOString = (node: EconomicEvent) => getEventStartTime(node).format(LONG_DATETIME_FORMAT)
 
-export const defaultEntryRenderer = (node: EconomicEvent) => {
-  const evtTime = getEventStartTime(node)
-  const effort = workEffort(node)
-  return html`
-    <article>
-      <header>
-        <time datetime=${evtTime.format(LONG_DATETIME_FORMAT)}>${getTimeDisplayText(node)}</time>
-        <span>${pluralize(workUnitLabel(node), effort, true)}</span>
-      </header>
-      <div class="body">
-        <vf-resource-specification-row .record=${node.resourceConformsTo}></vf-resource-specification-row>
-        <h3>${node.note}</h3>
-      </div>
-      <footer>
-        <!-- :TODO: agent display for multi-agent networks -->
-      </footer>
-    </article>
-  `
-}
+export const defaultEntryRenderer = (node: EconomicEvent) => html`
+  <article>
+    <header>
+      <time datetime=${getTimeISOString(node)}>${getTimeDisplayText(node)}</time>
+      <span>${pluralize(workUnitLabel(node), workEffort(node), true)}</span>
+    </header>
+    <div class="body">
+      <vf-resource-specification-row .record=${node.resourceConformsTo}></vf-resource-specification-row>
+      <h3>${node.note}</h3>
+    </div>
+    <footer>
+      <!-- :TODO: agent display for multi-agent networks -->
+    </footer>
+  </article>
+`
 
 export const defaultEntryReducer = (res: EconomicEvent[], e: EconomicEvent) => {
   res.push(e)
