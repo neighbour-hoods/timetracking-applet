@@ -1,0 +1,16 @@
+{
+  "name": "@neighbourhoods/component-time-entries-list",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./TimesheetEntriesList_Contexts.ts",
+  "dependencies": {
+    "@lit-labs/context": "^0.2.0",
+    "@neighbourhoods/sensemaker-lite-types": "0.4.0",
+    "@neighbourhoods/timetracking-applet-context": "workspace:*",
+    "@open-wc/scoped-elements": "^2.1.0",
+    "@valueflows/vf-graphql-holochain": "^0.0.1-alpha.17",
+    "@vf-ui/component-resource-specification-list-row": "workspace:*",
+    "@vf-ui/component-time-entries-list": "workspace:*",
+    "lit": "^2.6.1"
+  }
+}
