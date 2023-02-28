@@ -4,6 +4,8 @@ export const NH_APPLET_ID = "vf_timetracker"
 
 // --------[ RANGES ] --------
 
+const MAX_RUST_U32 = 4294967295
+
 // define on/off toggle Range
 const toggleRange: Range = {
   "name": "1-scale",
@@ -13,13 +15,13 @@ const toggleRange: Range = {
 // (the currency this rate is relative to does not matter here)
 const positiveNumberRange: Range = {
   "name": "1-scale",
-  "kind": { "Float": { "min": 0, "max": Number.MAX_SAFE_INTEGER } }
+  "kind": { "Float": { "min": 0, "max": MAX_RUST_U32 } }
 }
 
 // define output range to hold summary data of toggles
 const summaryRange: Range = {
   "name": "1-scale-total",
-  "kind": { "Integer": { "min": 0, "max": Number.MAX_SAFE_INTEGER } }
+  "kind": { "Integer": { "min": 0, "max": MAX_RUST_U32 } }
 }
 
 
