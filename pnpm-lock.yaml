@@ -128,6 +128,7 @@ importers:
       '@msgpack/msgpack': ^2.7.2
       '@neighbourhoods/applet-vf-timetracker-theme-vars': workspace:*
       '@neighbourhoods/component-create-or-join-nh': workspace:*
+      '@neighbourhoods/component-time-entries-list': workspace:*
       '@neighbourhoods/nh-launcher-applet': 0.0.10
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@neighbourhoods/timetracking-applet-context': workspace:*
@@ -148,7 +149,6 @@ importers:
       '@vf-ui/component-agent-profile-check': workspace:*
       '@vf-ui/component-agent-profile-manage': workspace:*
       '@vf-ui/component-provide-time-units': workspace:*
-      '@vf-ui/component-time-entries-list': workspace:*
       '@vf-ui/component-work-input-daily': workspace:*
       '@vf-ui/graphql-client-holochain': ^0.0.1-alpha.17
       '@web/dev-server': 0.1.21
@@ -181,7 +181,8 @@ importers:
       '@lit-labs/context': 0.2.0
       '@msgpack/msgpack': 2.8.0
       '@neighbourhoods/applet-vf-timetracker-theme-vars': link:src/styles
-      '@neighbourhoods/component-create-or-join-nh': link:src/components/CreateOrJoinNH
+      '@neighbourhoods/component-create-or-join-nh': link:src/components/neighbourhoods/CreateOrJoinNH
+      '@neighbourhoods/component-time-entries-list': link:src/components/neighbourhoods/TimesheetEntriesList_Contexts
       '@neighbourhoods/nh-launcher-applet': 0.0.10
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@neighbourhoods/timetracking-applet-context': link:src/contexts
@@ -190,11 +191,10 @@ importers:
       '@type-craft/content': 0.0.7
       '@type-craft/title': 0.0.8
       '@valueflows/vf-graphql-holochain': 0.0.1-alpha.17_graphql@15.8.0
-      '@vf-ui/component-agent-profile-check': link:src/components/AgentProfileCheck
-      '@vf-ui/component-agent-profile-manage': link:src/components/AgentProfileManage
-      '@vf-ui/component-provide-time-units': link:src/components/ProvideTimeUnits
-      '@vf-ui/component-time-entries-list': link:src/components/TimesheetEntriesList
-      '@vf-ui/component-work-input-daily': link:src/components/WorkInputManual
+      '@vf-ui/component-agent-profile-check': link:src/components/valueflows/AgentProfileCheck
+      '@vf-ui/component-agent-profile-manage': link:src/components/valueflows/AgentProfileManage
+      '@vf-ui/component-provide-time-units': link:src/components/valueflows/ProvideTimeUnits
+      '@vf-ui/component-work-input-daily': link:src/components/valueflows/WorkInputManual
       '@vf-ui/graphql-client-holochain': 0.0.1-alpha.17_ezjlvjn7om3qjdy3o6egx22oy4
       graphql: 15.8.0
       lit: 2.6.1
@@ -231,7 +231,37 @@ importers:
       tslib: 2.5.0
       typescript: 4.9.5
 
-  ui/src/components/AgentProfileCheck:
+  ui/src/components/neighbourhoods/CreateOrJoinNH:
+    specifiers:
+      '@lit-labs/context': ^0.2.0
+      '@open-wc/dedupe-mixin': ^1.3.1
+      '@open-wc/scoped-elements': ^2.1.0
+      '@scoped-elements/material-web': ^0.0.19
+      lit: ^2.6.1
+    dependencies:
+      '@lit-labs/context': 0.2.0
+      '@open-wc/dedupe-mixin': 1.3.1
+      '@open-wc/scoped-elements': 2.1.4
+      '@scoped-elements/material-web': 0.0.19
+      lit: 2.6.1
+
+  ui/src/components/neighbourhoods/TimesheetEntriesList_Contexts:
+    specifiers:
+      '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/timetracking-applet-context': workspace:*
+      '@open-wc/scoped-elements': ^2.1.0
+      '@vf-ui/component-resource-specification-list-row': workspace:*
+      '@vf-ui/component-time-entries-list': workspace:*
+      lit: ^2.6.1
+    dependencies:
+      '@lit-labs/context': 0.2.0
+      '@neighbourhoods/timetracking-applet-context': link:../../../contexts
+      '@open-wc/scoped-elements': 2.1.4
+      '@vf-ui/component-resource-specification-list-row': link:../../valueflows/ResourceSpecificationListRow
+      '@vf-ui/component-time-entries-list': link:../../valueflows/TimesheetEntriesList
+      lit: 2.6.1
+
+  ui/src/components/valueflows/AgentProfileCheck:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
@@ -244,10 +274,10 @@ importers:
       '@lit-labs/context': 0.2.0
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
-      '@valueflows/vf-graphql-shared-queries': link:../../graphql/shared-queries
+      '@valueflows/vf-graphql-shared-queries': link:../../../graphql/shared-queries
       lit: 2.6.1
 
-  ui/src/components/AgentProfileManage:
+  ui/src/components/valueflows/AgentProfileManage:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@open-wc/scoped-elements': ^2.1.0
@@ -262,26 +292,12 @@ importers:
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
       '@valueflows/vf-graphql-holochain': 0.0.1-alpha.17
-      '@valueflows/vf-graphql-shared-queries': link:../../graphql/shared-queries
-      '@valueflows/vf-graphql-type-fragments': link:../../graphql/type-fragments
+      '@valueflows/vf-graphql-shared-queries': link:../../../graphql/shared-queries
+      '@valueflows/vf-graphql-type-fragments': link:../../../graphql/type-fragments
       graphql-tag: 2.12.6
       lit: 2.6.1
 
-  ui/src/components/CreateOrJoinNH:
-    specifiers:
-      '@lit-labs/context': ^0.2.0
-      '@open-wc/dedupe-mixin': ^1.3.1
-      '@open-wc/scoped-elements': ^2.1.0
-      '@scoped-elements/material-web': ^0.0.19
-      lit: ^2.6.1
-    dependencies:
-      '@lit-labs/context': 0.2.0
-      '@open-wc/dedupe-mixin': 1.3.1
-      '@open-wc/scoped-elements': 2.1.4
-      '@scoped-elements/material-web': 0.0.19
-      lit: 2.6.1
-
-  ui/src/components/InputWorkType:
+  ui/src/components/valueflows/InputWorkType:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@open-wc/scoped-elements': ^2.1.0
@@ -297,7 +313,7 @@ importers:
       graphql-tag: 2.12.6
       lit: 2.6.1
 
-  ui/src/components/ProvideTimeUnits:
+  ui/src/components/valueflows/ProvideTimeUnits:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@open-wc/scoped-elements': ^2.1.0
@@ -313,7 +329,7 @@ importers:
       graphql-tag: 2.12.6
       lit: 2.6.1
 
-  ui/src/components/ResourceSpecificationListRow:
+  ui/src/components/valueflows/ResourceSpecificationListRow:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
@@ -327,11 +343,11 @@ importers:
       '@lit-labs/context': 0.2.0
       '@open-wc/scoped-elements': 2.1.4
       '@valueflows/vf-graphql': 0.9.0-alpha.9
-      '@valueflows/vf-graphql-type-fragments': link:../../graphql/type-fragments
+      '@valueflows/vf-graphql-type-fragments': link:../../../graphql/type-fragments
       graphql-tag: 2.12.6
       lit: 2.6.1
 
-  ui/src/components/TimesheetEntriesList:
+  ui/src/components/valueflows/TimesheetEntriesList:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
@@ -349,31 +365,15 @@ importers:
       '@lit-labs/context': 0.2.0
       '@open-wc/scoped-elements': 2.1.4
       '@valueflows/vf-graphql': 0.9.0-alpha.9
-      '@valueflows/vf-graphql-shared-queries': link:../../graphql/shared-queries
-      '@valueflows/vf-graphql-type-fragments': link:../../graphql/type-fragments
+      '@valueflows/vf-graphql-shared-queries': link:../../../graphql/shared-queries
+      '@valueflows/vf-graphql-type-fragments': link:../../../graphql/type-fragments
       '@vf-ui/component-resource-specification-list-row': link:../ResourceSpecificationListRow
       dayjs: 1.11.7
       graphql-tag: 2.12.6
       lit: 2.6.1
       pluralize: 8.0.0
 
-  ui/src/components/TimesheetEntriesList_Contexts:
-    specifiers:
-      '@lit-labs/context': ^0.2.0
-      '@neighbourhoods/timetracking-applet-context': workspace:*
-      '@open-wc/scoped-elements': ^2.1.0
-      '@vf-ui/component-resource-specification-list-row': workspace:*
-      '@vf-ui/component-time-entries-list': workspace:*
-      lit: ^2.6.1
-    dependencies:
-      '@lit-labs/context': 0.2.0
-      '@neighbourhoods/timetracking-applet-context': link:../../contexts
-      '@open-wc/scoped-elements': 2.1.4
-      '@vf-ui/component-resource-specification-list-row': link:../ResourceSpecificationListRow
-      '@vf-ui/component-time-entries-list': link:../TimesheetEntriesList
-      lit: 2.6.1
-
-  ui/src/components/WorkInputManual:
+  ui/src/components/valueflows/WorkInputManual:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
@@ -394,8 +394,8 @@ importers:
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
       '@valueflows/vf-graphql': 0.9.0-alpha.9
-      '@valueflows/vf-graphql-shared-queries': link:../../graphql/shared-queries
-      '@valueflows/vf-graphql-type-fragments': link:../../graphql/type-fragments
+      '@valueflows/vf-graphql-shared-queries': link:../../../graphql/shared-queries
+      '@valueflows/vf-graphql-type-fragments': link:../../../graphql/type-fragments
       '@vf-ui/component-input-work-type': link:../InputWorkType
       '@vf-ui/component-provide-time-units': link:../ProvideTimeUnits
       dayjs: 1.11.7
