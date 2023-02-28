@@ -14,6 +14,7 @@
  * - handle displays of arbitrary time periods (as opposed to dates)
  * - update to handle all conditions for `EconomicEvent` resource-related metadata
  * - update to handle display of `Process`-based work
+ * - request sorting by hasBeginning / hasPointInTime in API request
  *
  * @package Neighbourhoods/We Timesheet applet
  * @since   2023-02-01
@@ -22,7 +23,7 @@
 // import { consume } from "@lit-labs/context";
 import { property } from "lit/decorators.js";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
-import { LitElement, html, css } from "lit";
+import { LitElement, TemplateResult, html, css } from "lit";
 import { ApolloQueryController } from '@apollo-elements/core';
 // @ts-ignore
 import dayjs, { Dayjs } from 'dayjs'
@@ -63,8 +64,41 @@ const getTimeDisplayText = (node: EconomicEvent): string | null => {
   ].join(' - ')
 }
 
+export const defaultEntryRenderer = (node: EconomicEvent) => {
+  const evtTime = getEventStartTime(node)
+  const effort = workEffort(node)
+  return html`
+    <article>
+      <header>
+        <time datetime=${evtTime.format(LONG_DATETIME_FORMAT)}>${getTimeDisplayText(node)}</time>
+        <span>${pluralize(workUnitLabel(node), effort, true)}</span>
+      </header>
+      <div class="body">
+        <vf-resource-specification-row .record=${node.resourceConformsTo}></vf-resource-specification-row>
+        <h3>${node.note}</h3>
+      </div>
+      <footer>
+        <!-- :TODO: agent display for multi-agent networks -->
+      </footer>
+    </article>
+  `
+}
+
+export const defaultEntryReducer = (res: EconomicEvent[], e: EconomicEvent) => {
+  res.push(e)
+  return res
+}
+
 export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 {
+  // Allows hosting component to define how to filter and combine entry data
+  @property()
+  entryReducer: (a: EconomicEvent[], e: EconomicEvent) => EconomicEvent[] = defaultEntryReducer
+
+  // Allow override of rendering logic / template for rows
+  @property()
+  entryRenderer = defaultEntryRenderer
+
   entries?: ApolloQueryController<EventsListQueryResult> = new ApolloQueryController(this, EventsListQuery)
 
   render() {
@@ -90,6 +124,8 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     const events = (data?.economicEvents?.edges || [])
       // only interested in 'effort-based' EconomicEvents (with an `effortQuantity`)
       .filter(({ node }) => node.effortQuantity && node.effortQuantity.hasUnit)
+      .map(({ node }) => node)
+      .reduce(this.entryReducer, [])
 
     if (events.length === 0) {
       return html`
@@ -101,9 +137,9 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 
     // reduce events into daily chunks
     const dailyEvents = events.reduce<Record<string, Array<EconomicEvent>>>((res, e) => {
-      const onDate = dayjs(e.node.hasBeginning).format(SHORT_DATE_FORMAT)
+      const onDate = dayjs(e.hasBeginning).format(SHORT_DATE_FORMAT)
       if (!res[onDate]) res[onDate] = []
-      res[onDate].push(e.node)
+      res[onDate].push(e)
       return res
     }, {})
 
@@ -113,25 +149,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
           <header>
             <time datetime=${onDate}>${onDate}</time>
           </header>
-        `].concat(dailyEvents[onDate].map(node => {
-          const evtTime = getEventStartTime(node)
-          const effort = workEffort(node)
-          return html`
-            <article>
-              <header>
-                <time datetime=${evtTime.format(LONG_DATETIME_FORMAT)}>${getTimeDisplayText(node)}</time>
-                <span>${pluralize(workUnitLabel(node), effort, true)}</span>
-              </header>
-              <div class="body">
-                <vf-resource-specification-row .record=${node.resourceConformsTo}></vf-resource-specification-row>
-                <h3>${node.note}</h3>
-              </div>
-              <footer>
-                <!-- :TODO: agent display for multi-agent networks -->
-              </footer>
-            </article>
-          `
-        }))
+        `].concat(dailyEvents[onDate].map(this.entryRenderer))
       )}
       </section>
     `
