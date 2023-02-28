@@ -12,7 +12,7 @@ import { ApolloClientElement, ApolloClient, NormalizedCacheObject } from './prov
 
 import { AgentProfileCheck } from '@vf-ui/component-agent-profile-check'
 import { AgentProfileManage } from '@vf-ui/component-agent-profile-manage'
-import { TimesheetEntriesList } from '@vf-ui/component-time-entries-list'
+import { TimesheetEntriesList } from '@neighbourhoods/component-time-entries-list'
 import { ProvideTimeUnits } from '@vf-ui/component-provide-time-units'
 import { WorkInputManual } from '@vf-ui/component-work-input-daily'
 import cssThemeVars from '@neighbourhoods/applet-vf-timetracker-theme-vars'
@@ -39,7 +39,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
               <provide-time-units slot="profile-ok">
                 <work-input-manual @economicEventCreated=${this.onWorkLogged}></work-input-manual>
               </provide-time-units>
-              <timesheet-entries-list slot="profile-ok"></timesheet-entries-list>
+              <timesheet-entries-list slot="profile-ok" viewContext="most_verified_work"></timesheet-entries-list>
 
             </agent-profile-check>
           </apollo-client>
@@ -82,21 +82,8 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
 
     const entriesList: TimesheetEntriesList | null = this.shadowRoot.querySelector('timesheet-entries-list')
     if (entriesList) {
-      entriesList.entries?.subscribe()
+      entriesList.list?.entries?.subscribe()
     }
-  }
-
-  // this is an example function of computing a context, since your UI will likely be displaying various contexts
-  // this is an example from the todo applet
-  async computeContext(_e: CustomEvent) {
-    /*
-    const contextResultInput: ComputeContextInput = {
-      resource_ehs: await this.providerStore.allProviderResourceEntryHashes(),
-      context_eh: get(this.sensemakerStore.appletConfig()).cultural_contexts["most_important_tasks"],
-      can_publish_result: false,
-    }
-    const contextResult = await this.sensemakerStore.computeContext("most_important_tasks", contextResultInput)
-    */
   }
 
   static get scopedElements() {
