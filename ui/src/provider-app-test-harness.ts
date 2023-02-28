@@ -123,7 +123,11 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
 
   async createNeighbourhood(_e: CustomEvent) {
     await this.cloneSensemakerCell(this.agentPubkey)
-    const _todoConfig = await this._sensemakerStore.registerApplet(appletConfig);
+    try {
+      const _todoConfig = await this._sensemakerStore.registerApplet(appletConfig);
+    } catch (e) {
+      console.error('Error registering default applet configuration with Sensemaker store', e)
+    }
     this.loading = false;
   }
 
@@ -132,7 +136,11 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     console.log('successfully cloned sensemaker cell')
     // wait some time for the dht to sync, otherwise checkIfAppletConfigExists returns null
     setTimeout(async () => {
-      const _todoConfig = await this._sensemakerStore.checkIfAppletConfigExists(appletConfig.name)
+      try {
+        const _todoConfig = await this._sensemakerStore.checkIfAppletConfigExists(appletConfig.name)
+      } catch (e) {
+        console.error('Error loading existing applet configuration from Sensemaker store', e)
+      }
       this.loading = false;
     }, 2000)
   }
