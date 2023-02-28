@@ -61,9 +61,10 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
 
       // detect participant agentPubKey from primary hREA provider cell
       const providerCellInfo: CellInfo = this.appInfo.cell_info[PROVIDER_ROLE_NAME][0]
+
       if (providerCellInfo) {
         // @ts-ignore
-        const providerCell: ProvisionedCell = (providerCellInfo as { [CellType.Provisioned]: ProvisionedCell }).provisioned;
+        const providerCell: ProvisionedCell = (providerCellInfo as { [CellType.Provisioned]: ProvisionedCell })[CellType.Provisioned];
         this.agentPubkey = encodeHashToBase64(providerCell.cell_id[1])
       } else {
         throw new Error("Unable to detect hREA Observation cell during startup")
