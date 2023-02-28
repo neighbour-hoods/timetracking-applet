@@ -140,7 +140,7 @@ const hasValues = (dimension: Dimension): ConfigThreshold => ({
 })
 const noValues = (dimension: Dimension): ConfigThreshold => ({
   "dimension": dimension,
-  "kind": { "LessThan": null, "Equal": null },
+  "kind": { "LessThan": null /*, "Equal": null */ },
   "value": { "Integer": 0 }
 })
 
