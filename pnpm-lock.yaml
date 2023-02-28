@@ -248,6 +248,7 @@ importers:
   ui/src/components/neighbourhoods/TimesheetEntriesList_Contexts:
     specifiers:
       '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@neighbourhoods/timetracking-applet-context': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@vf-ui/component-resource-specification-list-row': workspace:*
@@ -255,6 +256,7 @@ importers:
       lit: ^2.6.1
     dependencies:
       '@lit-labs/context': 0.2.0
+      '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@neighbourhoods/timetracking-applet-context': link:../../../contexts
       '@open-wc/scoped-elements': 2.1.4
       '@vf-ui/component-resource-specification-list-row': link:../../valueflows/ResourceSpecificationListRow
