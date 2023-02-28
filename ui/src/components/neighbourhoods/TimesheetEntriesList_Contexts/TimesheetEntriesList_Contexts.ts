@@ -112,7 +112,6 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   }
 
   renderEntry(appletConfig: AppletConfig | null, node: EventWithAssessment) {
-    const effort = workEffort(node)
     const onVerify = this.handleAssessment.bind(this, "verify", node.id)
     const onFlag = this.handleAssessment.bind(this, "followup", node.id)
 
@@ -123,7 +122,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       <article>
         <header>
           <time datetime=${getTimeISOString(node)}>${getTimeDisplayText(node)}</time>
-          <span>${pluralize(workUnitLabel(node), effort, true)}</span>
+          <span>${pluralize(workUnitLabel(node), workEffort(node), true)}</span>
         </header>
         <div class="body">
           <vf-resource-specification-row .record=${node.resourceConformsTo}></vf-resource-specification-row>
