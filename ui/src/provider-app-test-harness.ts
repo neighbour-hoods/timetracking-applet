@@ -152,6 +152,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     await this.cloneSensemakerCell(this.agentPubkey)
     try {
       const _todoConfig = await this._sensemakerStore.registerApplet(appletConfig);
+      console.info('APP CONF', _todoConfig)
     } catch (e) {
       console.error('Error registering default applet configuration with Sensemaker store', e)
     }
@@ -165,6 +166,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     setTimeout(async () => {
       try {
         const _todoConfig = await this._sensemakerStore.checkIfAppletConfigExists(appletConfig.name)
+        console.info('APP CONF', _todoConfig)
       } catch (e) {
         console.error('Error loading existing applet configuration from Sensemaker store', e)
       }
@@ -194,7 +196,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   async connectHolochain() {
     this.adminWebsocket = await AdminWebsocket.connect(``);
 
-    this.appWebsocket = await AppWebsocket.connect(``);
+    this.appWebsocket = await AppWebsocket.connect(``, 60000);
 
     this.appInfo = await this.appWebsocket.appInfo({
       installed_app_id: HOLOCHAIN_APP_ID,
