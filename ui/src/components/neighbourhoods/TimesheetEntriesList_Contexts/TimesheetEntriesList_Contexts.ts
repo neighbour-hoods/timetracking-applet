@@ -16,7 +16,7 @@ import { get } from "svelte/store"
 import {
   TimesheetEntriesList as TimesheetEntriesListBase,
   EconomicEvent,
-  getEventStartTime, workEffort, workUnitLabel,
+  workEffort, workUnitLabel,
   getTimeDisplayText, getTimeISOString,
   pluralize,
 } from '@vf-ui/component-time-entries-list'
@@ -24,7 +24,7 @@ import { deserializeId } from '@valueflows/vf-graphql-holochain/connection'
 import { EntryHash, encodeHashToBase64 } from '@holochain/client'
 
 import { sensemakerStoreContext, SensemakerStore } from "@neighbourhoods/timetracking-applet-context"
-import { CreateAssessmentInput, Assessment, AppletConfig, RangeValueInteger, ComputeContextInput } from "@neighbourhoods/sensemaker-lite-types"
+import { Assessment, AppletConfig, RangeValueInteger, ComputeContextInput } from "@neighbourhoods/sensemaker-lite-types"
 
 type EventWithAssessment = EconomicEvent & { assessments: Assessment[] | null }
 
