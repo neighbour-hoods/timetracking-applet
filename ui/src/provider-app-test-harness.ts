@@ -14,7 +14,6 @@ import {
 import { CircularProgress } from '@scoped-elements/material-web';
 import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 import { provideGraphQLClient, ApolloClient, NormalizedCacheObject } from './provider-graphql-client';
-import { get } from 'svelte/store';
 import { SensemakerService, SensemakerStore } from '@neighbourhoods/nh-launcher-applet';
 import { CreateOrJoinNh } from '@neighbourhoods/component-create-or-join-nh';
 import { ProviderApp } from './provider-app';
@@ -101,7 +100,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
       const installedSensemakerCells = (this.appInfo as AppInfo).cell_info[SENSEMAKER_ROLE_NAME]
 
       // check if sensemaker has been cloned yet
-      const allSensemakerClones = installedSensemakerCells.filter((cellInfo) => "Cloned" in cellInfo);
+      const allSensemakerClones = installedSensemakerCells.filter((cellInfo) => CellType.Cloned in cellInfo);
       if (allSensemakerClones.length > 0) {
         this.isSensemakerCloned = true;
         const clonedSensemakerCell = (allSensemakerClones[0] as { [CellType.Cloned]: ClonedCell }).cloned;
