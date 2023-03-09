@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "theme-vars.ts",
   "dependencies": {
+    "@neighbourhoods/theme-styles": "git://github.com/pospi/neighbourhoods-css-styles.git#6ad0dea",
     "lit": "^2.6.1"
   }
 }

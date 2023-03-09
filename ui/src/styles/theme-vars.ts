@@ -1,4 +1,6 @@
-import { css } from 'lit'
+import { css, unsafeCSS } from 'lit'
+
+import { BaseStyles, DarkStyles } from '@neighbourhoods/theme-styles'
 
 const NH_COLOR_PALLETE = css`
   /* Colour pallete variables for Neighbourhoods/We */
@@ -26,6 +28,9 @@ const NH_COLOR_PALLETE = css`
 
 export default css`
 :host {
+  ${unsafeCSS(BaseStyles)}
+  ${unsafeCSS(DarkStyles)}
+
   ${NH_COLOR_PALLETE}
 
   /* Theme variables- considered the public style API */
