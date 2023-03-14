@@ -10,8 +10,8 @@
 import { property, state, query } from "lit/decorators.js"
 import { consume } from "@lit-labs/context"
 import { ScopedElementsMixin } from "@open-wc/scoped-elements"
-import { LitElement, html, css } from "lit"
-import { get } from "svelte/store"
+import { LitElement, html, css, PropertyValues } from "lit"
+import { StoreSubscriber } from "lit-svelte-stores"
 
 import {
   TimesheetEntriesList as TimesheetEntriesListBase,
@@ -66,9 +66,32 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   @property()
   viewContext: string | null = null
 
+  // Sensemaker store subscription handlers
+  @state()
+  appletConfig?: StoreSubscriber<AppletConfig>
+  @state()
+  resourceAssessments?: StoreSubscriber<{ [entryHash: string]: Assessment[] }>
+  @state()
+  contextResults?: StoreSubscriber<{ [culturalContextName: string]: EntryHash[] }>
+
+  // derived Sensemaker store state
+  @state()
+  entryTotals?: EntryTotals
+
+  async updated(changedProperties: PropertyValues<this>) {
+    // rebind relevant sensemakerStore observables when the store instance is assigned
+    if (changedProperties.has("sensemakerStore") && this.sensemakerStore) {
+      this.appletConfig = new StoreSubscriber(this, this.sensemakerStore.appletConfig.bind(this.sensemakerStore))
+      this.resourceAssessments = new StoreSubscriber(this, this.sensemakerStore.resourceAssessments.bind(this.sensemakerStore))
+      this.contextResults = new StoreSubscriber(this, this.sensemakerStore.contextResults.bind(this.sensemakerStore))
+    }
+  }
+
   async handleAssessment(dimensionId: string, eventId: string) {
+    if (!this.appletConfig) return
+    const appletConfig = this.appletConfig.value
+
     const eventHash = deserializeId(eventId)[1]
-    const appletConfig = get(this.sensemakerStore.appletConfig())
 
     // :TODO: add ability to toggle by updating previous value?
     try {
@@ -95,7 +118,8 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   }
 
   async computeContext(c: string) {
-    const appletConfig = get(this.sensemakerStore.appletConfig())
+    if (!this.appletConfig) return
+    const appletConfig = this.appletConfig.value
 
     // :TODO: this should probably come from the API rather than currently active
     // paginated set, since some filtering may occur in the context change.
@@ -150,10 +174,9 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       </div>`
     }
 
-    const appletConfig = this.sensemakerStore ? get(this.sensemakerStore.appletConfig()) : null
-    const ras = this.sensemakerStore?.resourceAssessments()
-    const assessments = ras ? get(ras) : null
-    const contextHashes = this.viewContext && this.sensemakerStore ? get(this.sensemakerStore.contextResults())[this.viewContext] : null
+    const appletConfig = this.appletConfig?.value
+    const assessments = this.resourceAssessments?.value
+    const contextHashes = this.viewContext ? this.contextResults?.value[this.viewContext] : undefined
 
     return html`
       <ul class="view-controls">
