@@ -59,11 +59,11 @@ const totalFollowupsNeeded: Dimension = {
 
 
 // INPUT DATUM: hourly pay rate for work
-const payRateDimension: Dimension = {
-  "name": "hourly_rate",
-  "range": positiveNumberRange,
-  "computed": false
-}
+// const payRateDimension: Dimension = {
+//   "name": "hourly_rate",
+//   "range": positiveNumberRange,
+//   "computed": false
+// }
 
 // INPUT DATUM: hours worked
 // :TODO: Figure out how to programatically assign this from `EconomicEvent` fields in a generic way.
