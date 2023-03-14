@@ -11,6 +11,7 @@
     "@valueflows/vf-graphql-holochain": "^0.0.1-alpha.17",
     "@vf-ui/component-resource-specification-list-row": "workspace:*",
     "@vf-ui/component-time-entries-list": "workspace:*",
-    "lit": "^2.6.1"
+    "lit": "^2.6.1",
+    "lit-svelte-stores": "^0.2.5"
   }
 }
