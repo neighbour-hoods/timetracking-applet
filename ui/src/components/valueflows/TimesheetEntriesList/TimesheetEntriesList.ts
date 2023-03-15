@@ -29,13 +29,13 @@ import { ApolloQueryController } from '@apollo-elements/core';
 import dayjs, { Dayjs } from 'dayjs'
 // @ts-ignore
 import pluralize from 'pluralize'
-import { EconomicEvent } from '@valueflows/vf-graphql';
+import { EconomicEvent, EconomicEventConnection } from '@valueflows/vf-graphql';
 
 import { ResourceSpecificationListRow } from '@vf-ui/component-resource-specification-list-row'
 
 import { EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
-export { EconomicEvent, pluralize }
+export { EconomicEvent, EconomicEventConnection, pluralize }
 
 const SHORT_DATE_FORMAT = 'YYYY-MM-DD'
 const LONG_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
@@ -96,7 +96,15 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   @property()
   entryRenderer = defaultEntryRenderer
 
-  entries?: ApolloQueryController<EventsListQueryResult> = new ApolloQueryController(this, EventsListQuery)
+  entries?: ApolloQueryController<EventsListQueryResult> = new ApolloQueryController(this, EventsListQuery, {
+    onData: (data: EventsListQueryResult) => {
+      this.dispatchEvent(new CustomEvent('economicEventsLoaded', {
+        detail: { data: data.economicEvents },
+        bubbles: true,
+        composed: true,
+      }))
+    }
+  })
 
   render() {
     const data = this.entries?.data as EventsListQueryResult
