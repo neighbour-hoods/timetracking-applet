@@ -12,6 +12,6 @@
     "@vf-ui/component-resource-specification-list-row": "workspace:*",
     "@vf-ui/component-time-entries-list": "workspace:*",
     "lit": "^2.6.1",
-    "lit-svelte-stores": "git://github.com/pospi/lit-svelte-stores#74a9153"
+    "lit-svelte-stores": "git://github.com/pospi/lit-svelte-stores#22af81e"
   }
 }
