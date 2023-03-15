@@ -255,7 +255,7 @@ importers:
       '@vf-ui/component-resource-specification-list-row': workspace:*
       '@vf-ui/component-time-entries-list': workspace:*
       lit: ^2.6.1
-      lit-svelte-stores: git://github.com/pospi/lit-svelte-stores#74a9153
+      lit-svelte-stores: git://github.com/pospi/lit-svelte-stores#22af81e
     dependencies:
       '@lit-labs/context': 0.2.0
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
@@ -265,7 +265,7 @@ importers:
       '@vf-ui/component-resource-specification-list-row': link:../../valueflows/ResourceSpecificationListRow
       '@vf-ui/component-time-entries-list': link:../../valueflows/TimesheetEntriesList
       lit: 2.6.1
-      lit-svelte-stores: github.com/pospi/lit-svelte-stores/74a9153
+      lit-svelte-stores: github.com/pospi/lit-svelte-stores/22af81e
 
   ui/src/components/valueflows/AgentProfileCheck:
     specifiers:
@@ -10515,8 +10515,8 @@ packages:
       readable-stream: 3.6.2
     dev: true
 
-  github.com/pospi/lit-svelte-stores/74a9153:
-    resolution: {tarball: https://codeload.github.com/pospi/lit-svelte-stores/tar.gz/74a9153}
+  github.com/pospi/lit-svelte-stores/22af81e:
+    resolution: {tarball: https://codeload.github.com/pospi/lit-svelte-stores/tar.gz/22af81e}
     name: lit-svelte-stores
     version: 0.2.6
     prepare: true
