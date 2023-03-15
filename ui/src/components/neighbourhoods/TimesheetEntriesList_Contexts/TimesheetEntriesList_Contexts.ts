@@ -194,7 +194,11 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
         context_eh: appletConfig.cultural_contexts[c],
         can_publish_result: false,
       }
-      await this.sensemakerStore.computeContext(c, contextResultInput)
+      try {
+        await this.sensemakerStore.computeContext(c, contextResultInput)
+      } catch (e) {
+        this.error = e as Error
+      }
     }
   }
 
