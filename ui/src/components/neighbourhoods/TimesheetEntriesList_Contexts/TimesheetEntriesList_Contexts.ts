@@ -182,6 +182,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   async computeContext(c: string | null) {
     if (!this.appletConfig) return
     const appletConfig = this.appletConfig.value
+    if (c && !appletConfig.cultural_contexts[c]) return
 
     // :TODO: this should probably come from the API rather than currently active
     // paginated set, since some filtering may occur in the context change.
