@@ -165,13 +165,13 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     }
   }
 
-  async setViewContext(c: string) {
+  async setViewContext(c: string | null) {
     this.viewContext = c
     // refresh the computation context when view is changed
     this.computeContext(c)
   }
 
-  async computeContext(c: string) {
+  async computeContext(c: string | null) {
     if (!this.appletConfig) return
     const appletConfig = this.appletConfig.value
 
@@ -179,12 +179,14 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     // paginated set, since some filtering may occur in the context change.
     const economicEventHashes = this.list.entries?.data?.economicEvents?.edges.map(({ node }) => deserializeId(node.id)[1])
 
-    const contextResultInput: ComputeContextInput = {
-      resource_ehs: economicEventHashes || [],
-      context_eh: appletConfig.cultural_contexts[c],
-      can_publish_result: false,
+    if (c) {
+      const contextResultInput: ComputeContextInput = {
+        resource_ehs: economicEventHashes || [],
+        context_eh: appletConfig.cultural_contexts[c],
+        can_publish_result: false,
+      }
+      await this.sensemakerStore.computeContext(c, contextResultInput)
     }
-    await this.sensemakerStore.computeContext(c, contextResultInput)
   }
 
   renderEntry(node: EventWithAssessment) {
@@ -234,10 +236,11 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 
     return html`
       <ul class="view-controls">
-        <li><a href="#most_verified_work" @click=${() => this.setViewContext('most_verified_work')}>Most verified</a></li>
-        <li><a href="#unverified_work" @click=${() => this.setViewContext('unverified_work')}>Unverified</a></li>
-        <li><a href="#followup_needed" @click=${() => this.setViewContext('followup_needed')}>Followup needed</a></li>
-        <li><a href="#no_followup_needed" @click=${() => this.setViewContext('no_followup_needed')}>No followup needed</a></li>
+        <li><button @click=${() => this.setViewContext(null)}>View all</button></li>
+        <li><button @click=${() => this.setViewContext('most_verified_work')}>Most verified</button></li>
+        <li><button @click=${() => this.setViewContext('unverified_work')}>Unverified</button></li>
+        <li><button @click=${() => this.setViewContext('followup_needed')}>Followup needed</button></li>
+        <li><button @click=${() => this.setViewContext('no_followup_needed')}>No followup needed</button></li>
       </ul>
       <vf-timesheet-entries-list
         id="entries-list"
