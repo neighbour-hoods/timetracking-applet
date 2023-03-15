@@ -21,7 +21,7 @@ import {
   pluralize,
 } from '@vf-ui/component-time-entries-list'
 import { deserializeId } from '@valueflows/vf-graphql-holochain/connection'
-import { EntryHash, encodeHashToBase64 } from '@holochain/client'
+import { EntryHash, encodeHashToBase64, EntryHashB64 } from '@holochain/client'
 
 import { sensemakerStoreContext, SensemakerStore } from "@neighbourhoods/timetracking-applet-context"
 import { Assessment, AppletConfig, RangeValueInteger, ComputeContextInput } from "@neighbourhoods/sensemaker-lite-types"
@@ -29,14 +29,22 @@ import { Assessment, AppletConfig, RangeValueInteger, ComputeContextInput } from
 type EventWithAssessment = EconomicEvent & { assessments: Assessment[] | null }
 
 // reducer for merging assessments with inner TimesheetEntriesList result data
-const combineSensemakerData = (contextHashes: EntryHash[] | undefined, assessments: { [entryHash: string]: Array<Assessment> } | undefined) => (res: EventWithAssessment[], e: EconomicEvent) => {
+const combineSensemakerData = (contextHashes: EntryHashB64[] | undefined, assessments: { [entryHash: string]: Array<Assessment> } | undefined) => (res: EventWithAssessment[], e: EconomicEvent) => {
   const eventHash = encodeHashToBase64(deserializeId(e.id)[1])
-  const inContext = !contextHashes || contextHashes.find(h => encodeHashToBase64(h) === eventHash)
+  const inContext = !contextHashes || contextHashes.find(h => h === eventHash)
   if (!inContext) return res
 
   res.push({
     ...e,
     assessments: assessments ? assessments[eventHash] : null,
+  })
+
+  // keep the result sorted based on position within the (ordered) cultural context
+  res.sort((a, b) => {
+    const ai = contextHashes?.indexOf(encodeHashToBase64(deserializeId(a.id)[1])) || -1
+    const bi = contextHashes?.indexOf(encodeHashToBase64(deserializeId(b.id)[1])) || -1
+    if (ai === bi) return 0
+    return ai < bi ? -1 : 1
   })
   return res
 }
@@ -232,7 +240,11 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     }
 
     const assessments = this.resourceAssessments?.value
-    const contextHashes = this.viewContext ? this.contextResults?.value[this.viewContext] : undefined
+    const contextHashes = (
+      this.viewContext &&
+      this.contextResults?.value &&
+      this.contextResults?.value[this.viewContext]
+    ) ? this.contextResults?.value[this.viewContext].map(encodeHashToBase64) : undefined
 
     return html`
       <ul class="view-controls">
