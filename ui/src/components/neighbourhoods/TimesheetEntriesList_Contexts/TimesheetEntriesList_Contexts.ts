@@ -10,12 +10,12 @@
 import { property, state, query } from "lit/decorators.js"
 import { consume } from "@lit-labs/context"
 import { ScopedElementsMixin } from "@open-wc/scoped-elements"
-import { LitElement, html, css, PropertyValues } from "lit"
+import { LitElement, html, css, PropertyValues, PropertyValueMap } from "lit"
 import { StoreSubscriber } from "lit-svelte-stores"
 
 import {
   TimesheetEntriesList as TimesheetEntriesListBase,
-  EconomicEvent,
+  EconomicEvent, EconomicEventConnection,
   workEffort, workUnitLabel,
   getTimeDisplayText, getTimeISOString,
   pluralize,
@@ -28,7 +28,8 @@ import { Assessment, AppletConfig, RangeValueInteger, ComputeContextInput } from
 
 type EventWithAssessment = EconomicEvent & { assessments: Assessment[] | null }
 
-const combineSensemakerData = (contextHashes: EntryHash[] | null, assessments: { [entryHash: string]: Array<Assessment> } | null) => (res: EventWithAssessment[], e: EconomicEvent) => {
+// reducer for merging assessments with inner TimesheetEntriesList result data
+const combineSensemakerData = (contextHashes: EntryHash[] | undefined, assessments: { [entryHash: string]: Array<Assessment> } | undefined) => (res: EventWithAssessment[], e: EconomicEvent) => {
   const eventHash = encodeHashToBase64(deserializeId(e.id)[1])
   const inContext = !contextHashes || contextHashes.find(h => encodeHashToBase64(h) === eventHash)
   if (!inContext) return res
@@ -40,13 +41,39 @@ const combineSensemakerData = (contextHashes: EntryHash[] | null, assessments: {
   return res
 }
 
-const sumIntDimension = (dimension: Uint8Array, assessments: Assessment[] | null) => {
-  if (!assessments) return 0
-  const dim = encodeHashToBase64(dimension)
-  return assessments?.reduce((tot: number, a: Assessment) => {
-    if (encodeHashToBase64(a.dimension_eh) !== dim) return tot
-    return tot + (a.value as RangeValueInteger).Integer
-  }, 0)
+// :TODO: This data c/should be coming from core Sensemaker modules; in some format generalisable to method & output dimension?
+interface EntryTotals { verify: Map<string, Assessment[]>, followup: Map<string, Assessment[]> }
+interface EntryTotalsPending { verify: Map<string, Promise<Assessment[]>>, followup: Map<string, Promise<Assessment[]>> }
+
+// Generator function. Creates bound reducers for computing all relevant method results for a set of assessed entries.
+const readComputedEntryTotals = (thisObj: TimesheetEntriesList) =>
+  (results: EntryTotalsPending, entryHash: Uint8Array) => {
+    const entryHashB64 = encodeHashToBase64(entryHash)
+
+    const verifyResult = readEntryAssessments(thisObj,
+      thisObj.appletConfig?.value.dimensions[`total_verify`],
+      entryHash,
+    )
+    if (verifyResult) {
+      results.verify.set(entryHashB64, verifyResult)
+    }
+    const followupResult = readEntryAssessments(thisObj,
+      thisObj.appletConfig?.value.dimensions[`total_followup`],
+      entryHash,
+    )
+    if (followupResult) {
+      results.followup.set(entryHashB64, followupResult)
+    }
+
+    return results
+  }
+
+const readEntryAssessments = (thisObj: TimesheetEntriesList, outputDim: Uint8Array | undefined, entryHash: Uint8Array): Promise<Assessment[]> | null => {
+  if (!outputDim) return null
+  return thisObj.sensemakerStore.getAssessmentForResource({
+    resource_eh: entryHash,
+    dimension_eh: outputDim,
+  })
 }
 
 export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
@@ -87,6 +114,21 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     }
   }
 
+  async fetchAssessments(e: CustomEvent) {
+    const awaitValue = async ([k, vP]: [string, Promise<Assessment[]>]) => [k, await vP]
+
+    const availableRecords = (e.detail.data as EconomicEventConnection).edges.map(({ node }) => deserializeId(node.id)[1])
+    const pendingTotals = availableRecords.reduce(
+      readComputedEntryTotals(this),
+      { verify: new Map(), followup: new Map() },
+    )
+
+    this.entryTotals = {
+      verify: new Map(await Promise.all(Array.from(pendingTotals.verify, awaitValue)) as [string, Assessment[]][]),
+      followup: new Map(await Promise.all(Array.from(pendingTotals.followup, awaitValue)) as [string, Assessment[]][]),
+    }
+  }
+
   async handleAssessment(dimensionId: string, eventId: string) {
     if (!this.appletConfig) return
     const appletConfig = this.appletConfig.value
@@ -95,16 +137,29 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 
     // :TODO: add ability to toggle by updating previous value?
     try {
+      // create the assessment; does not immediately update the Sensemaker outputs
       await this.sensemakerStore.createAssessment({
         value: { Integer: 1 },
         dimension_eh: appletConfig.dimensions[dimensionId],
         subject_eh: eventHash,
         maybe_input_dataSet: null,
       })
+
+      // update associated 'total' method result in component state
+      const dim = dimensionId as keyof EntryTotals
+      const updatedDim = this.entryTotals ? new Map(this.entryTotals[dim]) : new Map()
       await this.sensemakerStore.runMethod({
         resource_eh: eventHash,
         method_eh: appletConfig.methods[`total_${dimensionId}_method`],
       })
+      updatedDim.set(encodeHashToBase64(eventHash), await this.sensemakerStore.getAssessmentForResource({
+        resource_eh: eventHash,
+        dimension_eh: appletConfig.dimensions[`total_${dimensionId}`],
+      }))
+      this.entryTotals = {
+        ...this.entryTotals,
+        [dim]: updatedDim,
+      } as EntryTotals
     } catch (e) {
       this.error = e as Error
     }
@@ -113,7 +168,6 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   async setViewContext(c: string) {
     this.viewContext = c
     // refresh the computation context when view is changed
-    // :TODO: would it be better to couple this to data updates?
     this.computeContext(c)
   }
 
@@ -131,16 +185,17 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       can_publish_result: false,
     }
     await this.sensemakerStore.computeContext(c, contextResultInput)
-
-    this.requestUpdate()
   }
 
-  renderEntry(appletConfig: AppletConfig | null, node: EventWithAssessment) {
+  renderEntry(node: EventWithAssessment) {
     const onVerify = this.handleAssessment.bind(this, "verify", node.id)
     const onFlag = this.handleAssessment.bind(this, "followup", node.id)
 
-    const numVerified = appletConfig ? sumIntDimension(appletConfig.dimensions.verify, node.assessments) : 0
-    const numFlagged = appletConfig? sumIntDimension(appletConfig.dimensions.followup, node.assessments) : 0
+    const nodeHash = encodeHashToBase64(deserializeId(node.id)[1])
+    const verifiedDim = this.entryTotals ? (this.entryTotals.verify.get(nodeHash) || []) : []
+    const numVerified = verifiedDim.length ? (verifiedDim[verifiedDim.length - 1].value as RangeValueInteger).Integer : 0
+    const flaggedDim = this.entryTotals ? (this.entryTotals.followup.get(nodeHash) || []) : []
+    const numFlagged = flaggedDim.length ? (flaggedDim[flaggedDim.length - 1].value as RangeValueInteger).Integer : 0
 
     return html`
       <article>
@@ -187,8 +242,9 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       </ul>
       <vf-timesheet-entries-list
         id="entries-list"
+        @economicEventsLoaded=${this.fetchAssessments}
         .entryReducer=${combineSensemakerData(contextHashes, assessments)}
-        .entryRenderer=${this.renderEntry.bind(this, appletConfig)}
+        .entryRenderer=${this.renderEntry.bind(this)}
       >
       </vf-timesheet-entries-list>
     `
