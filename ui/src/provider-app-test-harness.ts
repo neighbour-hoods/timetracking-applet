@@ -94,7 +94,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   }
 
   async initializeSensemakerStore(clonedSensemakerRoleName: string) {
-    const appAgentWebsocket: AppAgentWebsocket = await AppAgentWebsocket.connect(this.appWebsocket.client.socket.url, this.appInfo.installed_app_id);
+    const appAgentWebsocket: AppAgentWebsocket = await AppAgentWebsocket.connect(this.appWebsocket.client.socket.url, this.appInfo.installed_app_id, 60000);
     const sensemakerService = new SensemakerService(appAgentWebsocket, clonedSensemakerRoleName)
     this._sensemakerStore = new SensemakerStore(sensemakerService);
   }
