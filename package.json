@@ -19,7 +19,7 @@
     "start:ui": "npm run start -w ui",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "npm run download-sensemaker && npm run download-hrea-obs && npm run download-hrea-specification && npm run download-hrea-agent",
-    "clean:build": "nix-shell --run hn-rust-flush",
+    "clean:build": "rimraf ui/.rollup.cache; rimraf nh-launcher-applet/.rollup.cache; rm nh-launcher-applet/ui.zip; exit 0",
     "clean:downloaded": "npm run clean:downloaded:sensemaker; npm run clean:downloaded:hrea-modules; exit 0",
     "clean:downloaded:sensemaker": "rimraf workdir/sensemaker.dna",
     "clean:downloaded:hrea-modules": "rimraf workdir/hrea_observation.dna; rimraf workdir/hrea_specification.dna; rimraf workdir/hrea_agent.dna",
