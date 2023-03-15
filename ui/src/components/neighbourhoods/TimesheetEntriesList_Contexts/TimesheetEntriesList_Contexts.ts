@@ -108,9 +108,9 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   async updated(changedProperties: PropertyValues<this>) {
     // rebind relevant sensemakerStore observables when the store instance is assigned
     if (changedProperties.has("sensemakerStore") && this.sensemakerStore) {
-      this.appletConfig = new StoreSubscriber(this, this.sensemakerStore.appletConfig.bind(this.sensemakerStore))
-      this.resourceAssessments = new StoreSubscriber(this, this.sensemakerStore.resourceAssessments.bind(this.sensemakerStore))
-      this.contextResults = new StoreSubscriber(this, this.sensemakerStore.contextResults.bind(this.sensemakerStore))
+      this.appletConfig = new StoreSubscriber(this, this.sensemakerStore.appletConfig.bind(this.sensemakerStore), undefined, "appletConfig")
+      this.resourceAssessments = new StoreSubscriber(this, this.sensemakerStore.resourceAssessments.bind(this.sensemakerStore), undefined, "resourceAssessments")
+      this.contextResults = new StoreSubscriber(this, this.sensemakerStore.contextResults.bind(this.sensemakerStore), undefined, "contextResults")
     }
   }
 
