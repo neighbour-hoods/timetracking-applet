@@ -78,6 +78,8 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
         const clonedSensemakerCell = (allSensemakerClones[0] as { [CellType.Cloned]: ClonedCell }).cloned;
         const clonedSensemakerRoleName = clonedSensemakerCell.clone_id!;
         await this.initializeSensemakerStore(clonedSensemakerRoleName);
+        const _todoConfig = await this._sensemakerStore.checkIfAppletConfigExists(appletConfig.name)
+        console.info('APP CONF', _todoConfig)
       }
 
       // construct the provider connector
