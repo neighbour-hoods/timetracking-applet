@@ -130,7 +130,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   }
 
   async handleAssessment(dimensionId: string, eventId: string) {
-    if (!this.appletConfig) return
+    if (!this.appletConfig || !this.appletConfig.value) return
     const appletConfig = this.appletConfig.value
 
     const eventHash = deserializeId(eventId)[1]
@@ -229,7 +229,6 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       </div>`
     }
 
-    const appletConfig = this.appletConfig?.value
     const assessments = this.resourceAssessments?.value
     const contextHashes = this.viewContext ? this.contextResults?.value[this.viewContext] : undefined
 
