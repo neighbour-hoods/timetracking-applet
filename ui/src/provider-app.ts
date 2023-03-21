@@ -17,6 +17,10 @@ import { ProvideTimeUnits } from '@vf-ui/component-provide-time-units'
 import { WorkInputManual } from '@vf-ui/component-work-input-daily'
 import cssThemeVars from '@neighbourhoods/applet-vf-timetracker-theme-vars'
 
+// wire up Shoelace component assets
+import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+setBasePath('/shoelace');
+
 export class ProviderApp extends ScopedElementsMixin(LitElement) {
   // set up context provider for sensemaker store so it can be accessed by other components
   @provide({ context: sensemakerStoreContext })
@@ -116,7 +120,6 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
       max-width: 960px;
       margin: 0 auto;
       text-align: center;
-      background-color: var(--lit-element-background-color);
     }
 
     main {

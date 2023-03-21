@@ -20,6 +20,9 @@ import { LoadingMessage } from '@neighbourhoods/component-loading-message';
 import { ProviderApp } from './provider-app';
 import appletConfig from './appletConfig'
 
+// duplicate rendering redone in `provider-app` but needed here in order to initially style NH setup components.
+import cssThemeVars from '@neighbourhoods/applet-vf-timetracker-theme-vars'
+
 const HOLOCHAIN_APP_ID = "provider-sensemaker"
 const SENSEMAKER_ROLE_NAME = "sensemaker"
 const PROVIDER_ROLE_NAME = "hrea_observation_0" // :WARNING: this will mean cloned sensemaker cell uses same agentPubKey as plugged Observation cell
@@ -188,6 +191,8 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   }
 
   static styles = css`
+    ${cssThemeVars}
+
     .home-page {
       display: flex;
       flex-direction: row;
@@ -200,11 +205,9 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
       align-items: center;
       justify-content: flex-start;
       font-size: calc(10px + 2vmin);
-      color: #1a2b42;
       max-width: 960px;
       margin: 0 auto;
       text-align: center;
-      background-color: var(--lit-element-background-color);
     }
 
     main {

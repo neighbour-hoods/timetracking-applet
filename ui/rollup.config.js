@@ -1,3 +1,4 @@
+import path from 'path';
 import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
@@ -7,6 +8,7 @@ import html from "@web/rollup-plugin-html";
 import { importMetaAssets } from "@web/rollup-plugin-import-meta-assets";
 import { terser } from "rollup-plugin-terser";
 import typescript from '@rollup/plugin-typescript';
+import copy from 'rollup-plugin-copy';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -69,5 +71,15 @@ export default {
       ],
       plugins: [],
     }),
+    // Copy Shoelace assets to dist/shoelace
+    copy({
+      copyOnce: true,
+      targets: [
+        {
+          src: path.resolve(__dirname, 'node_modules/@shoelace-style/shoelace/dist/assets'),
+          dest: path.resolve(__dirname, 'dist/shoelace')
+        }
+      ]
+    })
   ],
 };
