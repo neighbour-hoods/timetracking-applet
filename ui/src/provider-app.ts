@@ -104,6 +104,11 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
   static styles = css`
     ${cssThemeVars}
 
+    // prevent FoUC with customElements
+    :not(:defined) {
+      visibility: hidden;
+    }
+
     .home-page {
       display: flex;
       flex-direction: row;
