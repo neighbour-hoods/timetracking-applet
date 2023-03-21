@@ -251,6 +251,20 @@ importers:
       '@scoped-elements/material-web': 0.0.19
       lit: 2.6.1
 
+  ui/src/components/neighbourhoods/ErrorDisplay:
+    specifiers:
+      '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/component-loading-indicator': workspace:*
+      '@open-wc/scoped-elements': ^2.1.0
+      '@shoelace-style/shoelace': ^2.3.0
+      lit: ^2.6.1
+    dependencies:
+      '@lit-labs/context': 0.2.0
+      '@neighbourhoods/component-loading-indicator': link:../LoadingIndicator
+      '@open-wc/scoped-elements': 2.1.4
+      '@shoelace-style/shoelace': 2.3.0
+      lit: 2.6.1
+
   ui/src/components/neighbourhoods/LoadingIndicator:
     specifiers:
       '@lit-labs/context': ^0.2.0
@@ -280,6 +294,7 @@ importers:
   ui/src/components/neighbourhoods/TimesheetEntriesList_Contexts:
     specifiers:
       '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/component-error-display': workspace:*
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@neighbourhoods/timetracking-applet-context': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
@@ -290,6 +305,7 @@ importers:
       lit-svelte-stores: git://github.com/pospi/lit-svelte-stores#22af81e
     dependencies:
       '@lit-labs/context': 0.2.0
+      '@neighbourhoods/component-error-display': link:../ErrorDisplay
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@neighbourhoods/timetracking-applet-context': link:../../../contexts
       '@open-wc/scoped-elements': 2.1.4
@@ -303,6 +319,7 @@ importers:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/component-error-display': workspace:*
       '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
@@ -311,6 +328,7 @@ importers:
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
+      '@neighbourhoods/component-error-display': link:../../neighbourhoods/ErrorDisplay
       '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
@@ -340,6 +358,7 @@ importers:
   ui/src/components/valueflows/InputWorkType:
     specifiers:
       '@apollo-elements/core': ^2.1.2
+      '@neighbourhoods/component-error-display': workspace:*
       '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
@@ -348,6 +367,7 @@ importers:
       lit: ^2.6.1
     dependencies:
       '@apollo-elements/core': 2.1.2
+      '@neighbourhoods/component-error-display': link:../../neighbourhoods/ErrorDisplay
       '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
@@ -358,6 +378,7 @@ importers:
   ui/src/components/valueflows/ProvideTimeUnits:
     specifiers:
       '@apollo-elements/core': ^2.1.2
+      '@neighbourhoods/component-error-display': workspace:*
       '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
@@ -366,6 +387,7 @@ importers:
       lit: ^2.6.1
     dependencies:
       '@apollo-elements/core': 2.1.2
+      '@neighbourhoods/component-error-display': link:../../neighbourhoods/ErrorDisplay
       '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
@@ -377,6 +399,7 @@ importers:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/component-error-display': workspace:*
       '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
@@ -386,6 +409,7 @@ importers:
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
+      '@neighbourhoods/component-error-display': link:../../neighbourhoods/ErrorDisplay
       '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@valueflows/vf-graphql': 0.9.0-alpha.9
@@ -397,6 +421,7 @@ importers:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/component-error-display': workspace:*
       '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
@@ -410,6 +435,7 @@ importers:
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
+      '@neighbourhoods/component-error-display': link:../../neighbourhoods/ErrorDisplay
       '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@valueflows/vf-graphql': 0.9.0-alpha.9
@@ -425,6 +451,7 @@ importers:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/component-error-display': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
@@ -439,6 +466,7 @@ importers:
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
+      '@neighbourhoods/component-error-display': link:../../neighbourhoods/ErrorDisplay
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
       '@valueflows/vf-graphql': 0.9.0-alpha.9
