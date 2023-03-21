@@ -128,6 +128,7 @@ importers:
       '@msgpack/msgpack': ^2.7.2
       '@neighbourhoods/applet-vf-timetracker-theme-vars': workspace:*
       '@neighbourhoods/component-create-or-join-nh': workspace:*
+      '@neighbourhoods/component-loading-message': workspace:*
       '@neighbourhoods/component-time-entries-list': workspace:*
       '@neighbourhoods/nh-launcher-applet': 0.0.10
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
@@ -141,6 +142,7 @@ importers:
       '@rollup/plugin-replace': ^3.0.0
       '@rollup/plugin-typescript': ^10.0.1
       '@scoped-elements/material-web': ^0.0.19
+      '@shoelace-style/shoelace': ^2.3.0
       '@type-craft/content': ^0.0.7
       '@type-craft/title': ^0.0.8
       '@typescript-eslint/eslint-plugin': ^4.29.2
@@ -168,6 +170,7 @@ importers:
       prettier: ^2.3.2
       rimraf: ^3.0.2
       rollup: ^2.56.2
+      rollup-plugin-copy: ^3.4.0
       rollup-plugin-terser: ^7.0.2
       rollup-plugin-workbox: ^6.2.0
       run-singleton-cli: ^0.0.5
@@ -182,12 +185,14 @@ importers:
       '@msgpack/msgpack': 2.8.0
       '@neighbourhoods/applet-vf-timetracker-theme-vars': link:src/styles
       '@neighbourhoods/component-create-or-join-nh': link:src/components/neighbourhoods/CreateOrJoinNH
+      '@neighbourhoods/component-loading-message': link:src/components/neighbourhoods/LoadingMessage
       '@neighbourhoods/component-time-entries-list': link:src/components/neighbourhoods/TimesheetEntriesList_Contexts
       '@neighbourhoods/nh-launcher-applet': 0.0.10
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@neighbourhoods/timetracking-applet-context': link:src/contexts
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
+      '@shoelace-style/shoelace': 2.3.0
       '@type-craft/content': 0.0.7
       '@type-craft/title': 0.0.8
       '@valueflows/vf-graphql-holochain': 0.0.1-alpha.17_graphql@15.8.0
@@ -225,6 +230,7 @@ importers:
       prettier: 2.8.4
       rimraf: 3.0.2
       rollup: 2.79.1
+      rollup-plugin-copy: 3.4.0
       rollup-plugin-terser: 7.0.2_rollup@2.79.1
       rollup-plugin-workbox: 6.2.0_rollup@2.79.1
       run-singleton-cli: 0.0.5
@@ -243,6 +249,32 @@ importers:
       '@open-wc/dedupe-mixin': 1.3.1
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
+      lit: 2.6.1
+
+  ui/src/components/neighbourhoods/LoadingIndicator:
+    specifiers:
+      '@lit-labs/context': ^0.2.0
+      '@open-wc/scoped-elements': ^2.1.0
+      '@shoelace-style/shoelace': ^2.3.0
+      lit: ^2.6.1
+    dependencies:
+      '@lit-labs/context': 0.2.0
+      '@open-wc/scoped-elements': 2.1.4
+      '@shoelace-style/shoelace': 2.3.0
+      lit: 2.6.1
+
+  ui/src/components/neighbourhoods/LoadingMessage:
+    specifiers:
+      '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/component-loading-indicator': workspace:*
+      '@open-wc/scoped-elements': ^2.1.0
+      '@shoelace-style/shoelace': ^2.3.0
+      lit: ^2.6.1
+    dependencies:
+      '@lit-labs/context': 0.2.0
+      '@neighbourhoods/component-loading-indicator': link:../LoadingIndicator
+      '@open-wc/scoped-elements': 2.1.4
+      '@shoelace-style/shoelace': 2.3.0
       lit: 2.6.1
 
   ui/src/components/neighbourhoods/TimesheetEntriesList_Contexts:
@@ -271,6 +303,7 @@ importers:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
       '@valueflows/vf-graphql-shared-queries': workspace:*
@@ -278,6 +311,7 @@ importers:
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
+      '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
       '@valueflows/vf-graphql-shared-queries': link:../../../graphql/shared-queries
@@ -306,6 +340,7 @@ importers:
   ui/src/components/valueflows/InputWorkType:
     specifiers:
       '@apollo-elements/core': ^2.1.2
+      '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
@@ -313,6 +348,7 @@ importers:
       lit: ^2.6.1
     dependencies:
       '@apollo-elements/core': 2.1.2
+      '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
       '@valueflows/vf-graphql': 0.9.0-alpha.9
@@ -322,6 +358,7 @@ importers:
   ui/src/components/valueflows/ProvideTimeUnits:
     specifiers:
       '@apollo-elements/core': ^2.1.2
+      '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
@@ -329,6 +366,7 @@ importers:
       lit: ^2.6.1
     dependencies:
       '@apollo-elements/core': 2.1.2
+      '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
       '@valueflows/vf-graphql': 0.9.0-alpha.9
@@ -339,6 +377,7 @@ importers:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
       '@valueflows/vf-graphql-type-fragments': workspace:*
@@ -347,6 +386,7 @@ importers:
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
+      '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@valueflows/vf-graphql': 0.9.0-alpha.9
       '@valueflows/vf-graphql-type-fragments': link:../../../graphql/type-fragments
@@ -357,6 +397,7 @@ importers:
     specifiers:
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
+      '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
       '@valueflows/vf-graphql-shared-queries': workspace:*
@@ -369,6 +410,7 @@ importers:
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
+      '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@valueflows/vf-graphql': 0.9.0-alpha.9
       '@valueflows/vf-graphql-shared-queries': link:../../../graphql/shared-queries
@@ -2616,6 +2658,11 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: false
 
+  /@ctrl/tinycolor/3.6.0:
+    resolution: {integrity: sha512-/Z3l6pXthq0JvMYdUFyX9j0MaCltlIn6mfh9jLyQwg5aPKxkyNa0PTHtU1AlFXLNk55ZuAeJRcpvq+tmLfKmaQ==}
+    engines: {node: '>=10'}
+    dev: false
+
   /@dabh/diagnostics/2.0.3:
     resolution: {integrity: sha512-hrlQOIi7hAfzsMqlGSFyVucrx38O+j6wiGOf//H2ecvIEqYN4ADBSS2iLMh5UFyDunCNniUIPk/q3riFv45xRA==}
     dependencies:
@@ -2640,6 +2687,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@floating-ui/core/1.2.4:
+    resolution: {integrity: sha512-SQOeVbMwb1di+mVWWJLpsUTToKfqVNioXys011beCAhyOIFtS+GQoW4EQSneuxzmQKddExDwQ+X0hLl4lJJaSQ==}
+    dev: false
+
+  /@floating-ui/dom/1.2.5:
+    resolution: {integrity: sha512-+sAUfpQ3Frz+VCbPCqj+cZzvEESy3fjSeT/pDWkYCWOBXYNNKZfuVsHuv8/JO2zze8+Eb/Q7a6hZVgzS81fLbQ==}
+    dependencies:
+      '@floating-ui/core': 1.2.4
+    dev: false
 
   /@graphql-tools/merge/8.4.0:
     resolution: {integrity: sha512-3XYCWe0d3I4F1azNj1CdShlbHfTIfiDgj00R9uvFH8tHKh7i1IWN3F7QQYovcHKhayaR6zPok3YYMESYQcBoaA==}
@@ -4650,6 +4707,10 @@ packages:
     resolution: {integrity: sha512-Be+cahtZyI2dPKRm8EZSx3YJQ+jLvEcn3xzRP7tM4tqBnvd/eW/64Xh0iOf0t2w5P8iJKfdBbpVNE9naCaOf2g==}
     dev: false
 
+  /@shoelace-style/localize/3.1.0:
+    resolution: {integrity: sha512-evGxn5wIQh1/Ks1RbZm7rY4DxPKAUnXKTixZNgnYV/N2V8Bbbvsi+S14gNa42SQNUJK5WooNtlar2B8cehEwZQ==}
+    dev: false
+
   /@shoelace-style/shoelace/2.0.0-beta.60:
     resolution: {integrity: sha512-iozuLRjIR2UvzVEXrgcPvRHjqkWhRnWhTOuZcXWfAI5mmSB2ko8lqNXxnzgOtpFak4Z7Vei/9qOWSkAt0+fxRA==}
     dependencies:
@@ -4657,6 +4718,20 @@ packages:
       '@popperjs/core': 2.11.6
       '@shoelace-style/animations': 1.1.0
       color: 3.2.1
+      qr-creator: 1.0.0
+    dev: false
+
+  /@shoelace-style/shoelace/2.3.0:
+    resolution: {integrity: sha512-8MhHTLoNTYUl2pmd/oxbY2LSDmikL3K1oM84Mp2lbmY0yihT6V51f1bnI/48jHxibBYzq8JKgDiWwLWdPcZR2A==}
+    engines: {node: '>=14.17.0'}
+    dependencies:
+      '@ctrl/tinycolor': 3.6.0
+      '@floating-ui/dom': 1.2.5
+      '@lit-labs/react': 1.1.1
+      '@shoelace-style/animations': 1.1.0
+      '@shoelace-style/localize': 3.1.0
+      composed-offset-position: 0.0.4
+      lit: 2.6.1
       qr-creator: 1.0.0
     dev: false
 
@@ -6145,6 +6220,10 @@ packages:
   /compare-versions/3.6.0:
     resolution: {integrity: sha512-W6Af2Iw1z4CB7q4uU4hv646dW9GQuBM+YpC0UvUCWSD8w90SJjp+ujJuXaEMtAXBtSqGfMPuFOVn4/+FlaqfBA==}
     dev: true
+
+  /composed-offset-position/0.0.4:
+    resolution: {integrity: sha512-vMlvu1RuNegVE0YsCDSV/X4X10j56mq7PCIyOKK74FxkXzGLwhOUmdkJLSdOBOMwWycobGUMgft2lp+YgTe8hw==}
+    dev: false
 
   /compress-commons/4.1.1:
     resolution: {integrity: sha512-QLdDLCKNV2dtoTorqgxngQCMA+gWXkM/Nwu7FpeBhk/RdkzimqC3jueb/FDmaZeXh+uby1jkBqE3xArsLBE5wQ==}
