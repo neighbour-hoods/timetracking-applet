@@ -32,6 +32,7 @@ import pluralize from 'pluralize'
 import { EconomicEvent, EconomicEventConnection } from '@valueflows/vf-graphql';
 
 import { ResourceSpecificationListRow } from '@vf-ui/component-resource-specification-list-row'
+import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 
 import { EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
@@ -120,9 +121,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     }
     if (!data || this.entries?.loading) {
       return html`
-        <div>
-          <p>Loading...</p>
-        </div>
+        <loading-message>Loading entries&hellip;</loading-message>
       `
     }
 
@@ -163,6 +162,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   static get scopedElements() {
     return {
       'vf-resource-specification-row': ResourceSpecificationListRow,
+      'loading-message': LoadingMessage,
     };
   }
 

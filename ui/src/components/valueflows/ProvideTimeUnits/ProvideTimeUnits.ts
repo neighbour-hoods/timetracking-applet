@@ -14,7 +14,7 @@ import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { LitElement, html, css } from "lit";
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 
-import { CircularProgress } from '@scoped-elements/material-web'
+import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 
 import { Unit } from '@valueflows/vf-graphql'
 import { HasCoreUnits, CoreUnitsCheckResponse } from './queries'
@@ -111,7 +111,7 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
 
   render() {
     if (this.units.loading || hasEmptyUnits(this.units)) {
-      return html`<mwc-circular-progress indeterminate></mwc-circular-progress>`
+      return html`<loading-message>Loading metadata&hellip;</loading-message>`
     }
 
     if (this.units.error) {
@@ -133,7 +133,7 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
 
   static get scopedElements() {
     return {
-      'mwc-circular-progress': CircularProgress,
+      'loading-message': LoadingMessage,
     }
   }
 }

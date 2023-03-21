@@ -17,6 +17,8 @@ import { ApolloQueryController } from '@apollo-elements/core'
 
 import { ResourceSpecificationQuery, ResourceSpecification } from './queries'
 
+import { LoadingMessage } from "@neighbourhoods/component-loading-message"
+
 export class ResourceSpecificationListRow extends ScopedElementsMixin(LitElement)
 {
   @property()
@@ -53,9 +55,7 @@ export class ResourceSpecificationListRow extends ScopedElementsMixin(LitElement
     }
     if (!data || this.spec?.loading) {
       return html`
-        <div>
-          <p>Loading...</p>
-        </div>
+        <loading-message>Loading&hellip;</loading-message>
       `
     }
 
@@ -65,6 +65,12 @@ export class ResourceSpecificationListRow extends ScopedElementsMixin(LitElement
         <p>${data.note}</p>
       </div>
     `
+  }
+
+  static get scopedElements() {
+    return {
+      'loading-message': LoadingMessage,
+    }
   }
 
   static styles = css`

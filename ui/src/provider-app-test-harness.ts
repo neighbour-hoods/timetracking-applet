@@ -16,6 +16,7 @@ import { ScopedElementsMixin } from '@open-wc/scoped-elements';
 import { provideGraphQLClient, ApolloClient, NormalizedCacheObject } from './provider-graphql-client';
 import { SensemakerService, SensemakerStore } from '@neighbourhoods/nh-launcher-applet';
 import { CreateOrJoinNh } from '@neighbourhoods/component-create-or-join-nh';
+import { LoadingMessage } from '@neighbourhoods/component-loading-message';
 import { ProviderApp } from './provider-app';
 import appletConfig from './appletConfig'
 
@@ -151,7 +152,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   render() {
     if (this.isSensemakerCloned && this.loading)
       return html`
-        <mwc-circular-progress indeterminate></mwc-circular-progress>
+        <loading-message>Connecting to Neighbourhood...</loading-message>
       `;
     if (!this.isSensemakerCloned)
       return html`
@@ -182,6 +183,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
       'provider-app': ProviderApp,
       'create-or-join-nh': CreateOrJoinNh,
       'mwc-circular-progress': CircularProgress,
+      'loading-message': LoadingMessage,
     };
   }
 

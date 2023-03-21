@@ -16,7 +16,8 @@ import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { LitElement, html, css } from "lit";
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 
-import { CircularProgress, TextField, TextArea, List, ListItem, Button } from '@scoped-elements/material-web'
+import { LoadingMessage } from "@neighbourhoods/component-loading-message"
+import { TextField, TextArea, List, ListItem, Button } from '@scoped-elements/material-web'
 
 import { ResourceSpecificationsResponse, ReadAllResourceSpecifications, ResourceSpecificationEdge, ResourceSpecification } from './queries'
 import { CreateResourceSpecification, ResourceSpecificationCreateResponse } from './mutations'
@@ -200,7 +201,7 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
 
   render() {
     if (this.specifications.loading) {
-      return html`<mwc-circular-progress indeterminate></mwc-circular-progress>`
+      return html`<loading-message>Fetching work types...</loading-message>`
     }
 
     if (this.specifications.error) {
@@ -339,7 +340,7 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
 
   static get scopedElements() {
     return {
-      'mwc-circular-progress': CircularProgress,
+      'loading-message': LoadingMessage,
       'mwc-textfield': TextField,
       'mwc-list': List,
       'mwc-list-item': ListItem,

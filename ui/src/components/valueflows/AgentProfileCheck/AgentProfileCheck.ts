@@ -13,7 +13,7 @@ import { ApolloQueryController } from '@apollo-elements/core'
 
 import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
-import { CircularProgress } from '@scoped-elements/material-web'
+import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 
 function isEmptyProfile(me ?: ApolloQueryController<WhoAmIQueryResult>) {
   return (
@@ -48,7 +48,7 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
 
   render() {
     if (this.me?.loading) {
-      return html`<mwc-circular-progress indeterminate></mwc-circular-progress>`
+      return html`<loading-message>Checking profile&hellip;</loading-message>`
     }
 
     const noProfile = isEmptyProfile(this.me)
@@ -79,7 +79,7 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
 
   static get scopedElements() {
     return {
-      'mwc-circular-progress': CircularProgress,
+      'loading-message': LoadingMessage,
     }
   }
 }

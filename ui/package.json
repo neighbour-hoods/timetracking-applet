@@ -26,6 +26,7 @@
     "@msgpack/msgpack": "^2.7.2",
     "@neighbourhoods/applet-vf-timetracker-theme-vars": "workspace:*",
     "@neighbourhoods/component-create-or-join-nh": "workspace:*",
+    "@neighbourhoods/component-loading-message": "workspace:*",
     "@neighbourhoods/component-time-entries-list": "workspace:*",
     "@neighbourhoods/nh-launcher-applet": "0.0.10",
     "@neighbourhoods/sensemaker-lite-types": "0.4.0",
