@@ -15,6 +15,7 @@ import { LitElement, html, css } from "lit";
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
+import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
 import { Unit } from '@valueflows/vf-graphql'
 import { HasCoreUnits, CoreUnitsCheckResponse } from './queries'
@@ -115,12 +116,13 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
     }
 
     if (this.units.error) {
-      // :TODO: refactor error page
       return html`
-        <div class="err">
-          <h3>Initialisation error</h3>
-          <p>${this.units.error}</p>
-        </div>
+        <error-display .error=${this.units.error}>
+          <p slot="message">
+            <strong>Problem loading measurement data.</strong><br />
+            Please try again.
+          </p>
+        </error-display>
       `
     }
 
@@ -133,6 +135,7 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
 
   static get scopedElements() {
     return {
+      'error-display': ErrorDisplay,
       'loading-message': LoadingMessage,
     }
   }

@@ -18,6 +18,7 @@ import { ApolloQueryController } from '@apollo-elements/core'
 import { ResourceSpecificationQuery, ResourceSpecification } from './queries'
 
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
+import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
 export class ResourceSpecificationListRow extends ScopedElementsMixin(LitElement)
 {
@@ -44,13 +45,11 @@ export class ResourceSpecificationListRow extends ScopedElementsMixin(LitElement
   render() {
     const data = (this.record || this.spec?.data) as ResourceSpecification
 
-    // :TODO: standardize components
     if (this.spec?.error) {
       return html`
-        <div>
-          <h1>Error!</h1>
-          <p>${this.spec.error.toString()}</p>
-        </div>
+        <error-display .error=${this.spec.error}>
+          <p slot="message">Resource type failed to load.</p>
+        </error-display>
       `
     }
     if (!data || this.spec?.loading) {

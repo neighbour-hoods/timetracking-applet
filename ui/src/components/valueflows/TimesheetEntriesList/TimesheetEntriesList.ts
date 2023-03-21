@@ -33,6 +33,7 @@ import { EconomicEvent, EconomicEventConnection } from '@valueflows/vf-graphql';
 
 import { ResourceSpecificationListRow } from '@vf-ui/component-resource-specification-list-row'
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
+import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
 import { EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
@@ -110,18 +111,16 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   render() {
     const data = this.entries?.data as EventsListQueryResult
 
-    // :TODO: standardize components
     if (this.entries?.error) {
       return html`
-        <div>
-          <h1>Error!</h1>
-          <p>${this.entries.error.toString()}</p>
-        </div>
+        <error-display .error=${this.entries.error}>
+          <p slot="message">Problem loading work entries.</p>
+        </error-display>
       `
     }
     if (!data || this.entries?.loading) {
       return html`
-        <loading-message>Loading entries&hellip;</loading-message>
+        <loading-message>Loading work entries&hellip;</loading-message>
       `
     }
 
@@ -161,6 +160,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 
   static get scopedElements() {
     return {
+      'error-display': ErrorDisplay,
       'vf-resource-specification-row': ResourceSpecificationListRow,
       'loading-message': LoadingMessage,
     };

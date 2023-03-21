@@ -5,6 +5,7 @@
   "main": "./TimesheetEntriesList_Contexts.ts",
   "dependencies": {
     "@lit-labs/context": "^0.2.0",
+    "@neighbourhoods/component-error-display": "workspace:*",
     "@neighbourhoods/sensemaker-lite-types": "0.4.0",
     "@neighbourhoods/timetracking-applet-context": "workspace:*",
     "@open-wc/scoped-elements": "^2.1.0",

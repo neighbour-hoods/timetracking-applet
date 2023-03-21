@@ -17,6 +17,7 @@ import { LitElement, html, css } from "lit";
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
+import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 import { TextField, TextArea, List, ListItem, Button } from '@scoped-elements/material-web'
 
 import { ResourceSpecificationsResponse, ReadAllResourceSpecifications, ResourceSpecificationEdge, ResourceSpecification } from './queries'
@@ -205,12 +206,10 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
     }
 
     if (this.specifications.error) {
-      // :TODO: refactor error page
       return html`
-        <div class="err">
-          <h3>Initialisation error</h3>
-          <p>${this.specifications.error}</p>
-        </div>
+        <error-display .error=${this.specifications.error}>
+          <p slot="message">Problem loading work types. Please try again.</p>
+        </error-display>
       `
     }
 
@@ -341,6 +340,7 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
   static get scopedElements() {
     return {
       'loading-message': LoadingMessage,
+      'error-display': ErrorDisplay,
       'mwc-textfield': TextField,
       'mwc-list': List,
       'mwc-list-item': ListItem,

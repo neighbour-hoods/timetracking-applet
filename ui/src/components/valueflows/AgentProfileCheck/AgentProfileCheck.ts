@@ -14,6 +14,7 @@ import { ApolloQueryController } from '@apollo-elements/core'
 import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
+import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
 function isEmptyProfile(me ?: ApolloQueryController<WhoAmIQueryResult>) {
   return (
@@ -55,10 +56,9 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
 
     if (!noProfile && this.me?.error) {
       return html`
-        <div class="err">
-          <h3>Error!</h3>
-          <p>${this.me.error}</p>
-        </div>
+        <error-display .error=${this.me.error}>
+          <p slot="message">Problem checking profile.</p>
+        </error-display>
       `
     }
 
@@ -79,6 +79,7 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
 
   static get scopedElements() {
     return {
+      'error-display': ErrorDisplay,
       'loading-message': LoadingMessage,
     }
   }

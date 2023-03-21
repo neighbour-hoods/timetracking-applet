@@ -30,6 +30,7 @@ import { EconomicEventResponse, IMeasure } from '@valueflows/vf-graphql'
 import { WhoAmI, WhoAmIQueryResult, EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 import { ITimeUnits } from '@vf-ui/component-provide-time-units'
 import { InputWorkType } from '@vf-ui/component-input-work-type'
+import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
 import { TextField, Button } from '@scoped-elements/material-web'
 
@@ -288,10 +289,9 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     // :TODO: standardize error display component
     if (this.createEvent.error) {
       return html`
-        <section class="error">
-          <h3>Error logging work</h3>
-          <p>${this.createEvent.error}</p>
-        </section>
+        <error-display .error=${this.createEvent.error}>
+          <p slot="message">Error logging work entry.</p>
+        </error-display>
       `
     }
 
@@ -371,6 +371,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
   static get scopedElements() {
     return {
+      'error-display': ErrorDisplay,
       'vf-input-worktype': InputWorkType,
       'mwc-textfield': TextField,
       'mwc-button': Button,

@@ -13,6 +13,7 @@ import { ScopedElementsMixin } from "@open-wc/scoped-elements"
 import { LitElement, html, css, PropertyValues, PropertyValueMap } from "lit"
 import { StoreSubscriber } from "lit-svelte-stores"
 
+import { ErrorDisplay } from '@neighbourhoods/component-error-display'
 import {
   TimesheetEntriesList as TimesheetEntriesListBase,
   EconomicEvent, EconomicEventConnection,
@@ -236,12 +237,12 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   }
 
   render() {
-    // :TODO: standardise error display component
     if (this.error) {
-      return html`<div>
-        <h1>error</h1>
-        <pre>${this.error}</pre>
-      </div>`
+      return html`
+        <error-display .error=${this.error}>
+          <p slot="message">Problem loading Sensemaker data. Please try again.</p>
+        </error-display>
+      `
     }
 
     const assessments = this.resourceAssessments?.value
@@ -271,6 +272,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 
   static get scopedElements() {
     return {
+      'error-display': ErrorDisplay,
       'vf-timesheet-entries-list': TimesheetEntriesListBase,
     };
   }
