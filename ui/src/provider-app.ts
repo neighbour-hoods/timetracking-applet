@@ -17,8 +17,11 @@ import { ProvideTimeUnits } from '@vf-ui/component-provide-time-units'
 import { WorkInputManual } from '@vf-ui/component-work-input-daily'
 import cssThemeVars from '@neighbourhoods/applet-vf-timetracker-theme-vars'
 
+// :TODO: wire up to light/dark themeing
+// @ts-ignore
+import shoelaceTheme from '@shoelace-style/shoelace/dist/themes/light.styles.js'
 // wire up Shoelace component assets
-import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js'
 setBasePath('/shoelace');
 
 export class ProviderApp extends ScopedElementsMixin(LitElement) {
@@ -102,6 +105,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
   }
 
   static styles = css`
+    ${shoelaceTheme}
     ${cssThemeVars}
 
     // prevent FoUC with customElements
