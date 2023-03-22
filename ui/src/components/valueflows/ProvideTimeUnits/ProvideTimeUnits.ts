@@ -79,7 +79,7 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
         data: { ...result.data },
         overwrite: true,
       })
-      this.units.subscribe()
+      this.units.subscribe({ fetchPolicy: 'cache-only' })
     },
   })
 

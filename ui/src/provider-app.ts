@@ -64,11 +64,11 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
 
     const profileCheck: AgentProfileCheck | null = this.shadowRoot.querySelector('agent-profile-check')
     if (profileCheck) {
-      profileCheck.me.subscribe()
+      profileCheck.me.subscribe({ fetchPolicy: 'cache-only' })
     }
     const workInput: WorkInputManual | null = this.shadowRoot.querySelector('work-input-manual')
     if (workInput) {
-      workInput.me.subscribe()
+      workInput.me.subscribe({ fetchPolicy: 'cache-only' })
     }
   }
 
@@ -85,7 +85,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
 
     const entriesList: TimesheetEntriesList | null = this.shadowRoot.querySelector('timesheet-entries-list')
     if (entriesList) {
-      entriesList.list?.entries?.subscribe()
+      entriesList.list?.entries?.subscribe({ fetchPolicy: 'cache-only' })
     }
   }
 
