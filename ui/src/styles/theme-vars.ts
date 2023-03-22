@@ -1,6 +1,6 @@
 import { css, unsafeCSS } from 'lit'
 
-import { BaseStyles, DarkStyles } from '@neighbourhoods/theme-styles'
+import { BaseStyles, DarkStyles, ShoelaceAdapter } from '@neighbourhoods/theme-styles'
 
 const NH_COLOR_PALLETE = css`
   /* Colour pallete variables for Neighbourhoods/We */
@@ -27,10 +27,13 @@ const NH_COLOR_PALLETE = css`
 `
 
 export default css`
+// Neighbourhoods core theme styles / variables
+${unsafeCSS(BaseStyles)}
+${unsafeCSS(DarkStyles)}
+// Framework-specific Neighbourhoods style adapters
+${unsafeCSS(ShoelaceAdapter)}
 :host {
-  ${unsafeCSS(BaseStyles)}
-  ${unsafeCSS(DarkStyles)}
-
+  // :DEPRECATED: Internal colour pallete from NHs styleguide
   ${NH_COLOR_PALLETE}
 
   /* Theme variables- considered the public style API */
