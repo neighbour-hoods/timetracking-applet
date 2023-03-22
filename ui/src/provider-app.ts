@@ -36,22 +36,18 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
 
   render() {
     return html`
-      <main>
-        <div class="home-page">
-          <apollo-client .client=${this.graphqlClient}>
-            <agent-profile-check>
+      <apollo-client .client=${this.graphqlClient}>
+        <agent-profile-check>
 
-              <agent-profile-manage slot="profile-missing" @agentProfileCreated=${this.onProfileCreated}></agent-profile-manage>
+          <agent-profile-manage slot="profile-missing" @agentProfileCreated=${this.onProfileCreated}></agent-profile-manage>
 
-              <provide-time-units slot="profile-ok">
-                <work-input-manual @economicEventCreated=${this.onWorkLogged}></work-input-manual>
-              </provide-time-units>
-              <timesheet-entries-list slot="profile-ok" viewContext="most_verified_work"></timesheet-entries-list>
+          <provide-time-units slot="profile-ok">
+            <work-input-manual @economicEventCreated=${this.onWorkLogged}></work-input-manual>
+          </provide-time-units>
+          <timesheet-entries-list slot="profile-ok" viewContext="most_verified_work"></timesheet-entries-list>
 
-            </agent-profile-check>
-          </apollo-client>
-        </div>
-      </main>
+        </agent-profile-check>
+      </apollo-client>
     `;
   }
 
@@ -111,37 +107,6 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     // prevent FoUC with customElements
     :not(:defined) {
       visibility: hidden;
-    }
-
-    .home-page {
-      display: flex;
-      flex-direction: row;
-    }
-
-    :host {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      font-size: calc(10px + 2vmin);
-      color: #1a2b42;
-      max-width: 960px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    main {
-      flex-grow: 1;
-    }
-
-    .app-footer {
-      font-size: calc(12px + 0.5vmin);
-      align-items: center;
-    }
-
-    .app-footer a {
-      margin-left: 5px;
     }
   `;
 }

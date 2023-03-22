@@ -335,7 +335,6 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
   static styles = css`
     .outer {
-      max-width: 40em;
       background-color: var(--nh-timetracker-form-background-color);
     }
 

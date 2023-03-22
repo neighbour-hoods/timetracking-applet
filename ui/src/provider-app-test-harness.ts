@@ -155,15 +155,15 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   render() {
     if (this.isSensemakerCloned && this.loading)
       return html`
-        <loading-message>Connecting to Neighbourhood...</loading-message>
+        <main><loading-message>Connecting to Neighbourhood...</loading-message></main>
       `;
     if (!this.isSensemakerCloned)
       return html`
-      <create-or-join-nh @create-nh=${this.createNeighbourhood} @join-nh=${this.joinNeighbourhood}></create-or-join-nh>
-    `;
+        <main><create-or-join-nh @create-nh=${this.createNeighbourhood} @join-nh=${this.joinNeighbourhood}></create-or-join-nh></main>
+      `;
     return html`
       <main>
-        <h3>My Pubkey: ${this.agentPubkey}</h3>
+        <h3>My Pubkey: <code>${this.agentPubkey}</code></h3>
         <div class="home-page">
           <provider-app .sensemakerStore=${this._sensemakerStore} .graphqlClient=${this._graphql}></provider-app>
         </div>
@@ -193,34 +193,33 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   static styles = css`
     ${cssThemeVars}
 
-    .home-page {
-      display: flex;
-      flex-direction: row;
-    }
-
     :host {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
       font-size: calc(10px + 2vmin);
       max-width: 960px;
       margin: 0 auto;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
     }
 
     main {
-      flex-grow: 1;
-    }
-
-    .app-footer {
-      font-size: calc(12px + 0.5vmin);
+      flex: 1;
+      display: flex;
       align-items: center;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    main h3 {
+      flex-grow: 0;
+      max-width: 100%;
+    }
+    main code {
+      font-size: 0.5em;
+      font-weight: normal;
     }
 
-    .app-footer a {
-      margin-left: 5px;
+    .home-page {
+      flex-grow: 1;
     }
   `;
 }
