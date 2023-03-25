@@ -231,6 +231,7 @@ importers:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-copy: 3.4.0
+      rollup-plugin-import-css: 3.2.1_rollup@2.79.1
       rollup-plugin-terser: 7.0.2_rollup@2.79.1
       rollup-plugin-workbox: 6.2.0_rollup@2.79.1
       run-singleton-cli: 0.0.5
@@ -454,6 +455,7 @@ importers:
       '@neighbourhoods/component-error-display': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
+      '@shoelace-style/shoelace': ^2.3.0
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
       '@valueflows/vf-graphql-shared-queries': workspace:*
       '@valueflows/vf-graphql-type-fragments': workspace:*
@@ -469,6 +471,7 @@ importers:
       '@neighbourhoods/component-error-display': link:../../neighbourhoods/ErrorDisplay
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
+      '@shoelace-style/shoelace': 2.3.0
       '@valueflows/vf-graphql': 0.9.0-alpha.9
       '@valueflows/vf-graphql-shared-queries': link:../../../graphql/shared-queries
       '@valueflows/vf-graphql-type-fragments': link:../../../graphql/type-fragments
@@ -507,10 +510,10 @@ importers:
 
   ui/src/styles:
     specifiers:
-      '@neighbourhoods/theme-styles': git://github.com/pospi/neighbourhoods-css-styles.git#6ad0dea
+      '@neighbourhoods/theme-styles': git://github.com/pospi/neighbourhoods-css-styles.git#38169d4
       lit: ^2.6.1
     dependencies:
-      '@neighbourhoods/theme-styles': github.com/pospi/neighbourhoods-css-styles/6ad0dea
+      '@neighbourhoods/theme-styles': github.com/pospi/neighbourhoods-css-styles/38169d4
       lit: 2.6.1
 
 packages:
@@ -9138,6 +9141,15 @@ packages:
       is-plain-object: 3.0.1
     dev: true
 
+  /rollup-plugin-import-css/3.2.1_rollup@2.79.1:
+    resolution: {integrity: sha512-svr1JrBknT5ndEUM8nPaemTx/uF/5Tf4FAMQxvAYx2K9Sx7hL+JwB/rPuB1ZmUE1rjCnQHnz/fgik+noYM5+0w==}
+    peerDependencies:
+      rollup: ^2.x.x || ^3.x.x
+    dependencies:
+      '@rollup/pluginutils': 5.0.2_rollup@2.79.1
+      rollup: 2.79.1
+    dev: true
+
   /rollup-plugin-terser/5.3.1_rollup@1.32.1:
     resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
     deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
@@ -10635,8 +10647,8 @@ packages:
       svelte: 3.56.0
     dev: false
 
-  github.com/pospi/neighbourhoods-css-styles/6ad0dea:
-    resolution: {tarball: https://codeload.github.com/pospi/neighbourhoods-css-styles/tar.gz/6ad0dea}
+  github.com/pospi/neighbourhoods-css-styles/38169d4:
+    resolution: {tarball: https://codeload.github.com/pospi/neighbourhoods-css-styles/tar.gz/38169d4}
     name: '@neighbourhoods/theme-styles'
     version: 0.0.1
     prepare: true
