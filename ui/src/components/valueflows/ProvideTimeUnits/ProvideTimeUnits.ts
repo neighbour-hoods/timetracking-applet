@@ -11,7 +11,7 @@
  * @since   2023-02-13
  */
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
-import { LitElement, html, css } from "lit";
+import { LitElement, html, PropertyValues } from "lit";
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
@@ -60,6 +60,8 @@ export interface ITimeUnits {
 
 export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
 {
+  private slottedChildren: HTMLElement[] = []
+
   _initialisedUnitRecords = false
 
   units: ApolloQueryController<CoreUnitsCheckResponse> = new ApolloQueryController(this, HasCoreUnits, {
@@ -83,23 +85,30 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
     },
   })
 
-  /// Propagate updates to `units` from API to `timeUnitDefs` property of any currently rendered children
+  /// Propagate updates to `units` from API to `timeUnitDefs` property of any new children when inserted
   // @ts-ignore
   handleSlotchange(e) {
-    if (!this.units.data) return
-
     const childNodes = e.target.assignedNodes({ flatten: true })
     childNodes.forEach((node: Element & { timeUnitDefs?: ITimeUnits }) => {
-      node.timeUnitDefs = this.units.data as ITimeUnits
+      node.timeUnitDefs = this.units.loading ? undefined : this.units.data as ITimeUnits
     })
+
+    this.slottedChildren = childNodes
   }
 
-  /// If `units` query returns empty, send initialisation mutation
-  async updated(/* changedProperties: Map<string, any> */) {
+  async updated(changedProperties: Map<string, any>) {
+    // If `units` query returns empty, send initialisation mutation
     const noUnits = hasEmptyUnits(this.units)
     if (noUnits && !this._initialisedUnitRecords) {
       this._initialisedUnitRecords = true
       this.initialiseUnitRecords()
+    }
+
+    /// Propagate updates to `units` from API to `timeUnitDefs` property of any currently rendered children
+    if (this.slottedChildren.length && changedProperties.has('data') && changedProperties.get('data') !== this.units?.data) {
+      this.slottedChildren.forEach((node: Element & { timeUnitDefs?: ITimeUnits }) => {
+        node.timeUnitDefs = this.units.data as ITimeUnits
+      })
     }
   }
 
@@ -111,11 +120,7 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
   }
 
   render() {
-    if (this.units.loading || hasEmptyUnits(this.units)) {
-      return html`<loading-message>Loading metadata&hellip;</loading-message>`
-    }
-
-    if (this.units.error) {
+    if (!hasEmptyUnits(this.units) && this.units.error) {
       return html`
         <error-display .error=${this.units.error}>
           <p slot="message">
@@ -126,11 +131,7 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
       `
     }
 
-    if (this.units.data) {
-      /// also assign `timeUnitDefs` initially, since `units` query may already be loaded when this component displays
-      return html`<slot @slotchange=${this.handleSlotchange} .timeUnitDefs=${this.units.data}></slot>`
-    }
-    return null
+    return html`<slot @slotchange=${this.handleSlotchange} .timeUnitDefs=${this.units.loading ? undefined : this.units?.data}></slot>`
   }
 
   static get scopedElements() {
