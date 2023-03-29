@@ -49,7 +49,7 @@ export class ErrorDisplay extends ScopedElementsMixin(LitElement) {
     .error > * {
       flex-grow: 0;
     }
-    .error pre {
+    .error pre, .error p {
       margin: 0;
       word-break: normal;
     }
