@@ -32,7 +32,9 @@ import { ITimeUnits } from '@vf-ui/component-provide-time-units'
 import { InputWorkType } from '@vf-ui/component-input-work-type'
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
-import { TextField, Button } from '@scoped-elements/material-web'
+import '@shoelace-style/shoelace/dist/components/input/input.js'
+import '@shoelace-style/shoelace/dist/components/button/button.js'
+import '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
 
 import { EventCreateMutation, EventCreateResponse } from './mutations'
 
@@ -170,33 +172,10 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
   timeQty: IMeasure | null = null
 
   @state()
-  onDate: Dayjs = dayjs().startOf('day')
+  workDate: Dayjs = dayjs().startOf('day')
 
   @state()
   workType: string | null = null
-
-  _datepicker?: Litepicker
-
-  protected firstUpdated(_changedProperties: PropertyValues): void {
-    this.initDatepicker()
-  }
-
-  disconnectedCallback(): void {
-    this.cleanupDatepicker()
-  }
-
-  private initDatepicker() {
-    const element = this.renderRoot.querySelector('.datepicker')
-    if (!element) return
-    this._datepicker = new Litepicker({
-      element: element as HTMLInputElement,
-    })
-  }
-
-  private cleanupDatepicker() {
-    if (!this._datepicker) return
-    this._datepicker.destroy()
-  }
 
   async saveEvent(): Promise<EconomicEventResponse | undefined> {
     if (!this.me.data) {
@@ -206,8 +185,8 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     const myAgentId = this.me.data?.myAgent.id
     const event = {
       action: 'raise',
-      hasBeginning: this.onDate.format(LONG_DATETIME_FORMAT),
-      hasEnd: dayjs(this.onDate).endOf('day').format(LONG_DATETIME_FORMAT),
+      hasBeginning: this.workDate.format(LONG_DATETIME_FORMAT),
+      hasEnd: dayjs(this.workDate).endOf('day').format(LONG_DATETIME_FORMAT),
       note: this.note,
       resourceConformsTo: this.workType,
       // resourceClassifiedAs: ['vf:correction'], :TODO: UI for editing events
@@ -239,9 +218,9 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     this.workType = e.detail?.value
   }
 
-  onDateChanged(e: Event) {
+  workDateChanged(e: Event) {
     // @ts-ignore
-    this.onDate = dayjs(e.target?.value)
+    this.workDate = dayjs(e.target?.value)
   }
 
   // on any input to time autocomplete field, clear selection & update raw input state
@@ -251,23 +230,12 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     this.timeRaw = e.target?.value
   }
 
-  onTimeInputKeypress(e: KeyboardEvent) {
-    // update component state from input
-    this.onTimeInputChanged(e)
-
-    const keycode = (e.keyCode ? e.keyCode : e.which)
-    // on enter or tab keypress, select matched time duration
-    if (keycode === 13 || keycode === 9) {
-      if (parseInterval(this.timeRaw)) {
-        this.chooseTime()
-      }
-    }
-  }
-
   // update interpreted time values from raw input upon selection
-  chooseTime(_e?: InputEvent) {
+  chooseTime(e: FormDataEvent) {
+    e.preventDefault()
+
     const duration = parseInterval(this.timeRaw)
-    if (!duration) return
+    if (!duration || !this.timeUnitDefs) return
 
     // save autocomplete selection to component state
     this.timeQty = convertToMeasure(this.timeUnitDefs, finestMeasure(duration), duration)
@@ -279,10 +247,9 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     // error loading context user
     if (this.me.error) {
       return html`
-        <section class="error">
-          <h3>Error loading Agent profile</h3>
-          <p>${this.me.error}</p>
-        </section>
+        <error-display .error=${this.me.error}>
+          <p slot="message">Error loading profile.</p>
+        </error-display>
       `
     }
     // error saving event
@@ -298,36 +265,38 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     // primary layout to receive participant input
     const duration = parseInterval(this.timeRaw)
 
-    const canSave = !!(this.onDate && this.timeQty && this.workType)
-    const showAutocomplete = duration && !canSave
+    const canSave = !!(this.workDate && this.timeQty && this.workType)
+    const showAutocomplete = duration && !this.timeQty && (duration.hours || duration.minutes || duration.seconds)
 
     return html`
       <section class="outer">
 
         <div class="input">
-          <input class="datepicker" placeholder="Select date" value=${this.onDate} @change=${this.onDateChanged}></input>
+          <sl-textarea placeholder="(no description)" value=${this.note} rows="1"></sl-textarea>
         </div>
 
         <div class="input">
-          <div class="time-input">
-            <mwc-textfield placeholder="Enter time (eg. 1h 30m)" value=${this.timeRaw} @change=${this.onTimeInputChanged} @keyup=${this.onTimeInputKeypress}></mwc-textfield>
+          <sl-input type="date" placeholder="Select date" value=${this.workDate} @change=${this.workDateChanged}></sl-input>
+        </div>
+
+        <div class="input${showAutocomplete ? ` focused` : ''}">
+          <form class="autocomplete" @submit=${this.chooseTime}>
+            <sl-input placeholder="Enter time (eg. 1h 30m)" value=${this.timeRaw} @sl-change=${this.onTimeInputChanged}></sl-input>
             ${showAutocomplete ? (html`
               <div class="popup">
-                <mwc-button fullwidth=1 @click=${this.chooseTime}>${renderAutocompleted(duration)}</mwc-button>
+                <sl-button type="submit" ?disabled=${!this.timeUnitDefs}>${renderAutocompleted(duration)}</sl-button>
               </div>
             `) : null}
-          </div>
+          </form>
         </div>
 
-        <div class="input">
+        <div class="input worktype">
           <vf-input-worktype placeholder="What were you doing?" value=${this.workType} @change=${this.onResourceSpecificationChanged}></vf-input-worktype>
         </div>
 
         <div class="input">
-          <mwc-textfield label="Notes" placeholder="(no description)" value=${this.note}></mwc-textfield>
+          <sl-button ?disabled=${!canSave} @click="${this.saveEvent}" variant="primary">Save</sl-button>
         </div>
-
-        <mwc-button ?disabled=${!canSave} label="Save" @click="${this.saveEvent}"></mwc-button>
 
       </section>
     `
@@ -336,22 +305,36 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
   static styles = css`
     .outer {
       background-color: var(--nh-timetracker-form-background-color);
+      display: grid;
+      column-gap: 0.5em;
+      grid-template-columns: 1fr 0fr minmax(12.6em, 0fr) minmax(13em, 0fr) 0fr;
     }
 
-    .input {
-      padding: 0 0.2em;
+    .input, sl-input::part(input) {
+      line-height: calc(var(--sl-input-height-medium) - var(--sl-input-border-width) * 2);
+    }
+    sl-textarea {
+      margin-top: 0.3em; // :SHONK: workaround for inline-flex positioning in Shoelace UI controls interfering with layout
     }
 
-    .time-input {
-      display: inline-block;
+    .input.focused {
+      margin: -0.2em;
+      padding: 0.2em 0.4em;
+      background: var(--nh-color-background-2);
+    }
+
+    .input sl-input {
+      display: block;
+    }
+
+    .autocomplete {
       position: relative;
       overflow: visible;
-      margin-bottom: 1em;
     }
 
     .popup {
       position: absolute;
-      top: 100%;
+      top: var(--sl-input-height-medium);
       left: 0;
       width: 100%;
       z-index: 1;
@@ -366,14 +349,21 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       font-weight: bold;
       color: var(--nh-applet-success-color);
     }
+
+    sl-button {
+      display: block;
+    }
+    .popup sl-button {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      margin-top: -2px;
+    }
   `
 
   static get scopedElements() {
     return {
       'error-display': ErrorDisplay,
       'vf-input-worktype': InputWorkType,
-      'mwc-textfield': TextField,
-      'mwc-button': Button,
     };
   }
 }
