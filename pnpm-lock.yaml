@@ -231,7 +231,6 @@ importers:
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-copy: 3.4.0
-      rollup-plugin-import-css: 3.2.1_rollup@2.79.1
       rollup-plugin-terser: 7.0.2_rollup@2.79.1
       rollup-plugin-workbox: 6.2.0_rollup@2.79.1
       run-singleton-cli: 0.0.5
@@ -324,6 +323,7 @@ importers:
       '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
+      '@shoelace-style/shoelace': ^2.3.0
       '@valueflows/vf-graphql-shared-queries': workspace:*
       lit: ^2.6.1
     dependencies:
@@ -333,6 +333,7 @@ importers:
       '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
+      '@shoelace-style/shoelace': 2.3.0
       '@valueflows/vf-graphql-shared-queries': link:../../../graphql/shared-queries
       lit: 2.6.1
 
@@ -363,6 +364,7 @@ importers:
       '@neighbourhoods/component-loading-message': workspace:*
       '@open-wc/scoped-elements': ^2.1.0
       '@scoped-elements/material-web': ^0.0.19
+      '@shoelace-style/shoelace': ^2.3.0
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
       graphql-tag: ^2.12.6
       lit: ^2.6.1
@@ -372,6 +374,7 @@ importers:
       '@neighbourhoods/component-loading-message': link:../../neighbourhoods/LoadingMessage
       '@open-wc/scoped-elements': 2.1.4
       '@scoped-elements/material-web': 0.0.19
+      '@shoelace-style/shoelace': 2.3.0
       '@valueflows/vf-graphql': 0.9.0-alpha.9
       graphql-tag: 2.12.6
       lit: 2.6.1
@@ -9139,15 +9142,6 @@ packages:
       fs-extra: 8.1.0
       globby: 10.0.1
       is-plain-object: 3.0.1
-    dev: true
-
-  /rollup-plugin-import-css/3.2.1_rollup@2.79.1:
-    resolution: {integrity: sha512-svr1JrBknT5ndEUM8nPaemTx/uF/5Tf4FAMQxvAYx2K9Sx7hL+JwB/rPuB1ZmUE1rjCnQHnz/fgik+noYM5+0w==}
-    peerDependencies:
-      rollup: ^2.x.x || ^3.x.x
-    dependencies:
-      '@rollup/pluginutils': 5.0.2_rollup@2.79.1
-      rollup: 2.79.1
     dev: true
 
   /rollup-plugin-terser/5.3.1_rollup@1.32.1:
