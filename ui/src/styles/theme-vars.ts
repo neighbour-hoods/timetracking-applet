@@ -32,10 +32,11 @@ ${unsafeCSS(BaseStyles)}
 ${unsafeCSS(DarkStyles)}
 // Framework-specific Neighbourhoods style adapters
 ${unsafeCSS(ShoelaceAdapter)}
-:host {
+:root {
   // :DEPRECATED: Internal colour pallete from NHs styleguide
   ${NH_COLOR_PALLETE}
-
+}
+:host {
   /* Theme variables- considered the public style API */
   --nh-applet-background-color: var(--nh-white);
   --nh-applet-primary-color: var(--nh-salmon);
@@ -51,6 +52,27 @@ ${unsafeCSS(ShoelaceAdapter)}
 
   /* BELOW THIS LINE IS CONSIDERED INTERNAL IMPLEMENTATION DETAILS,
      MODIFY AT YOUR PERIL! */
+
+  /* Shoelace bindings */
+  --sl-input-help-text-color: var(--nh-applet-secondary-text-color);
+
+  /* redeclare all Shoelace font-based metrics to EM-based units for compatibility with scaling system */
+  --sl-font-size-small: 0.8em;
+  --sl-font-size-medium: 1em;
+  --sl-font-size-large: 1.2em;
+
+  --sl-input-spacing-small: 0.75em;
+  --sl-input-spacing-medium: 1em;
+  --sl-input-spacing-large: 1.25em;
+  --sl-input-font-size-small: 0.8em;
+  --sl-input-font-size-medium: 1em;
+  --sl-input-font-size-large: 1.2em;
+  --sl-input-help-text-font-size-small: 0.75em;
+  --sl-input-help-text-font-size-medium: 0.8em;
+  --sl-input-help-text-font-size-large: 1em;
+  --sl-input-height-small: 1.875em;
+  --sl-input-height-medium: 2.5em;
+  --sl-input-height-large: 3.125em;
 
   /* LitElement bindings */
   --lit-element-background-color: var(--nh-applet-background-color);
