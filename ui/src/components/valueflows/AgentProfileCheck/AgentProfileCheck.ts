@@ -7,7 +7,7 @@
  * It is presumed that the cache has been updated prior to firing this event.
  */
 import { LitElement, html, css } from 'lit';
-import { property } from 'lit/decorators.js';
+import { state } from 'lit/decorators.js';
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
 import { ApolloQueryController } from '@apollo-elements/core'
 
@@ -15,6 +15,8 @@ import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries
 
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
+
+import '@shoelace-style/shoelace/dist/components/button/button.js'
 
 function isEmptyProfile(me ?: ApolloQueryController<WhoAmIQueryResult>) {
   return (
@@ -47,14 +49,25 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
 {
   me: ApolloQueryController<WhoAmIQueryResult> = new ApolloQueryController(this, WhoAmI)
 
+  @state()
+  skipProfileCheck: boolean = false
+
   render() {
-    if (this.me?.loading) {
-      return html`<loading-message>Checking profile&hellip;</loading-message>`
+    if (!this.skipProfileCheck && this.me?.loading) {
+      return html`<loading-message>
+        <p>Checking profile&hellip;</p>
+        <p>
+          Or skip this step and
+          <sl-button variant="default" @click="${() => { this.skipProfileCheck = true; }}">
+            create a new one
+          </sl-button>
+        </p>
+      </loading-message>`
     }
 
     const noProfile = isEmptyProfile(this.me)
 
-    if (!noProfile && this.me?.error) {
+    if (!this.skipProfileCheck && !noProfile && this.me?.error) {
       return html`
         <error-display .error=${this.me.error}>
           <p slot="message">Problem checking profile.</p>
@@ -62,7 +75,7 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
       `
     }
 
-    if (noProfile) {
+    if (noProfile || (this.me?.loading && !this.me?.error)) {
       return html`<slot name="profile-missing" @slotchange=${handleSlotchange}></slot>`
     }
 
