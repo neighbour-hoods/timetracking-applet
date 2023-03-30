@@ -4,6 +4,7 @@
   "type": "module",
   "main": "./TimesheetEntriesList.ts",
   "dependencies": {
+    "@adaburrows/table-web-component": "git://github.com/adaburrows/table-web-component#b2e4f4a",
     "@apollo-elements/core": "^2.1.2",
     "@lit-labs/context": "^0.2.0",
     "@neighbourhoods/component-error-display": "workspace:*",

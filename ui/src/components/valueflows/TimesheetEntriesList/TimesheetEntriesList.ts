@@ -23,7 +23,7 @@
 // import { consume } from "@lit-labs/context";
 import { property } from "lit/decorators.js";
 import { ScopedElementsMixin } from "@open-wc/scoped-elements";
-import { LitElement, TemplateResult, html, css } from "lit";
+import { LitElement, PropertyValues, html, css } from "lit";
 import { ApolloQueryController } from '@apollo-elements/core';
 // @ts-ignore
 import dayjs, { Dayjs } from 'dayjs'
@@ -31,6 +31,12 @@ import dayjs, { Dayjs } from 'dayjs'
 import pluralize from 'pluralize'
 import { EconomicEvent, EconomicEventConnection } from '@valueflows/vf-graphql';
 
+//@ts-ignore
+import { FieldDefinitions, FieldDefinition } from '@adaburrows/table-web-component/dist/field-definitions'
+//@ts-ignore
+import { TableStore } from '@adaburrows/table-web-component/dist/table-store'
+//@ts-ignore
+import { Table } from '@adaburrows/table-web-component/dist/table'
 import { ResourceSpecificationListRow } from '@vf-ui/component-resource-specification-list-row'
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
@@ -98,6 +104,20 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   @property()
   entryRenderer = defaultEntryRenderer
 
+  tableStore: TableStore<EconomicEvent>
+
+  fieldDefs: FieldDefinitions<EconomicEvent> = {
+    '_edit': new FieldDefinition<EconomicEvent>({
+      heading: '',
+      synthesizer: (data: EconomicEvent) => data,
+      decorator: (data: EconomicEvent) => html`<sl-button @click=${() => this.onEditEvent(data)}><sl-icon name="pencil"></sl-icon></sl-button>`,
+    }),
+    'hasBeginning': new FieldDefinition<EconomicEvent>({ heading: 'Date' }),  // :TODO: +hasEnd?
+    'note': new FieldDefinition<EconomicEvent>({ heading: 'Notes' }),
+    'resourceConformsTo': new FieldDefinition<EconomicEvent>({ heading: 'Work type' }), // :TODO: +resourceClassifiedAs & resourceInventoriedAs?
+    'effortQuantity': new FieldDefinition<EconomicEvent>({ heading: 'Duration' }),
+  }
+
   entries?: ApolloQueryController<EventsListQueryResult> = new ApolloQueryController(this, EventsListQuery, {
     onData: (data: EventsListQueryResult) => {
       this.dispatchEvent(new CustomEvent('economicEventsLoaded', {
@@ -107,6 +127,32 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       }))
     }
   })
+
+  constructor() {
+    super()
+    this.tableStore = new TableStore<EconomicEvent>({
+      tableId: 'simple',
+      fieldDefs: this.fieldDefs,
+      records: [],
+      showHeader: true,
+    })
+  }
+
+  // update Table row data when loaded EconomicEvents change
+  async updated(changedProperties: Map<string, any>) {
+    if (changedProperties.has('data') && changedProperties.get('data') !== this.entries?.data) {
+      // :TODO: this causes an unhandled exception somewhere within the reactive update cycle
+      this.tableStore.records = (this.entries?.data?.economicEvents?.edges || [])
+        // only interested in 'effort-based' EconomicEvents (with an `effortQuantity`)
+        .filter(({ node }) => node.effortQuantity && node.effortQuantity.hasUnit)
+        .map(({ node }) => node)
+        .reduce(this.entryReducer, [])
+    }
+  }
+
+  onEditEvent(evt: EconomicEvent) {
+    console.log('edit', evt)
+  }
 
   render() {
     const data = this.entries?.data as EventsListQueryResult
@@ -124,13 +170,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       `
     }
 
-    const events = (data?.economicEvents?.edges || [])
-      // only interested in 'effort-based' EconomicEvents (with an `effortQuantity`)
-      .filter(({ node }) => node.effortQuantity && node.effortQuantity.hasUnit)
-      .map(({ node }) => node)
-      .reduce(this.entryReducer, [])
-
-    if (events.length === 0) {
+    if (this.tableStore.records.length === 0) {
       return html`
         <div>
           <p>Nothing tracked yet!</p>
@@ -139,22 +179,22 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     }
 
     // reduce events into daily chunks
-    const dailyEvents = events.reduce<Record<string, Array<EconomicEvent>>>((res, e) => {
-      const onDate = dayjs(e.hasBeginning).format(SHORT_DATE_FORMAT)
-      if (!res[onDate]) res[onDate] = []
-      res[onDate].push(e)
-      return res
-    }, {})
+    // const dailyEvents = events.reduce<Record<string, Array<EconomicEvent>>>((res, e) => {
+    //   const onDate = dayjs(e.hasBeginning).format(SHORT_DATE_FORMAT)
+    //   if (!res[onDate]) res[onDate] = []
+    //   res[onDate].push(e)
+    //   return res
+    // }, {})
 
     return html`
-      <section class="timesheet-list">
-      ${Object.keys(dailyEvents).map(onDate => [html`
+      <adaburrows-table .tableStore=${this.tableStore}>
+      ${ /* Object.keys(dailyEvents).map(onDate => [html`
           <header>
             <time datetime=${onDate}>${onDate}</time>
           </header>
         `].concat(dailyEvents[onDate].map(this.entryRenderer))
-      )}
-      </section>
+      ) */ html``}
+      </adaburrows-table>
     `
   }
 
@@ -163,6 +203,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       'error-display': ErrorDisplay,
       'vf-resource-specification-row': ResourceSpecificationListRow,
       'loading-message': LoadingMessage,
+      'adaburrows-table': Table,
     };
   }
 
