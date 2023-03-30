@@ -284,7 +284,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
             <sl-input placeholder="Enter time (eg. 1h 30m)" value=${this.timeRaw} @sl-change=${this.onTimeInputChanged}></sl-input>
             ${showAutocomplete ? (html`
               <div class="popup">
-                <sl-button type="submit" ?disabled=${!this.timeUnitDefs}>${renderAutocompleted(duration)}</sl-button>
+                <sl-button type="submit" variant="primary" ?disabled=${!this.timeUnitDefs}>${renderAutocompleted(duration)}</sl-button>
               </div>
             `) : null}
           </form>
@@ -303,6 +303,9 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
   }
 
   static styles = css`
+    :host {
+      --sl-input-border-width: 0px;
+    }
     .outer {
       background-color: var(--nh-timetracker-form-background-color);
       display: grid;

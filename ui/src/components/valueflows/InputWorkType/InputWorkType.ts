@@ -250,6 +250,7 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
         selectedSpec ? html`
           <section class="specification" @click=${this.onResetSelection} @keyUp=${this.onResetKeypress}>
             <p>${selectedSpec.name}</p>
+            <sl-icon class="autocomplete-icon" name="tag"></sl-icon>
           </section>
         ` :
         // render main autocomplete control if no valid selection is made
@@ -275,11 +276,11 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
               <div class="popup">
                 <sl-textarea
                   id="specification-note"
-                  help-text="Please describe this type of work to help others (and your future self) understand it."
+                  placeholder="Please describe this type of work to help others (and your future self) understand it."
                   rows="4"
                   @keyup=${this.cancelCreationOnEscKeypress}
                 ></sl-textarea>
-                <p><sl-button @click="${this.createNew}">Create new work type</sl-button></p>
+                <p><sl-button variant="primary" @click="${this.createNew}">Create new work type</sl-button></p>
               </div>
             ` : html``}
           `}
@@ -333,6 +334,7 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
     }
 
     .specification {
+      position: relative;
       padding: 0 var(--sl-input-spacing-medium);
       font-size: var(--sl-input-font-size-medium);
       line-height: var(--sl-input-height-medium);
@@ -347,6 +349,9 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
       margin: 0;
       font-size: var(--sl-font-size-medium);
       color: var(--nh-applet-primary-text-color);
+    }
+    .specification sl-icon {
+      margin-top: -0.3em; /* :SHONK: workaround for inline-flex positioning in Shoelace UI controls interfering with layout */
     }
 
     aside {
