@@ -10,6 +10,7 @@ import { LitElement, html, css } from "lit";
 import { ApolloMutationController } from '@apollo-elements/core'
 
 import { Button, TextField } from '@scoped-elements/material-web'
+import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 
 import { WhoAmI } from '@valueflows/vf-graphql-shared-queries'
 import {
@@ -41,6 +42,11 @@ export class AgentProfileManage extends ScopedElementsMixin(LitElement)
   profileName: string = DEFAULT_PROFILE_NAME
 
   render() {
+    if (this.createProfile?.loading || this.associateProfile?.loading) {
+      return html`
+        <loading-message><p>Saving profile&hellip;</p></loading-message>
+      `
+    }
     return html`
       <section class="agent-profile">
         Enter your name:
@@ -87,6 +93,7 @@ export class AgentProfileManage extends ScopedElementsMixin(LitElement)
     return {
       'mwc-textfield': TextField,
       'mwc-button': Button,
+      'loading-message': LoadingMessage,
     }
   }
 
