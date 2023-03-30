@@ -276,6 +276,10 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
         </div>
 
         <div class="input">
+          <vf-input-worktype placeholder="What were you doing?" value=${this.workType} @change=${this.onResourceSpecificationChanged}></vf-input-worktype>
+        </div>
+
+        <div class="input">
           <sl-input type="date" placeholder="Select date" value=${this.workDate} @change=${this.workDateChanged}></sl-input>
         </div>
 
@@ -288,10 +292,6 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
               </div>
             `) : null}
           </form>
-        </div>
-
-        <div class="input worktype">
-          <vf-input-worktype placeholder="What were you doing?" value=${this.workType} @change=${this.onResourceSpecificationChanged}></vf-input-worktype>
         </div>
 
         <div class="input">
@@ -310,7 +310,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       background-color: var(--nh-timetracker-form-background-color);
       display: grid;
       column-gap: 0.5em;
-      grid-template-columns: 1fr 0fr minmax(12.6em, 0fr) minmax(13em, 0fr) 0fr;
+      grid-template-columns: 1fr minmax(13em, 0fr) 0fr minmax(12.6em, 0fr) 0fr;
     }
 
     .input, sl-input::part(input) {
