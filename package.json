@@ -1,5 +1,6 @@
 {
   "name": "@neighbourhoods/applet-workspace",
+  "additionalProjectNamespaces": ["valueflows", "vf-ui"],
   "private": true,
   "scripts": {
     "start": "AGENTS=2 npm run network",
@@ -27,12 +28,15 @@
     "clean": "npm run clean:downloaded; npm run clean:build; npm run clean:modules"
   },
   "devDependencies": {
+    "@apollo-elements/core": "^2.1.2",
     "@holochain-playground/cli": "^0.1.1",
     "@lit-labs/scoped-registry-mixin": "^1.0.1",
     "@neighbourhoods/sensemaker-lite-types": "0.4.0",
+    "@valueflows/vf-graphql": "^0.9.0-alpha.9",
     "concurrently": "^6.2.1",
     "concurrently-repeat": "^0.0.1",
     "cross-env": "^7.0.3",
+    "graphql-tag": "^2.12.6",
     "lit-svelte-stores": "^0.2.5",
     "new-port-cli": "^1.0.0",
     "rimraf": "^3.0.2",
