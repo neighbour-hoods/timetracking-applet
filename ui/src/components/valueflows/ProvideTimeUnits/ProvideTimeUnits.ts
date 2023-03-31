@@ -10,7 +10,7 @@
  * @package Neighbourhoods/We Timesheet applet
  * @since   2023-02-13
  */
-import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { LitElement, html, PropertyValues } from "lit";
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 

@@ -22,7 +22,7 @@
 
 // import { consume } from "@lit-labs/context";
 import { property } from "lit/decorators.js";
-import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { LitElement, PropertyValues, html, css } from "lit";
 import { ApolloQueryController } from '@apollo-elements/core';
 // @ts-ignore

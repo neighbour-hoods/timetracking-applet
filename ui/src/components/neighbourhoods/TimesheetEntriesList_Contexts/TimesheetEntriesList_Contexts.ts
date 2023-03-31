@@ -9,7 +9,7 @@
  */
 import { property, state, query } from "lit/decorators.js"
 import { consume } from "@lit-labs/context"
-import { ScopedElementsMixin } from "@open-wc/scoped-elements"
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
 import { LitElement, html, css, PropertyValues, PropertyValueMap } from "lit"
 import { StoreSubscriber } from "lit-svelte-stores"
 

@@ -8,7 +8,7 @@
  */
 import { LitElement, html, css } from 'lit';
 import { state } from 'lit/decorators.js';
-import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { ApolloQueryController } from '@apollo-elements/core'
 
 import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'

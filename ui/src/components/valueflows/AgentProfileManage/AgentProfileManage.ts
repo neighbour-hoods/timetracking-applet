@@ -5,7 +5,7 @@
  * :TODO: add other profile metadata fields
  * :TODO: decide whether this control should also handle edits, and edits to other profiles
  */
-import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { LitElement, html, css } from "lit";
 import { ApolloMutationController } from '@apollo-elements/core'
 

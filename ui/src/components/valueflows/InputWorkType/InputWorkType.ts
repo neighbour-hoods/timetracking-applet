@@ -12,7 +12,7 @@
  * @since   2023-02-15
 */
 import { property, state, query } from "lit/decorators.js"
-import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { LitElement, html, css } from "lit";
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 

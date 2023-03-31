@@ -17,7 +17,7 @@
 
 // import { contextProvided } from "@lit-labs/context"
 import { property, state } from "lit/decorators.js"
-import { ScopedElementsMixin } from "@open-wc/scoped-elements"
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
 import { LitElement, html, css, PropertyValues } from "lit"
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 import dayjs, { Dayjs } from 'dayjs'
