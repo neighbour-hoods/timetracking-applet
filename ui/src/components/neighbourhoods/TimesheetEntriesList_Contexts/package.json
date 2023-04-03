@@ -12,7 +12,7 @@
     "@neighbourhoods/sensemaker-lite-types": "0.4.0",
     "@valueflows/vf-graphql-holochain": "^0.0.1-alpha.17",
     "lit": "^2.6.1",
-    "lit-svelte-stores": "^0.2.5",
+    "lit-svelte-stores": "git://github.com/pospi/lit-svelte-stores.git#22af81e",
     "@lit-labs/scoped-registry-mixin": "^1.0.1"
   },
   "devDependencies": {}
