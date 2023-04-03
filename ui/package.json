@@ -43,6 +43,7 @@
     "@vf-ui/component-provide-time-units": "workspace:*",
     "@vf-ui/component-work-input-daily": "workspace:*",
     "@vf-ui/graphql-client-holochain": "^0.0.1-alpha.17",
+    "@webcomponents/scoped-custom-element-registry": "^0.0.9",
     "graphql": "^15.8.0",
     "lit": "^2.6.1",
     "svelte": "*"
