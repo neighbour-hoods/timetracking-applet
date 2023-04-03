@@ -2,7 +2,7 @@
   "name": "@neighbourhoods/timetracking-applet",
   "private": true,
   "description": "Webcomponent lit-element following open-wc recommendations",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "lit-element",
   "version": "0.0.0",
   "main": "dist/index.js",
