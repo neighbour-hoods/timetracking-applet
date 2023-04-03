@@ -171,6 +171,7 @@ importers:
       '@web/dev-server-rollup': ^0.3.10
       '@web/rollup-plugin-html': ^1.9.1
       '@web/rollup-plugin-import-meta-assets': ^1.0.7
+      '@webcomponents/scoped-custom-element-registry': ^0.0.9
       babel-plugin-template-html-minifier: ^4.1.0
       bestzip: ^2.2.0
       concurrently: ^6.2.1
@@ -215,6 +216,7 @@ importers:
       '@vf-ui/component-provide-time-units': link:src/components/valueflows/ProvideTimeUnits
       '@vf-ui/component-work-input-daily': link:src/components/valueflows/WorkInputManual
       '@vf-ui/graphql-client-holochain': 0.0.1-alpha.17_jg355gmpmpc5f62cr4eh3vwaam
+      '@webcomponents/scoped-custom-element-registry': 0.0.9
       graphql: 15.8.0
       lit: 2.7.0
       svelte: 3.58.0
@@ -5536,6 +5538,10 @@ packages:
       estree-walker: 2.0.2
       magic-string: 0.25.9
     dev: true
+
+  /@webcomponents/scoped-custom-element-registry/0.0.9:
+    resolution: {integrity: sha512-4RVHwN9oIp23mhrxeDbP9/0wvdcrB0d/MFMqIStShIgfzsqXZXf1OdU5kvqjgdMYavQ5Zm8C6BuBcAjzNwAetQ==}
+    dev: false
 
   /@webcomponents/shadycss/1.11.2:
     resolution: {integrity: sha512-vRq+GniJAYSBmTRnhCYPAPq6THYqovJ/gzGThWbgEZUQaBccndGTi1hdiUP15HzEco0I6t4RCtXyX0rsSmwgPw==}
