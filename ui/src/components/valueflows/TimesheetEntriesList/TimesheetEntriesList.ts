@@ -41,6 +41,9 @@ import { ResourceSpecificationListRow } from '@vf-ui/component-resource-specific
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
+import SlButton from '@shoelace-style/shoelace/dist/components/button/button.js'
+import SlIcon from '@shoelace-style/shoelace/dist/components/icon/icon.js'
+
 import { EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
 export { EconomicEvent, EconomicEventConnection, pluralize }
@@ -204,6 +207,8 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       'vf-resource-specification-row': ResourceSpecificationListRow,
       'loading-message': LoadingMessage,
       'adaburrows-table': Table,
+      'sl-button': SlButton,
+      'sl-icon': SlIcon,
     };
   }
 

@@ -12,6 +12,7 @@
     "@adaburrows/table-web-component": "git://github.com/adaburrows/table-web-component#b2e4f4a",
     "@apollo-elements/core": "^2.1.2",
     "@lit-labs/context": "^0.2.0",
+    "@shoelace-style/shoelace": "^2.3.0",
     "@valueflows/vf-graphql": "^0.9.0-alpha.9",
     "dayjs": "^1.11.7",
     "graphql-tag": "^2.12.6",
