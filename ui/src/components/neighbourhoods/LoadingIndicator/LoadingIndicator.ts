@@ -1,7 +1,7 @@
 import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { LitElement, html, css } from "lit";
 
-import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
+import SlSpinner from '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
 
 export class LoadingIndicator extends ScopedElementsMixin(LitElement) {
 
@@ -11,10 +11,9 @@ export class LoadingIndicator extends ScopedElementsMixin(LitElement) {
     `
   }
 
-  // static get elementDefinitions() {
-  //   return {
-  //   }
-  // }
+  static elementDefinitions = {
+    'sl-spinner': SlSpinner,
+  }
 
   static styles = css`
     :host {

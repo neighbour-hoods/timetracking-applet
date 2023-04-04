@@ -32,9 +32,9 @@ import { ITimeUnits } from '@vf-ui/component-provide-time-units'
 import { InputWorkType } from '@vf-ui/component-input-work-type'
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
-import '@shoelace-style/shoelace/dist/components/input/input.js'
-import '@shoelace-style/shoelace/dist/components/button/button.js'
-import '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
+import SlInput from '@shoelace-style/shoelace/dist/components/input/input.js'
+import SlButton from '@shoelace-style/shoelace/dist/components/button/button.js'
+import SlTextArea from '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
 
 import { EventCreateMutation, EventCreateResponse } from './mutations'
 
@@ -367,6 +367,9 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     return {
       'error-display': ErrorDisplay,
       'vf-input-worktype': InputWorkType,
+      'sl-input': SlInput,
+      'sl-button': SlButton,
+      'sl-textarea': SlTextArea,
     };
   }
 }

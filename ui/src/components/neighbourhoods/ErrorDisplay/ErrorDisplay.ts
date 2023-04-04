@@ -2,8 +2,8 @@ import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-regi
 import { LitElement, html, css } from "lit"
 import { property } from "lit/decorators.js"
 
-import '@shoelace-style/shoelace/dist/components/alert/alert.js'
-import '@shoelace-style/shoelace/dist/components/icon/icon.js'
+import SlAlert from '@shoelace-style/shoelace/dist/components/alert/alert.js'
+import SlIcon from '@shoelace-style/shoelace/dist/components/icon/icon.js'
 
 export class ErrorDisplay extends ScopedElementsMixin(LitElement) {
   @property()
@@ -24,10 +24,10 @@ export class ErrorDisplay extends ScopedElementsMixin(LitElement) {
     `
   }
 
-  // static get elementDefinitions() {
-  //   return {
-  //   }
-  // }
+  static elementDefinitions = {
+    'sl-alert': SlAlert,
+    'sl-icon': SlIcon,
+  }
 
   static styles = css`
     :host {

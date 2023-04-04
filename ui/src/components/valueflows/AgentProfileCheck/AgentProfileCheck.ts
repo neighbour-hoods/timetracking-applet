@@ -16,7 +16,7 @@ import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
-import '@shoelace-style/shoelace/dist/components/button/button.js'
+import SlButton from '@shoelace-style/shoelace/dist/components/button/button.js'
 
 function isEmptyProfile(me ?: ApolloQueryController<WhoAmIQueryResult>) {
   return (
@@ -94,6 +94,7 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
     return {
       'error-display': ErrorDisplay,
       'loading-message': LoadingMessage,
+      'sl-button': SlButton,
     }
   }
 }

@@ -22,13 +22,13 @@ import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 import { ResourceSpecificationsResponse, ReadAllResourceSpecifications, ResourceSpecificationEdge, ResourceSpecification } from './queries'
 import { CreateResourceSpecification, ResourceSpecificationCreateResponse } from './mutations'
 
-import '@shoelace-style/shoelace/dist/components/button/button.js'
-import '@shoelace-style/shoelace/dist/components/icon/icon.js'
-import '@shoelace-style/shoelace/dist/components/input/input.js'
-import '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
-import '@shoelace-style/shoelace/dist/components/dropdown/dropdown.js'
-import '@shoelace-style/shoelace/dist/components/menu/menu.js'
-import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
+import SlButton from '@shoelace-style/shoelace/dist/components/button/button.js'
+import SlIcon from '@shoelace-style/shoelace/dist/components/icon/icon.js'
+import SlInput from '@shoelace-style/shoelace/dist/components/input/input.js'
+import SlTextArea from '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
+import SlDropdown from '@shoelace-style/shoelace/dist/components/dropdown/dropdown.js'
+import SlMenu from '@shoelace-style/shoelace/dist/components/menu/menu.js'
+import SlMenuItem from '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
 
 export class InputWorkType extends ScopedElementsMixin(LitElement)
 {
@@ -366,6 +366,13 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
     return {
       'loading-message': LoadingMessage,
       'error-display': ErrorDisplay,
+      'sl-button': SlButton,
+      'sl-icon': SlIcon,
+      'sl-input': SlInput,
+      'sl-textarea': SlTextArea,
+      'sl-dropdown': SlDropdown,
+      'sl-menu': SlMenu,
+      'sl-menu-item': SlMenuItem,
     }
   }
 }
