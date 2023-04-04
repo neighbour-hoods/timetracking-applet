@@ -29,8 +29,10 @@
   },
   "devDependencies": {
     "@apollo-elements/core": "^2.1.2",
+    "@holochain/client": "0.12.0",
     "@holochain-playground/cli": "^0.1.1",
     "@lit-labs/scoped-registry-mixin": "^1.0.1",
+    "@neighbourhoods/nh-launcher-applet": "0.0.10",
     "@neighbourhoods/sensemaker-lite-types": "0.4.0",
     "@valueflows/vf-graphql": "^0.9.0-alpha.9",
     "concurrently": "^6.2.1",
