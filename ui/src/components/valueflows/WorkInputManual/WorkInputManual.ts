@@ -363,7 +363,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     }
   `
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'error-display': ErrorDisplay,
       'vf-input-worktype': InputWorkType,

@@ -89,7 +89,7 @@ export class AgentProfileManage extends ScopedElementsMixin(LitElement)
     return associated ? me.agent : null
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'mwc-textfield': TextField,
       'mwc-button': Button,

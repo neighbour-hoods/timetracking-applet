@@ -11,7 +11,7 @@ export class LoadingIndicator extends ScopedElementsMixin(LitElement) {
     `
   }
 
-  // static get scopedElements() {
+  // static get elementDefinitions() {
   //   return {
   //   }
   // }

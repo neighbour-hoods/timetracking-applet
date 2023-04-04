@@ -24,7 +24,7 @@ export class ErrorDisplay extends ScopedElementsMixin(LitElement) {
     `
   }
 
-  // static get scopedElements() {
+  // static get elementDefinitions() {
   //   return {
   //   }
   // }

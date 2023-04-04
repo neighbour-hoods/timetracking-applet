@@ -66,7 +66,7 @@ export class ResourceSpecificationListRow extends ScopedElementsMixin(LitElement
     `
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'loading-message': LoadingMessage,
     }

@@ -270,7 +270,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     `
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'error-display': ErrorDisplay,
       'vf-timesheet-entries-list': TimesheetEntriesListBase,

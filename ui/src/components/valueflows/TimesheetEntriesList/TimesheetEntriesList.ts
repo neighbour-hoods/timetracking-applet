@@ -198,7 +198,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     `
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'error-display': ErrorDisplay,
       'vf-resource-specification-row': ResourceSpecificationListRow,

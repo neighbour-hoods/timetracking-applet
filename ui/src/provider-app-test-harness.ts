@@ -1,3 +1,5 @@
+import '@webcomponents/scoped-custom-element-registry';
+
 import { LitElement, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import {
@@ -181,7 +183,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     });
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'provider-app': ProviderApp,
       'create-or-join-nh': CreateOrJoinNh,

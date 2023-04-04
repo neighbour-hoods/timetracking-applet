@@ -134,7 +134,7 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
     return html`<slot @slotchange=${this.handleSlotchange} .timeUnitDefs=${this.units.loading ? undefined : this.units?.data}></slot>`
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'error-display': ErrorDisplay,
       'loading-message': LoadingMessage,

@@ -14,7 +14,7 @@ export class LoadingMessage extends ScopedElementsMixin(LitElement) {
     `
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'loading-indicator': LoadingIndicator,
     }

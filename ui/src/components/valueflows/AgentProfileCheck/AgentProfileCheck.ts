@@ -90,7 +90,7 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
     }
   `
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'error-display': ErrorDisplay,
       'loading-message': LoadingMessage,

@@ -89,7 +89,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     }
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'apollo-client': ApolloClientElement,
       'agent-profile-check': AgentProfileCheck,
