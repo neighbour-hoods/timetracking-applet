@@ -27,6 +27,7 @@ import { LitElement, PropertyValues, html, css } from "lit";
 import { ApolloQueryController } from '@apollo-elements/core';
 // @ts-ignore
 import dayjs, { Dayjs } from 'dayjs'
+import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 // @ts-ignore
 import pluralize from 'pluralize'
 import { EconomicEvent, EconomicEventConnection } from '@valueflows/vf-graphql';
@@ -44,8 +45,11 @@ import { EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-s
 
 export { EconomicEvent, EconomicEventConnection, pluralize }
 
-const SHORT_DATE_FORMAT = 'YYYY-MM-DD'
+dayjs.extend(LocalizedFormat)
+
+// const SHORT_DATE_FORMAT = 'YYYY-MM-DD'
 const LONG_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
+const READABLE_DATE_FORMAT = 'LL'
 const READABLE_TIME_FORMAT = 'LT'
 
 // formatting helpers
@@ -111,7 +115,10 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       synthesizer: (data: EconomicEvent) => data,
       decorator: (data: EconomicEvent) => html`<sl-button @click=${() => this.onEditEvent(data)}><sl-icon name="pencil"></sl-icon></sl-button>`,
     }),
-    'hasBeginning': new FieldDefinition<EconomicEvent>({ heading: 'Date' }),  // :TODO: +hasEnd?
+    'hasBeginning': new FieldDefinition<EconomicEvent>({
+      heading: 'Date',
+      decorator: (date: Date) => dayjs(date).format(READABLE_DATE_FORMAT),
+    }),  // :TODO: +hasEnd?
     'note': new FieldDefinition<EconomicEvent>({ heading: 'Notes' }),
     'resourceConformsTo': new FieldDefinition<EconomicEvent>({ heading: 'Work type' }), // :TODO: +resourceClassifiedAs & resourceInventoriedAs?
     'effortQuantity': new FieldDefinition<EconomicEvent>({ heading: 'Duration' }),
