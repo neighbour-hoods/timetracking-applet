@@ -9,7 +9,7 @@
     "@valueflows/vf-graphql-shared-queries": "workspace:*",
     "@valueflows/vf-graphql-type-fragments": "workspace:*",
     "@vf-ui/component-resource-specification-list-row": "workspace:*",
-    "@adaburrows/table-web-component": "git://github.com/adaburrows/table-web-component#b2e4f4a",
+    "@adaburrows/table-web-component": "git://github.com/adaburrows/table-web-component#7c32f0d",
     "@apollo-elements/core": "^2.1.2",
     "@lit-labs/context": "^0.2.0",
     "@shoelace-style/shoelace": "^2.3.0",
