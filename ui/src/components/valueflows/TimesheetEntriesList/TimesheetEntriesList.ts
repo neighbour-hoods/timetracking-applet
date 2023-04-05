@@ -32,11 +32,7 @@ import pluralize from 'pluralize'
 import { EconomicEvent, EconomicEventConnection } from '@valueflows/vf-graphql';
 
 //@ts-ignore
-import { FieldDefinitions, FieldDefinition } from '@adaburrows/table-web-component/dist/field-definitions'
-//@ts-ignore
-import { TableStore } from '@adaburrows/table-web-component/dist/table-store'
-//@ts-ignore
-import { Table } from '@adaburrows/table-web-component/dist/table'
+import { FieldDefinitions, FieldDefinition, TableStore, Table } from '@adaburrows/table-web-component'
 import { ResourceSpecificationListRow } from '@vf-ui/component-resource-specification-list-row'
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
