@@ -198,7 +198,8 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
     let resp
     try {
-      resp = ((await this.createEvent.mutate({ variables: { event } })) as { createEconomicEvent: EconomicEventResponse }).createEconomicEvent
+      const r = await this.createEvent.mutate({ variables: { event } })
+      resp = (r.data as { createEconomicEvent: EconomicEventResponse }).createEconomicEvent
     } catch (e) {
       console.error(e)
       throw e
@@ -209,8 +210,6 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       bubbles: true,
       composed: true,
     }))
-
-    return resp
   }
 
   onResourceSpecificationChanged(e: Event) {
