@@ -30,7 +30,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 // @ts-ignore
 import pluralize from 'pluralize'
-import { EconomicEvent, EconomicEventConnection } from '@valueflows/vf-graphql';
+import { EconomicEvent, EconomicEventConnection, ResourceSpecification, Measure } from '@valueflows/vf-graphql';
 
 //@ts-ignore
 import { FieldDefinitions, FieldDefinition, TableStore, Table } from '@adaburrows/table-web-component'
@@ -120,8 +120,15 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       decorator: (date: Date) => dayjs(date).format(READABLE_DATE_FORMAT),
     }),  // :TODO: +hasEnd?
     'note': new FieldDefinition<EconomicEvent>({ heading: 'Notes' }),
-    'resourceConformsTo': new FieldDefinition<EconomicEvent>({ heading: 'Work type' }), // :TODO: +resourceClassifiedAs & resourceInventoriedAs?
-    'effortQuantity': new FieldDefinition<EconomicEvent>({ heading: 'Duration' }),
+    'resourceConformsTo': new FieldDefinition<EconomicEvent>({
+      heading: 'Work type',
+      decorator: (spec: ResourceSpecification) => spec.name
+    }), // :TODO: +resourceClassifiedAs & resourceInventoriedAs?
+    'effortQuantity': new FieldDefinition<EconomicEvent>({
+      heading: 'Duration',
+      // :TODO: format with coarsest applicable dimension & remainder units
+      decorator: (qty: Measure) => html`${qty.hasNumericalValue} ${qty.hasUnit?.symbol}`
+    }),
   }
 
   entries?: ApolloQueryController<EventsListQueryResult> = new ApolloQueryController(this, EventsListQuery, {
