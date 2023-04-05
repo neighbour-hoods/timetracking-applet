@@ -271,7 +271,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       <section class="outer">
 
         <div class="input">
-          <sl-textarea placeholder="(no description)" value=${this.note} rows="1"></sl-textarea>
+          <sl-textarea placeholder="(no description)" value=${this.note} @sl-change=${(e: { target: { value: string }}) => this.note = e.target.value} rows="1"></sl-textarea>
         </div>
 
         <div class="input">
