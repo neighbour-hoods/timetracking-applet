@@ -10,16 +10,14 @@
 import { property, state, query } from "lit/decorators.js"
 import { consume } from "@lit-labs/context"
 import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
-import { LitElement, html, css, PropertyValues, PropertyValueMap } from "lit"
+import { LitElement, html, css, PropertyValues } from "lit"
 import { StoreSubscriber } from "lit-svelte-stores"
 
 import { ErrorDisplay } from '@neighbourhoods/component-error-display'
 import {
   TimesheetEntriesList as TimesheetEntriesListBase,
+  defaultFieldDefs, FieldDefinitions, FieldDefinition,
   EconomicEvent, EconomicEventConnection,
-  workEffort, workUnitLabel,
-  getTimeDisplayText, getTimeISOString,
-  pluralize,
 } from '@vf-ui/component-time-entries-list'
 import { deserializeId } from '@valueflows/vf-graphql-holochain/connection'
 import { EntryHash, encodeHashToBase64, EntryHashB64 } from '@holochain/client'
@@ -105,14 +103,54 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   // Sensemaker store subscription handlers
   @state()
   appletConfig?: StoreSubscriber<AppletConfig>
+
   @state()
   resourceAssessments?: StoreSubscriber<{ [entryHash: string]: Assessment[] }>
+
   @state()
   contextResults?: StoreSubscriber<{ [culturalContextName: string]: EntryHash[] }>
 
   // derived Sensemaker store state
   @state()
   entryTotals?: EntryTotals
+
+  // field defs for rendering the table
+  @state()
+  fieldDefs?: FieldDefinitions<EconomicEvent>
+
+  constructor() {
+    super()
+
+    // inject additional contextual inputs to table cells
+    const defs = defaultFieldDefs(this)
+    defs['_edit'] = new FieldDefinition<EconomicEvent>({
+      heading: '',
+      synthesizer: (data: EconomicEvent) => data,
+      decorator: (data: EconomicEvent) => {
+        const onVerify = this.handleAssessment.bind(this, "verify", data.id)
+        const onFlag = this.handleAssessment.bind(this, "followup", data.id)
+
+        const nodeHash = encodeHashToBase64(deserializeId(data.id)[1])
+        const verifiedDim = this.entryTotals ? (this.entryTotals.verify.get(nodeHash) || []) : []
+        const numVerified = verifiedDim.length ? (verifiedDim[verifiedDim.length - 1].value as RangeValueInteger).Integer : 0
+        const flaggedDim = this.entryTotals ? (this.entryTotals.followup.get(nodeHash) || []) : []
+        const numFlagged = flaggedDim.length ? (flaggedDim[flaggedDim.length - 1].value as RangeValueInteger).Integer : 0
+
+        return html`<ul part="row-actions">
+          <li part="row-action"><sl-button @click=${() => this.onEditEvent(data)}><sl-icon name="pencil"></sl-icon></sl-button>
+          <li part="row-action">
+            <sl-button @click=${onVerify} @keyUp=${onVerify}><sl-icon name="check2-circle"></sl-icon></sl-button>
+            ${numVerified ? html`(${numVerified})` : null}
+          </li>
+          <li part="row-action">
+            <sl-button @click=${onFlag} @keyUp=${onFlag}><sl-icon name="check2-circle"></sl-icon></sl-button>
+            ${numFlagged ? html`(${numFlagged})` : null}
+          </li>
+        </ul>`
+      },
+    })
+    this.fieldDefs = defs
+  }
 
   async updated(changedProperties: PropertyValues<this>) {
     // rebind relevant sensemakerStore observables when the store instance is assigned
@@ -203,37 +241,8 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     }
   }
 
-  renderEntry(node: EventWithAssessment) {
-    const onVerify = this.handleAssessment.bind(this, "verify", node.id)
-    const onFlag = this.handleAssessment.bind(this, "followup", node.id)
-
-    const nodeHash = encodeHashToBase64(deserializeId(node.id)[1])
-    const verifiedDim = this.entryTotals ? (this.entryTotals.verify.get(nodeHash) || []) : []
-    const numVerified = verifiedDim.length ? (verifiedDim[verifiedDim.length - 1].value as RangeValueInteger).Integer : 0
-    const flaggedDim = this.entryTotals ? (this.entryTotals.followup.get(nodeHash) || []) : []
-    const numFlagged = flaggedDim.length ? (flaggedDim[flaggedDim.length - 1].value as RangeValueInteger).Integer : 0
-
-    return html`
-      <article>
-        <header>
-          <time datetime=${getTimeISOString(node)}>${getTimeDisplayText(node)}</time>
-          <span>${pluralize(workUnitLabel(node), workEffort(node), true)}</span>
-        </header>
-        <div class="body">
-          <vf-resource-specification-row .record=${node.resourceConformsTo}></vf-resource-specification-row>
-          <h3>${node.note}</h3>
-        </div>
-        <footer>
-          <!-- :TODO: agent display for multi-agent networks -->
-        </footer>
-        <meta>
-          <button @click=${onVerify} @keyUp=${onVerify}>verify</button>
-          ${numVerified ? html`(${numVerified})` : null}
-          <button @click=${onFlag} @keyUp=${onFlag}>flag</button>
-          ${numFlagged ? html`(${numFlagged})` : null}
-        </meta>
-      </article>
-    `
+  onEditEvent(evt: EconomicEvent) {
+    console.log('edit', evt)
   }
 
   render() {
@@ -263,8 +272,8 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       <vf-timesheet-entries-list
         id="entries-list"
         @economicEventsLoaded=${this.fetchAssessments}
+        .fieldDefs=${this.fieldDefs}
         .entryReducer=${combineSensemakerData(contextHashes, assessments)}
-        .entryRenderer=${this.renderEntry.bind(this)}
       >
       </vf-timesheet-entries-list>
     `
@@ -277,10 +286,16 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     };
   }
 
-  static css = css`
+  static styles = css`
     .view-controls button {
       clear: left;
       display: inline-block;
     }
+
+    vf-timesheet-entries-list::part(row-actions) {
+      list-style-type: none;
+    }
+    vf-timesheet-entries-list::part(row-actions),
+    vf-timesheet-entries-list::part(row-action) { margin: 0; padding: 0; }
   `
 }

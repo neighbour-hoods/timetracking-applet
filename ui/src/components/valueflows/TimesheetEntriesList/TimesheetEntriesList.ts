@@ -23,7 +23,7 @@
 // import { consume } from "@lit-labs/context";
 import { property } from "lit/decorators.js";
 import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
-import { LitElement, PropertyValues, html, css } from "lit";
+import { LitElement, html, css, TemplateResult } from "lit";
 import { ApolloQueryController } from '@apollo-elements/core';
 // @ts-ignore
 import dayjs, { Dayjs } from 'dayjs'
@@ -33,7 +33,7 @@ import pluralize from 'pluralize'
 import { EconomicEvent, EconomicEventConnection, ResourceSpecification, Measure } from '@valueflows/vf-graphql';
 
 //@ts-ignore
-import { FieldDefinitions, FieldDefinition, TableStore, Table } from '@adaburrows/table-web-component'
+import { FieldDefinitions, FieldDefinition, TableStore } from '@adaburrows/table-web-component'
 import { ResourceSpecificationListRow } from '@vf-ui/component-resource-specification-list-row'
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
@@ -43,11 +43,10 @@ import SlIcon from '@shoelace-style/shoelace/dist/components/icon/icon.js'
 
 import { EventsListQuery, EventsListQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
-export { EconomicEvent, EconomicEventConnection, pluralize }
+export { EconomicEvent, EconomicEventConnection, FieldDefinitions, FieldDefinition, pluralize }
 
 dayjs.extend(LocalizedFormat)
 
-// const SHORT_DATE_FORMAT = 'YYYY-MM-DD'
 const LONG_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
 const READABLE_DATE_FORMAT = 'LL'
 const READABLE_TIME_FORMAT = 'LT'
@@ -76,26 +75,34 @@ export const getTimeDisplayText = (node: EconomicEvent): string | null => {
 }
 export const getTimeISOString = (node: EconomicEvent) => getEventStartTime(node).format(LONG_DATETIME_FORMAT)
 
-export const defaultEntryRenderer = (node: EconomicEvent) => html`
-  <article>
-    <header>
-      <time datetime=${getTimeISOString(node)}>${getTimeDisplayText(node)}</time>
-      <span>${pluralize(workUnitLabel(node), workEffort(node), true)}</span>
-    </header>
-    <div class="body">
-      <vf-resource-specification-row .record=${node.resourceConformsTo}></vf-resource-specification-row>
-      <h3>${node.note}</h3>
-    </div>
-    <footer>
-      <!-- :TODO: agent display for multi-agent networks -->
-    </footer>
-  </article>
-`
-
 export const defaultEntryReducer = (res: EconomicEvent[], e: EconomicEvent) => {
   res.push(e)
   return res
 }
+
+export interface EconomicEventInteractionHandler {
+  onEditEvent: (evt: EconomicEvent) => void
+}
+
+export const defaultFieldDefs = (thisObj: EconomicEventInteractionHandler) => ({
+  // :IMPORTANT: 0th row retrieves the full data for inference in render reducer
+  '_data': new FieldDefinition<EconomicEvent>({ synthesizer: (data: EconomicEvent) => data }),
+  '_edit': new FieldDefinition<EconomicEvent>({
+    heading: '',
+    synthesizer: (data: EconomicEvent) => data,
+    decorator: (data: EconomicEvent) => html`<sl-button @click=${() => thisObj.onEditEvent(data)}><sl-icon name="pencil"></sl-icon></sl-button>`,
+  }),
+  'note': new FieldDefinition<EconomicEvent>({ heading: 'Notes' }),
+  'resourceConformsTo': new FieldDefinition<EconomicEvent>({
+    heading: 'Work type',
+    decorator: (spec: ResourceSpecification) => spec.name
+  }), // :TODO: +resourceClassifiedAs & resourceInventoriedAs?
+  'effortQuantity': new FieldDefinition<EconomicEvent>({
+    heading: 'Duration',
+    // :TODO: format with coarsest applicable dimension & remainder units
+    decorator: (qty: Measure) => html`${qty.hasNumericalValue} ${qty.hasUnit?.symbol}`
+  }),
+})
 
 export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 {
@@ -103,33 +110,10 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   @property()
   entryReducer: (a: EconomicEvent[], e: EconomicEvent) => EconomicEvent[] = defaultEntryReducer
 
-  // Allow override of rendering logic / template for rows
-  @property()
-  entryRenderer = defaultEntryRenderer
-
   tableStore: TableStore<EconomicEvent>
 
-  fieldDefs: FieldDefinitions<EconomicEvent> = {
-    '_edit': new FieldDefinition<EconomicEvent>({
-      heading: '',
-      synthesizer: (data: EconomicEvent) => data,
-      decorator: (data: EconomicEvent) => html`<sl-button @click=${() => this.onEditEvent(data)}><sl-icon name="pencil"></sl-icon></sl-button>`,
-    }),
-    'hasBeginning': new FieldDefinition<EconomicEvent>({
-      heading: 'Date',
-      decorator: (date: Date) => dayjs(date).format(READABLE_DATE_FORMAT),
-    }),  // :TODO: +hasEnd?
-    'note': new FieldDefinition<EconomicEvent>({ heading: 'Notes' }),
-    'resourceConformsTo': new FieldDefinition<EconomicEvent>({
-      heading: 'Work type',
-      decorator: (spec: ResourceSpecification) => spec.name
-    }), // :TODO: +resourceClassifiedAs & resourceInventoriedAs?
-    'effortQuantity': new FieldDefinition<EconomicEvent>({
-      heading: 'Duration',
-      // :TODO: format with coarsest applicable dimension & remainder units
-      decorator: (qty: Measure) => html`${qty.hasNumericalValue} ${qty.hasUnit?.symbol}`
-    }),
-  }
+  @property()
+  fieldDefs: FieldDefinitions<EconomicEvent> = defaultFieldDefs(this)
 
   entries?: ApolloQueryController<EventsListQueryResult> = new ApolloQueryController(this, EventsListQuery, {
     onData: (data: EventsListQueryResult) => {
@@ -153,12 +137,15 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
 
   // update Table row data when loaded EconomicEvents change
   async updated(changedProperties: Map<string, any>) {
+    if (changedProperties.has('fieldDefs') && changedProperties.get('fieldDefs') !== this.fieldDefs) {
+      this.tableStore.fieldDefs = this.fieldDefs
+    }
     if (changedProperties.has('data') && changedProperties.get('data') !== this.entries?.data) {
       // :TODO: this causes an unhandled exception somewhere within the reactive update cycle
       this.tableStore.records = (this.entries?.data?.economicEvents?.edges || [])
         // only interested in 'effort-based' EconomicEvents (with an `effortQuantity`)
-        .filter(({ node }) => node.effortQuantity && node.effortQuantity.hasUnit)
-        .map(({ node }) => node)
+        .filter(({ node }: { node: EconomicEvent }) => node.effortQuantity && node.effortQuantity.hasUnit)
+        .map(({ node }: { node: EconomicEvent }) => node)
         .reduce(this.entryReducer, [])
     }
   }
@@ -191,47 +178,61 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       `
     }
 
-    // reduce events into daily chunks
-    // const dailyEvents = events.reduce<Record<string, Array<EconomicEvent>>>((res, e) => {
-    //   const onDate = dayjs(e.hasBeginning).format(SHORT_DATE_FORMAT)
-    //   if (!res[onDate]) res[onDate] = []
-    //   res[onDate].push(e)
-    //   return res
-    // }, {})
+    // synthesize all necessary data from the table through its fieldDefs
+    const tableRows = this.tableStore.getRows()
 
+    // reduce events into daily chunks
+    // @ts-ignore
+    const dailyEvents = tableRows.reduce<Record<string, Array<RowValue[]>>>((res, row) => {
+      const data = row.shift()?.value
+      const onDate = dayjs(data.hasBeginning).format(LONG_DATETIME_FORMAT)
+      if (!res[onDate]) res[onDate] = []
+      res[onDate].push(row)
+      return res
+    }, {})
+
+    // render table segmented by daily header rows
     return html`
-      <adaburrows-table .tableStore=${this.tableStore}>
-      ${ /* Object.keys(dailyEvents).map(onDate => [html`
-          <header>
-            <time datetime=${onDate}>${onDate}</time>
-          </header>
-        `].concat(dailyEvents[onDate].map(this.entryRenderer))
-      ) */ html``}
-      </adaburrows-table>
+      <table>
+        <colgroup>
+          <col class="actions"></col>
+          <col></col>
+          <col></col>
+          <col></col>
+        </colgroup>
+      ${Object.keys(dailyEvents).map(onDate => [
+      html`
+        <tr>
+          <th>&nbsp;</th>
+          <th colSpan=${Object.keys(this.fieldDefs).length - 2}>
+            <time datetime=${onDate}>${dayjs(onDate).format(READABLE_DATE_FORMAT)}</time>
+          </th>
+        </tr>
+      `].concat(dailyEvents[onDate].map((d: { value: TemplateResult }[]) => html`<tr>${d.map(d => html`<td>${d.value}</td>`)}</tr>`))
+      )}
+      </table>
     `
   }
 
-  static get elementDefinitions() {
-    return {
-      'error-display': ErrorDisplay,
-      'vf-resource-specification-row': ResourceSpecificationListRow,
-      'loading-message': LoadingMessage,
-      'adaburrows-table': Table,
-      'sl-button': SlButton,
-      'sl-icon': SlIcon,
-    };
+  static elementDefinitions = {
+    'error-display': ErrorDisplay,
+    'vf-resource-specification-row': ResourceSpecificationListRow,
+    'loading-message': LoadingMessage,
+    'sl-button': SlButton,
+    'sl-icon': SlIcon,
   }
 
   static styles = css`
-    article {
-      display: flex;
-      flex-direction: column;
+    table {
+      width: 100%;
+      table-layout: fixed;
     }
-    header, footer {
-      flex: 0;
+    col.actions {
+      width: 2em;
     }
-    .body {
-      flex: 1;
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   `
 }
