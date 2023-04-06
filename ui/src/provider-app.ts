@@ -108,5 +108,10 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     :not(:defined) {
       visibility: hidden;
     }
+
+    :host {
+      font-size: 1em;
+      font-size: min(2.5em, max(1em, 2.7vmin));
+    }
   `;
 }

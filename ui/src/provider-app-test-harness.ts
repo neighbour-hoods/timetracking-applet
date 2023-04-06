@@ -195,16 +195,8 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   static styles = css`
     ${cssThemeVars}
 
-    :host {
-      min-height: 100vh;
-      font-size: calc(10px + 2vmin);
-      max-width: 960px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-    }
-
     main {
+      min-height: 100vh;
       flex: 1;
       display: flex;
       align-items: center;
@@ -222,6 +214,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
 
     .home-page {
       flex-grow: 1;
+      max-width: 100%;
     }
   `;
 }
