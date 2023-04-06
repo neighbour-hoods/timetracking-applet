@@ -12,7 +12,7 @@
  * @since   2023-02-15
 */
 import { property, state, query } from "lit/decorators.js"
-import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { LitElement, html, css } from "lit";
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 
@@ -22,13 +22,13 @@ import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 import { ResourceSpecificationsResponse, ReadAllResourceSpecifications, ResourceSpecificationEdge, ResourceSpecification } from './queries'
 import { CreateResourceSpecification, ResourceSpecificationCreateResponse } from './mutations'
 
-import '@shoelace-style/shoelace/dist/components/button/button.js'
-import '@shoelace-style/shoelace/dist/components/icon/icon.js'
-import '@shoelace-style/shoelace/dist/components/input/input.js'
-import '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
-import '@shoelace-style/shoelace/dist/components/dropdown/dropdown.js'
-import '@shoelace-style/shoelace/dist/components/menu/menu.js'
-import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
+import SlButton from '@shoelace-style/shoelace/dist/components/button/button.js'
+import SlIcon from '@shoelace-style/shoelace/dist/components/icon/icon.js'
+import SlInput from '@shoelace-style/shoelace/dist/components/input/input.js'
+import SlTextArea from '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
+import SlDropdown from '@shoelace-style/shoelace/dist/components/dropdown/dropdown.js'
+import SlMenu from '@shoelace-style/shoelace/dist/components/menu/menu.js'
+import SlMenuItem from '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
 
 export class InputWorkType extends ScopedElementsMixin(LitElement)
 {
@@ -362,10 +362,17 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
     }
   `
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'loading-message': LoadingMessage,
       'error-display': ErrorDisplay,
+      'sl-button': SlButton,
+      'sl-icon': SlIcon,
+      'sl-input': SlInput,
+      'sl-textarea': SlTextArea,
+      'sl-dropdown': SlDropdown,
+      'sl-menu': SlMenu,
+      'sl-menu-item': SlMenuItem,
     }
   }
 }

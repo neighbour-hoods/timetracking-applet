@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { provide } from '@lit-labs/context';
-import { ScopedElementsMixin } from '@open-wc/scoped-elements';
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { get } from 'svelte/store';
 
 import { SensemakerStore } from '@neighbourhoods/nh-launcher-applet';
@@ -89,7 +89,7 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     }
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'apollo-client': ApolloClientElement,
       'agent-profile-check': AgentProfileCheck,
@@ -107,6 +107,11 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     // prevent FoUC with customElements
     :not(:defined) {
       visibility: hidden;
+    }
+
+    :host {
+      font-size: 1em;
+      font-size: min(2.5em, max(1em, 2.7vmin));
     }
   `;
 }

@@ -1,3 +1,5 @@
+import '@webcomponents/scoped-custom-element-registry';
+
 import { LitElement, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import {
@@ -12,7 +14,7 @@ import {
   ClonedCell,
 } from '@holochain/client';
 import { CircularProgress } from '@scoped-elements/material-web';
-import { ScopedElementsMixin } from '@open-wc/scoped-elements';
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { provideGraphQLClient, ApolloClient, NormalizedCacheObject } from './provider-graphql-client';
 import { SensemakerService, SensemakerStore } from '@neighbourhoods/nh-launcher-applet';
 import { CreateOrJoinNh } from '@neighbourhoods/component-create-or-join-nh';
@@ -181,7 +183,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
     });
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'provider-app': ProviderApp,
       'create-or-join-nh': CreateOrJoinNh,
@@ -193,16 +195,8 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
   static styles = css`
     ${cssThemeVars}
 
-    :host {
-      min-height: 100vh;
-      font-size: calc(10px + 2vmin);
-      max-width: 960px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-    }
-
     main {
+      min-height: 100vh;
       flex: 1;
       display: flex;
       align-items: center;
@@ -220,6 +214,7 @@ export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
 
     .home-page {
       flex-grow: 1;
+      max-width: 100%;
     }
   `;
 }

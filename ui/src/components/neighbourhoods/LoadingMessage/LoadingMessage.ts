@@ -1,4 +1,4 @@
-import { ScopedElementsMixin } from "@open-wc/scoped-elements"
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
 import { LitElement, html, css } from "lit"
 import { property } from "lit/decorators.js"
 
@@ -14,7 +14,7 @@ export class LoadingMessage extends ScopedElementsMixin(LitElement) {
     `
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'loading-indicator': LoadingIndicator,
     }

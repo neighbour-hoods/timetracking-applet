@@ -10,7 +10,7 @@
  * @package Neighbourhoods/We Timesheet applet
  * @since   2023-02-13
  */
-import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { LitElement, html, PropertyValues } from "lit";
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 
@@ -58,6 +58,13 @@ export interface ITimeUnits {
   seconds: Unit,
 }
 
+const coreUnitsQueryVars = {
+  // :TODO: update to use query API
+  hours: 'h',
+  minutes: 'min',
+  seconds: 's',
+}
+
 export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
 {
   private slottedChildren: HTMLElement[] = []
@@ -65,21 +72,20 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
   _initialisedUnitRecords = false
 
   units: ApolloQueryController<CoreUnitsCheckResponse> = new ApolloQueryController(this, HasCoreUnits, {
-    variables: {
-      // :TODO: update to use query API
-      hours: 'h',
-      minutes: 'min',
-      seconds: 's',
-    }
+    variables: coreUnitsQueryVars,
   })
 
   registerUnits: ApolloMutationController<RegisterCoreUnitsResponse> = new ApolloMutationController(this, RegisterTimeUnits, {
     // refresh `units` read query when write request completes
-    update: (cache, result) => {
+    update: (cache, { data }) => {
       cache.writeQuery({
         query: HasCoreUnits,
-        data: { ...result.data },
-        overwrite: true,
+        variables: coreUnitsQueryVars,
+        data: {
+          hours: data?.hours.unit,
+          minutes: data?.minutes.unit,
+          seconds: data?.seconds.unit,
+        },
       })
       this.units.subscribe({ fetchPolicy: 'cache-only' })
     },
@@ -101,7 +107,7 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
     const noUnits = hasEmptyUnits(this.units)
     if (noUnits && !this._initialisedUnitRecords) {
       this._initialisedUnitRecords = true
-      this.initialiseUnitRecords()
+      await this.initialiseUnitRecords()
     }
 
     /// Propagate updates to `units` from API to `timeUnitDefs` property of any currently rendered children
@@ -134,7 +140,7 @@ export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
     return html`<slot @slotchange=${this.handleSlotchange} .timeUnitDefs=${this.units.loading ? undefined : this.units?.data}></slot>`
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'error-display': ErrorDisplay,
       'loading-message': LoadingMessage,

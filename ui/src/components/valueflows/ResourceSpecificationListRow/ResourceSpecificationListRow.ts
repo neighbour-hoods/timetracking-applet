@@ -11,7 +11,7 @@
  */
 
 import { property } from "lit/decorators.js"
-import { ScopedElementsMixin } from "@open-wc/scoped-elements"
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
 import { LitElement, html, css } from "lit"
 import { ApolloQueryController } from '@apollo-elements/core'
 
@@ -66,7 +66,7 @@ export class ResourceSpecificationListRow extends ScopedElementsMixin(LitElement
     `
   }
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'loading-message': LoadingMessage,
     }

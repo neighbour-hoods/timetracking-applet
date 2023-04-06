@@ -17,7 +17,7 @@
 
 // import { contextProvided } from "@lit-labs/context"
 import { property, state } from "lit/decorators.js"
-import { ScopedElementsMixin } from "@open-wc/scoped-elements"
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
 import { LitElement, html, css, PropertyValues } from "lit"
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 import dayjs, { Dayjs } from 'dayjs'
@@ -32,9 +32,9 @@ import { ITimeUnits } from '@vf-ui/component-provide-time-units'
 import { InputWorkType } from '@vf-ui/component-input-work-type'
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
-import '@shoelace-style/shoelace/dist/components/input/input.js'
-import '@shoelace-style/shoelace/dist/components/button/button.js'
-import '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
+import SlInput from '@shoelace-style/shoelace/dist/components/input/input.js'
+import SlButton from '@shoelace-style/shoelace/dist/components/button/button.js'
+import SlTextArea from '@shoelace-style/shoelace/dist/components/textarea/textarea.js'
 
 import { EventCreateMutation, EventCreateResponse } from './mutations'
 
@@ -198,7 +198,8 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
 
     let resp
     try {
-      resp = ((await this.createEvent.mutate({ variables: { event } })) as { createEconomicEvent: EconomicEventResponse }).createEconomicEvent
+      const r = await this.createEvent.mutate({ variables: { event } })
+      resp = (r.data as { createEconomicEvent: EconomicEventResponse }).createEconomicEvent
     } catch (e) {
       console.error(e)
       throw e
@@ -209,8 +210,6 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       bubbles: true,
       composed: true,
     }))
-
-    return resp
   }
 
   onResourceSpecificationChanged(e: Event) {
@@ -272,7 +271,7 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       <section class="outer">
 
         <div class="input">
-          <sl-textarea placeholder="(no description)" value=${this.note} rows="1"></sl-textarea>
+          <sl-textarea placeholder="(no description)" value=${this.note} @sl-change=${(e: { target: { value: string }}) => this.note = e.target.value} rows="1"></sl-textarea>
         </div>
 
         <div class="input">
@@ -363,10 +362,13 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
     }
   `
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'error-display': ErrorDisplay,
       'vf-input-worktype': InputWorkType,
+      'sl-input': SlInput,
+      'sl-button': SlButton,
+      'sl-textarea': SlTextArea,
     };
   }
 }

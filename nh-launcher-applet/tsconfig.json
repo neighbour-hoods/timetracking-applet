@@ -15,7 +15,6 @@
     "incremental": true,
     "outDir": "./dist",
     "rootDir": "../",
-    "declaration": true,
     "skipLibCheck": true,
   },
   "include": ["src/*.ts", "src/**/*.ts", "../ui/src", "../ui/src/*.ts"]

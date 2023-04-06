@@ -8,7 +8,7 @@
  */
 import { LitElement, html, css } from 'lit';
 import { state } from 'lit/decorators.js';
-import { ScopedElementsMixin } from "@open-wc/scoped-elements";
+import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { ApolloQueryController } from '@apollo-elements/core'
 
 import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
@@ -16,7 +16,7 @@ import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
-import '@shoelace-style/shoelace/dist/components/button/button.js'
+import SlButton from '@shoelace-style/shoelace/dist/components/button/button.js'
 
 function isEmptyProfile(me ?: ApolloQueryController<WhoAmIQueryResult>) {
   return (
@@ -90,10 +90,11 @@ export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
     }
   `
 
-  static get scopedElements() {
+  static get elementDefinitions() {
     return {
       'error-display': ErrorDisplay,
       'loading-message': LoadingMessage,
+      'sl-button': SlButton,
     }
   }
 }
