@@ -455,7 +455,7 @@ importers:
 
   ui/src/components/valueflows/TimesheetEntriesList:
     specifiers:
-      '@adaburrows/table-web-component': git://github.com/adaburrows/table-web-component#7c32f0d
+      '@adaburrows/table-web-component': git://github.com/adaburrows/table-web-component#3949797
       '@apollo-elements/core': ^2.1.2
       '@lit-labs/context': ^0.2.0
       '@lit-labs/scoped-registry-mixin': ^1.0.1
@@ -471,7 +471,7 @@ importers:
       lit: ^2.6.1
       pluralize: ^8.0.0
     dependencies:
-      '@adaburrows/table-web-component': github.com/adaburrows/table-web-component/7c32f0d
+      '@adaburrows/table-web-component': github.com/adaburrows/table-web-component/3949797
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
       '@lit-labs/scoped-registry-mixin': 1.0.1
@@ -10586,10 +10586,10 @@ packages:
       readable-stream: 3.6.2
     dev: true
 
-  github.com/adaburrows/table-web-component/7c32f0d:
-    resolution: {tarball: https://codeload.github.com/adaburrows/table-web-component/tar.gz/7c32f0d}
+  github.com/adaburrows/table-web-component/3949797:
+    resolution: {tarball: https://codeload.github.com/adaburrows/table-web-component/tar.gz/3949797}
     name: '@adaburrows/table-web-component'
-    version: 0.9.4
+    version: 0.9.5
     prepare: true
     requiresBuild: true
     dependencies:
