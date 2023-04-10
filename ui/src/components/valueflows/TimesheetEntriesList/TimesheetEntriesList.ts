@@ -203,10 +203,10 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       ${Object.keys(dailyEvents).map(onDate => [
       html`
         <tr>
-          <th>&nbsp;</th>
           <th colSpan=${Object.keys(this.fieldDefs).length - 2}>
             <time datetime=${onDate}>${dayjs(onDate).format(READABLE_DATE_FORMAT)}</time>
           </th>
+          <th>&nbsp;</th>
         </tr>
       `].concat(dailyEvents[onDate].map((d: { value: TemplateResult }[]) => html`<tr>${d.map(d => html`<td>${d.value}</td>`)}</tr>`))
       )}
@@ -227,12 +227,16 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       width: 100%;
       table-layout: fixed;
     }
-    col.actions {
-      width: 5em;
-    }
     td {
       overflow: hidden;
       text-overflow: ellipsis;
+      position: relative;
+    }
+    col.actions {
+      width: 2em;
+    }
+    td:last-child {
+      overflow: visible;
     }
   `
 }

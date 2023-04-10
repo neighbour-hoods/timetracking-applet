@@ -148,8 +148,8 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
         const numFlagged = flaggedDim.length ? (flaggedDim[flaggedDim.length - 1].value as RangeValueInteger).Integer : 0
 
         return html`
-          <span part="row-meta">${numVerified ? html`<sl-icon name="check-lg"></sl-icon> (${numVerified})` : null}</span>
-          <span part="row-meta">${numFlagged ? html`<sl-icon name="flag"></sl-icon> (${numFlagged})` : null}</span>
+          <span part="row-meta1">${numVerified ? html`<sl-icon name="check-lg"></sl-icon> (${numVerified})` : null}</span>
+          <span part="row-meta2">${numFlagged ? html`<sl-icon name="flag"></sl-icon> (${numFlagged})` : null}</span>
           <sl-dropdown>
             <sl-button slot="trigger"><sl-icon name="three-dots"></sl-icon></sl-button>
             <sl-menu>
@@ -313,9 +313,16 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       display: inline-block;
     }
 
-    vf-timesheet-entries-list::part(row-meta) {
+    vf-timesheet-entries-list::part(row-meta1),
+    vf-timesheet-entries-list::part(row-meta2) {
       font-size: 0.8em;
-      clear: left;
+      position: absolute;
+      z-index: 1;
+      left: -2.5em;
+      top: 0;
+    }
+    vf-timesheet-entries-list::part(row-meta2) {
+      top: 1.5em;
     }
   `
 }
