@@ -87,11 +87,6 @@ export interface EconomicEventInteractionHandler {
 export const defaultFieldDefs = (thisObj: EconomicEventInteractionHandler) => ({
   // :IMPORTANT: 0th row retrieves the full data for inference in render reducer
   '_data': new FieldDefinition<EconomicEvent>({ synthesizer: (data: EconomicEvent) => data }),
-  '_edit': new FieldDefinition<EconomicEvent>({
-    heading: '',
-    synthesizer: (data: EconomicEvent) => data,
-    decorator: (data: EconomicEvent) => html`<sl-button @click=${() => thisObj.onEditEvent(data)}><sl-icon name="pencil"></sl-icon></sl-button>`,
-  }),
   'note': new FieldDefinition<EconomicEvent>({ heading: 'Notes' }),
   'resourceConformsTo': new FieldDefinition<EconomicEvent>({
     heading: 'Work type',
@@ -101,6 +96,11 @@ export const defaultFieldDefs = (thisObj: EconomicEventInteractionHandler) => ({
     heading: 'Duration',
     // :TODO: format with coarsest applicable dimension & remainder units
     decorator: (qty: Measure) => html`${qty.hasNumericalValue} ${qty.hasUnit?.symbol}`
+  }),
+  '_meta': new FieldDefinition<EconomicEvent>({
+    heading: '',
+    synthesizer: (data: EconomicEvent) => data,
+    decorator: (data: EconomicEvent) => html`<sl-button @click=${() => thisObj.onEditEvent(data)}><sl-icon name="pencil"></sl-icon></sl-button>`,
   }),
 })
 
@@ -195,10 +195,10 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     return html`
       <table>
         <colgroup>
+          <col></col>
+          <col></col>
+          <col></col>
           <col class="actions"></col>
-          <col></col>
-          <col></col>
-          <col></col>
         </colgroup>
       ${Object.keys(dailyEvents).map(onDate => [
       html`
@@ -228,7 +228,7 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       table-layout: fixed;
     }
     col.actions {
-      width: 2em;
+      width: 5em;
     }
     td {
       overflow: hidden;

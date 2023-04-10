@@ -25,7 +25,18 @@ import { EntryHash, encodeHashToBase64, EntryHashB64 } from '@holochain/client'
 import { sensemakerStoreContext, SensemakerStore } from "@neighbourhoods/timetracking-applet-context"
 import { Assessment, AppletConfig, RangeValueInteger, ComputeContextInput } from "@neighbourhoods/sensemaker-lite-types"
 
+import SlDropDown from '@shoelace-style/shoelace/dist/components/dropdown/dropdown.js'
+import SlMenu from '@shoelace-style/shoelace/dist/components/menu/menu.js'
+import SlMenuItem from '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
+
 type EventWithAssessment = EconomicEvent & { assessments: Assessment[] | null }
+
+// extend CustomElement defs on wrapped component to enable it to render them
+Object.assign(TimesheetEntriesListBase.elementDefinitions, {
+  'sl-menu': SlMenu,
+  'sl-menu-item': SlMenuItem,
+  'sl-dropdown': SlDropDown,
+})
 
 // reducer for merging assessments with inner TimesheetEntriesList result data
 const combineSensemakerData = (contextHashes: EntryHashB64[] | undefined, assessments: { [entryHash: string]: Array<Assessment> } | undefined) => (res: EventWithAssessment[], e: EconomicEvent) => {
@@ -121,9 +132,9 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
   constructor() {
     super()
 
-    // inject additional contextual inputs to table cells
+    // inject contextual UI elements to table cells
     const defs = defaultFieldDefs(this)
-    defs['_edit'] = new FieldDefinition<EconomicEvent>({
+    defs['_meta'] = new FieldDefinition<EconomicEvent>({
       heading: '',
       synthesizer: (data: EconomicEvent) => data,
       decorator: (data: EconomicEvent) => {
@@ -136,17 +147,24 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
         const flaggedDim = this.entryTotals ? (this.entryTotals.followup.get(nodeHash) || []) : []
         const numFlagged = flaggedDim.length ? (flaggedDim[flaggedDim.length - 1].value as RangeValueInteger).Integer : 0
 
-        return html`<ul part="row-actions">
-          <li part="row-action"><sl-button @click=${() => this.onEditEvent(data)}><sl-icon name="pencil"></sl-icon></sl-button>
-          <li part="row-action">
-            <sl-button @click=${onVerify} @keyUp=${onVerify}><sl-icon name="check2-circle"></sl-icon></sl-button>
-            ${numVerified ? html`(${numVerified})` : null}
-          </li>
-          <li part="row-action">
-            <sl-button @click=${onFlag} @keyUp=${onFlag}><sl-icon name="check2-circle"></sl-icon></sl-button>
-            ${numFlagged ? html`(${numFlagged})` : null}
-          </li>
-        </ul>`
+        return html`
+          <span part="row-meta">${numVerified ? html`<sl-icon name="check-lg"></sl-icon> (${numVerified})` : null}</span>
+          <span part="row-meta">${numFlagged ? html`<sl-icon name="flag"></sl-icon> (${numFlagged})` : null}</span>
+          <sl-dropdown>
+            <sl-button slot="trigger"><sl-icon name="three-dots"></sl-icon></sl-button>
+            <sl-menu>
+              <sl-menu-item @click=${() => this.onEditEvent(data)}>
+                <sl-icon name="pencil"></sl-icon> edit
+              </sl-menu-item>
+              <sl-menu-item @click=${onVerify}>
+                <sl-icon name="check2-circle"></sl-icon> verify
+              </sl-menu-item>
+              <sl-menu-item @click=${onFlag}>
+                <sl-icon name="flag"></sl-icon> flag
+              </sl-menu-item>
+            </sl-menu>
+          </sl-dropdown>
+        `
       },
     })
     this.fieldDefs = defs
@@ -283,6 +301,9 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     return {
       'error-display': ErrorDisplay,
       'vf-timesheet-entries-list': TimesheetEntriesListBase,
+      'sl-menu': SlMenu,
+      'sl-menu-item': SlMenuItem,
+      'sl-dropdown': SlDropDown,
     };
   }
 
@@ -292,10 +313,9 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       display: inline-block;
     }
 
-    vf-timesheet-entries-list::part(row-actions) {
-      list-style-type: none;
+    vf-timesheet-entries-list::part(row-meta) {
+      font-size: 0.8em;
+      clear: left;
     }
-    vf-timesheet-entries-list::part(row-actions),
-    vf-timesheet-entries-list::part(row-action) { margin: 0; padding: 0; }
   `
 }
