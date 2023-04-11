@@ -5,9 +5,8 @@
   "main": "./LoadingIndicator.ts",
   "dependencies": {
     "@lit-labs/context": "^0.2.0",
+    "@lit-labs/scoped-registry-mixin": "^1.0.1",
     "@shoelace-style/shoelace": "^2.3.0",
-    "lit": "^2.6.1",
-    "@lit-labs/scoped-registry-mixin": "^1.0.1"
-  },
-  "devDependencies": {}
+    "lit": "^2.6.1"
+  }
 }

@@ -4,15 +4,14 @@
   "type": "module",
   "main": "./ResourceSpecificationListRow.ts",
   "dependencies": {
-    "@neighbourhoods/component-error-display": "workspace:*",
-    "@neighbourhoods/component-loading-message": "workspace:*",
-    "@valueflows/vf-graphql-type-fragments": "workspace:*",
     "@apollo-elements/core": "^2.1.2",
     "@lit-labs/context": "^0.2.0",
+    "@lit-labs/scoped-registry-mixin": "^1.0.1",
+    "@neighbourhoods/component-error-display": "workspace:*",
+    "@neighbourhoods/component-loading-message": "workspace:*",
     "@valueflows/vf-graphql": "^0.9.0-alpha.9",
+    "@valueflows/vf-graphql-type-fragments": "workspace:*",
     "graphql-tag": "^2.12.6",
-    "lit": "^2.6.1",
-    "@lit-labs/scoped-registry-mixin": "^1.0.1"
-  },
-  "devDependencies": {}
+    "lit": "^2.6.1"
+  }
 }
