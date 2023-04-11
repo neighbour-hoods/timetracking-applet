@@ -146,6 +146,13 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
         // only interested in 'effort-based' EconomicEvents (with an `effortQuantity`)
         .filter(({ node }: { node: EconomicEvent }) => node.effortQuantity && node.effortQuantity.hasUnit)
         .map(({ node }: { node: EconomicEvent }) => node)
+        // :TODO: make sorting optional, this is unnecessary performance overhead if reducer is setting own order.
+        .sort((a, b) => {
+          const aD: Date = a.hasBeginning || a.hasPointInTime || new Date(0)
+          const bD: Date = b.hasBeginning || b.hasPointInTime || new Date(0)
+          if (aD === bD) return 0
+          return aD > bD ? -1 : 1
+        })
         .reduce(this.entryReducer, [])
     }
   }
