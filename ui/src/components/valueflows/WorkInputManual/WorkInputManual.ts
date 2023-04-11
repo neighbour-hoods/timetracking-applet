@@ -271,15 +271,15 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
       <section class="outer">
 
         <div class="input">
-          <sl-textarea placeholder="(no description)" value=${this.note} @sl-change=${(e: { target: { value: string }}) => this.note = e.target.value} rows="1"></sl-textarea>
+          <sl-textarea placeholder="(no description)" defaultValue=${this.note} @sl-change=${(e: { target: { value: string }}) => this.note = e.target.value} rows="1"></sl-textarea>
         </div>
 
         <div class="input">
-          <vf-input-worktype placeholder="What were you doing?" value=${this.workType} @change=${this.onResourceSpecificationChanged}></vf-input-worktype>
+          <vf-input-worktype placeholder="What were you doing?" defaultValue=${this.workType} @change=${this.onResourceSpecificationChanged}></vf-input-worktype>
         </div>
 
         <div class="input">
-          <sl-input type="date" placeholder="Select date" value=${this.workDate} @change=${this.workDateChanged}></sl-input>
+          <sl-input type="date" placeholder="Select date" defaultValue=${this.workDate} @sl-change=${this.workDateChanged}></sl-input>
         </div>
 
         <div class="input${showAutocomplete ? ` focused` : ''}">
