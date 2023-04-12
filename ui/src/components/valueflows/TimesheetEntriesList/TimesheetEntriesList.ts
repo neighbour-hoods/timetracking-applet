@@ -21,7 +21,7 @@
  */
 
 // import { consume } from "@lit-labs/context";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { LitElement, html, css, TemplateResult } from "lit";
 import { ApolloQueryController } from '@apollo-elements/core';
@@ -81,7 +81,8 @@ export const defaultEntryReducer = (res: EconomicEvent[], e: EconomicEvent) => {
 }
 
 export interface EconomicEventInteractionHandler {
-  onEditEvent: (evt: EconomicEvent) => void
+  onEditEvent: (evt: EconomicEvent | null) => void
+  currentlyEditing?: string
 }
 
 export const defaultFieldDefs = (thisObj: EconomicEventInteractionHandler) => ({
@@ -100,7 +101,9 @@ export const defaultFieldDefs = (thisObj: EconomicEventInteractionHandler) => ({
   '_meta': new FieldDefinition<EconomicEvent>({
     heading: '',
     synthesizer: (data: EconomicEvent) => data,
-    decorator: (data: EconomicEvent) => html`<sl-button @click=${() => thisObj.onEditEvent(data)}><sl-icon name="pencil"></sl-icon></sl-button>`,
+    decorator: (data: EconomicEvent) => thisObj.currentlyEditing && thisObj.currentlyEditing === data.id ?
+      html`<sl-button @click=${() => thisObj.onEditEvent(null)}><sl-icon name="x-circle"></sl-icon></sl-button>` :
+      html`<sl-button @click=${() => thisObj.onEditEvent(data)}><sl-icon name="pencil"></sl-icon></sl-button>`,
   }),
 })
 
@@ -124,6 +127,9 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
       }))
     }
   })
+
+  @state()
+  currentlyEditing?: string
 
   constructor() {
     super()
@@ -157,8 +163,8 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     }
   }
 
-  onEditEvent(evt: EconomicEvent) {
-    console.log('edit', evt)
+  async onEditEvent(evt: EconomicEvent | null) {
+    this.currentlyEditing = evt ? evt.id : undefined
   }
 
   render() {

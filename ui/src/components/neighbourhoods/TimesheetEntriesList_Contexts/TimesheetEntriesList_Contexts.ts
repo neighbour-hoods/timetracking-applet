@@ -150,20 +150,26 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
         return html`
           <span part="row-meta1">${numVerified ? html`<sl-icon name="check-lg"></sl-icon> (${numVerified})` : null}</span>
           <span part="row-meta2">${numFlagged ? html`<sl-icon name="flag"></sl-icon> (${numFlagged})` : null}</span>
-          <sl-dropdown>
-            <sl-button slot="trigger"><sl-icon name="three-dots"></sl-icon></sl-button>
-            <sl-menu>
-              <sl-menu-item @click=${() => this.onEditEvent(data)}>
-                <sl-icon name="pencil"></sl-icon> edit
-              </sl-menu-item>
-              <sl-menu-item @click=${onVerify}>
-                <sl-icon name="check2-circle"></sl-icon> verify
-              </sl-menu-item>
-              <sl-menu-item @click=${onFlag}>
-                <sl-icon name="flag"></sl-icon> flag
-              </sl-menu-item>
-            </sl-menu>
-          </sl-dropdown>
+          ${
+            this.list.currentlyEditing && this.list.currentlyEditing === data.id ?
+            html`<sl-button @click=${() => this.onEditEvent(null)}><sl-icon name="x-circle"></sl-icon></sl-button>` :
+            html`
+            <sl-dropdown>
+              <sl-button slot="trigger"><sl-icon name="three-dots"></sl-icon></sl-button>
+              <sl-menu>
+                <sl-menu-item @click=${() => this.onEditEvent(data)}>
+                  <sl-icon name="pencil"></sl-icon> edit
+                </sl-menu-item>
+                <sl-menu-item @click=${onVerify}>
+                  <sl-icon name="check2-circle"></sl-icon> verify
+                </sl-menu-item>
+                <sl-menu-item @click=${onFlag}>
+                  <sl-icon name="flag"></sl-icon> flag
+                </sl-menu-item>
+              </sl-menu>
+            </sl-dropdown>
+            `
+          }
         `
       },
     })
@@ -259,8 +265,8 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     }
   }
 
-  onEditEvent(evt: EconomicEvent) {
-    console.log('edit', evt)
+  async onEditEvent(evt: EconomicEvent | null) {
+    await this.list.onEditEvent(evt)
   }
 
   render() {
