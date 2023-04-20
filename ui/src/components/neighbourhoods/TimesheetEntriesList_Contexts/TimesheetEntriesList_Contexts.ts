@@ -223,10 +223,6 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
         resource_eh: eventHash,
         method_eh: appletConfig.methods[`total_${dimensionId}_method`],
       })
-      updatedDim.set(encodeHashToBase64(eventHash), await this.sensemakerStore.getAssessmentForResource({
-        resource_eh: eventHash,
-        dimension_eh: appletConfig.dimensions[`total_${dimensionId}`],
-      }))
       this.entryTotals = {
         ...this.entryTotals,
         [dim]: updatedDim,
