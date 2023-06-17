@@ -4,15 +4,14 @@
   "type": "module",
   "main": "./AgentProfileCheck.ts",
   "dependencies": {
-    "@neighbourhoods/component-error-display": "workspace:*",
-    "@neighbourhoods/component-loading-message": "workspace:*",
-    "@valueflows/vf-graphql-shared-queries": "workspace:*",
     "@apollo-elements/core": "^2.1.2",
     "@lit-labs/context": "^0.2.0",
     "@lit-labs/scoped-registry-mixin": "^1.0.1",
+    "@neighbourhoods/component-error-display": "workspace:*",
+    "@neighbourhoods/component-loading-message": "workspace:*",
     "@scoped-elements/material-web": "^0.0.19",
     "@shoelace-style/shoelace": "^2.3.0",
+    "@valueflows/vf-graphql-shared-queries": "workspace:*",
     "lit": "^2.6.1"
-  },
-  "devDependencies": {}
+  }
 }

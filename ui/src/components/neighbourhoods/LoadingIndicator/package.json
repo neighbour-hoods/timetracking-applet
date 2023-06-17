@@ -8,6 +8,5 @@
     "@lit-labs/scoped-registry-mixin": "^1.0.1",
     "@shoelace-style/shoelace": "^2.3.0",
     "lit": "^2.6.1"
-  },
-  "devDependencies": {}
+  }
 }
