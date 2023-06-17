@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "AGENTS=2 npm run network",
-    "network": "hc s clean && npm run build:test-happ && concurrently \"cd ui/ && npm run build:watch\" \"npm run launch:happ\"",
-    "launch:happ": "RUST_LOG=warn echo \"pass\" | hc launch --piped -n $AGENTS ./workdir/sensemaker-enabled/provider-sensemaker.happ -w --ui-path ui/dist network mdns",
+    "network": "hc s clean && npm run build:test-happ && UI_PORT=8888 concurrently \"cd ui/ && npm start\" \"npm run launch:happ\"",
+    "launch:happ": "RUST_LOG=warn WASM_LOG=debug echo \"pass\" | hc launch --piped -n $AGENTS ./workdir/sensemaker-enabled/provider-sensemaker.happ --ui-port $UI_PORT network mdns",
     "test": "npm run build:happ && cd tests/ && npm run test",
     "start:happ": "concurrently \"RUST_LOG=warn echo \"pass\" | hc s --piped -f=$HC_ADMIN_PORT generate ./workdir/sensemaker-enabled/provider-sensemaker.happ --run=$HC_PORT -a provider network mdns\" \"npm run playground\"",
     "package": "npm run build:happ && npm run build:ui && cd nh-launcher-applet/ && npm run package:ui && cd ../ && hc web-app pack workdir",
