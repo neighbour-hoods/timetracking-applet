@@ -90,15 +90,13 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     }
   }
 
-  static get elementDefinitions() {
-    return {
-      'apollo-client': ApolloClientElement,
-      'agent-profile-check': AgentProfileCheck,
-      'agent-profile-manage': AgentProfileManage,
-      'timesheet-entries-list': TimesheetEntriesList,
-      'provide-time-units': ProvideTimeUnits,
-      'work-input-manual': WorkInputManual,
-    };
+  static elementDefinitions = {
+    'apollo-client': ApolloClientElement,
+    'agent-profile-check': AgentProfileCheck,
+    'agent-profile-manage': AgentProfileManage,
+    'timesheet-entries-list': TimesheetEntriesList,
+    'provide-time-units': ProvideTimeUnits,
+    'work-input-manual': WorkInputManual,
   }
 
   static styles = css`

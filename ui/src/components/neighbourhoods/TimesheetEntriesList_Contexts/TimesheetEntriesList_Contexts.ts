@@ -304,14 +304,12 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     `
   }
 
-  static get elementDefinitions() {
-    return {
-      'error-display': ErrorDisplay,
-      'vf-timesheet-entries-list': TimesheetEntriesListBase,
-      'sl-menu': SlMenu,
-      'sl-menu-item': SlMenuItem,
-      'sl-dropdown': SlDropDown,
-    };
+  static elementDefinitions = {
+    'error-display': ErrorDisplay,
+    'vf-timesheet-entries-list': TimesheetEntriesListBase,
+    'sl-menu': SlMenu,
+    'sl-menu-item': SlMenuItem,
+    'sl-dropdown': SlDropDown,
   }
 
   static styles = css`
