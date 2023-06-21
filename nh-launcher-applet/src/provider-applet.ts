@@ -3,7 +3,8 @@ import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-regi
 import { CircularProgress } from "@scoped-elements/material-web";
 import { LitElement, html, css } from "lit";
 import { AppletInfo, SensemakerStore } from "@neighbourhoods/nh-launcher-applet";
-import { ProviderApp, ApolloClient, NormalizedCacheObject, provideGraphQLClient } from "@neighbourhoods/timetracking-applet";
+import { ProviderApp, ApolloClient, provideGraphQLClient } from "@neighbourhoods/timetracking-applet";
+import type { NormalizedCacheObject } from "@neighbourhoods/timetracking-applet";
 import appletConfig from './appletConfig';
 import { AppAgentWebsocket, AppWebsocket, AdminWebsocket } from "@holochain/client";
 

@@ -1,6 +1,7 @@
 import initGraphQLClient, { ClientOptions } from '@vf-ui/graphql-client-holochain'
 import { VfModule } from '@valueflows/vf-graphql-holochain'
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client/core'
+import { ApolloClient } from '@apollo/client/core'
+import type { NormalizedCacheObject } from '@apollo/client/core'
 
 import { ApolloClientElement } from '@apollo-elements/components/apollo-client'
 

@@ -8,7 +8,8 @@ import { SensemakerStore } from '@neighbourhoods/nh-launcher-applet';
 import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
 
 import { sensemakerStoreContext } from './contexts';
-import { ApolloClientElement, ApolloClient, NormalizedCacheObject } from './provider-graphql-client.js';
+import { ApolloClientElement, ApolloClient } from './provider-graphql-client.js';
+import type { NormalizedCacheObject } from './provider-graphql-client.js';
 
 import { AgentProfileCheck } from '@vf-ui/component-agent-profile-check'
 import { AgentProfileManage } from '@vf-ui/component-agent-profile-manage'

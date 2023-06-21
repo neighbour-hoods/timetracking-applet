@@ -1,4 +1,4 @@
-export * from '@valueflows/vf-graphql'
+export type { NormalizedCacheObject } from '@valueflows/vf-graphql'
 
-export * from './agent'
-export * from './economicEvent'
+export { WhoAmI } from './agent'
+export { EventsListQuery } from './economicEvent'
