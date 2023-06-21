@@ -145,8 +145,14 @@ export class WorkInputManual extends ScopedElementsMixin(LitElement)
         query: EventsListQuery,
         data: {
           economicEvents: {
-            pageInfo: existing?.economicEvents.pageInfo,
+            pageInfo: existing?.economicEvents.pageInfo || {
+              hasPreviousPage: false,
+              hasNextPage: false,
+              startCursor: created?.id,
+              endCursor: created?.id,
+            },
             edges: [{
+              cursor: created?.id,
               node: created,
             }].concat(current),
           },

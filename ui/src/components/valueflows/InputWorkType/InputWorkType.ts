@@ -70,6 +70,7 @@ export class InputWorkType extends ScopedElementsMixin(LitElement)
           resourceSpecifications: {
             pageInfo: existing.resourceSpecifications.pageInfo,
             edges: [{
+              cursor: createdSpec?.id,
               node: createdSpec,
             }].concat(resourceSpecs),
           },
