@@ -14,7 +14,6 @@ import {
   ClonedCell,
 } from '@holochain/client';
 import { CircularProgress } from '@scoped-elements/material-web';
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { provideGraphQLClient, ApolloClient } from './provider-graphql-client';
 import type { NormalizedCacheObject } from "./provider-graphql-client";
 import { SensemakerService, SensemakerStore } from '@neighbourhoods/nh-launcher-applet';
@@ -31,7 +30,7 @@ const SENSEMAKER_ROLE_NAME = "sensemaker"
 const PROVIDER_ROLE_NAME = "hrea_observation_0" // :WARNING: this will mean cloned sensemaker cell uses same agentPubKey as plugged Observation cell
 
 @customElement('provider-app-test-harness')
-export class ProviderAppTestHarness extends ScopedElementsMixin(LitElement) {
+export class ProviderAppTestHarness extends NHComponent {
   @state() loading = true;
 
   @state() actionHash: ActionHash | undefined;
