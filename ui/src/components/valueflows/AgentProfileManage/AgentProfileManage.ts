@@ -5,9 +5,9 @@
  * :TODO: add other profile metadata fields
  * :TODO: decide whether this control should also handle edits, and edits to other profiles
  */
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
-import { LitElement, html, css } from "lit";
+import { html, css } from "lit";
 import { ApolloMutationController } from '@apollo-elements/core'
+import { NHComponentMaterial } from 'neighbourhoods-design-system-components/dist/components/base'
 
 import { Button, TextField } from '@scoped-elements/material-web'
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
@@ -23,7 +23,7 @@ import {
 // :TODO: this should probably be replaced with Holochain Profiles integration someday
 const DEFAULT_PROFILE_NAME = `Test Agent ${(Math.random() * 9e6).toString(36)}`
 
-export class AgentProfileManage extends ScopedElementsMixin(LitElement)
+export class AgentProfileManage extends NHComponentMaterial
 {
   createProfile: ApolloMutationController<CreatePersonResponse> = new ApolloMutationController(this, ProfileCreateMutation)
 

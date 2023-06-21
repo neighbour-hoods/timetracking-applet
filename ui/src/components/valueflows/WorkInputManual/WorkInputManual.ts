@@ -17,8 +17,8 @@
 
 // import { contextProvided } from "@lit-labs/context"
 import { property, state } from "lit/decorators.js"
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
-import { LitElement, html, css, PropertyValues } from "lit"
+import { html, css, PropertyValues } from "lit"
+import { NHComponentShoelace } from 'neighbourhoods-design-system-components/dist/components/base'
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 import dayjs, { Dayjs } from 'dayjs'
 // @ts-ignore
@@ -128,7 +128,7 @@ export function convertToMeasure(timeUnitDefs: ITimeUnits, measure: TimeMeasure,
 
 const LONG_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
 
-export class WorkInputManual extends ScopedElementsMixin(LitElement)
+export class WorkInputManual extends NHComponentShoelace
 {
   me: ApolloQueryController<WhoAmIQueryResult> = new ApolloQueryController(this, WhoAmI)
 

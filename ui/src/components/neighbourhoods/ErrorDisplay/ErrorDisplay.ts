@@ -1,11 +1,11 @@
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
-import { LitElement, html, css } from "lit"
+import { html, css } from "lit"
 import { property } from "lit/decorators.js"
+import { NHComponentShoelace } from 'neighbourhoods-design-system-components/dist/components/base'
 
 import SlAlert from '@shoelace-style/shoelace/dist/components/alert/alert.js'
 import SlIcon from '@shoelace-style/shoelace/dist/components/icon/icon.js'
 
-export class ErrorDisplay extends ScopedElementsMixin(LitElement) {
+export class ErrorDisplay extends NHComponentShoelace {
   @property()
   message!: string
 

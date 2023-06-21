@@ -11,8 +11,8 @@
  */
 
 import { property } from "lit/decorators.js"
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
-import { LitElement, html, css } from "lit"
+import { html, css } from "lit"
+import { NHComponent } from 'neighbourhoods-design-system-components/dist/components/base'
 import { ApolloQueryController } from '@apollo-elements/core'
 
 import { ResourceSpecificationQuery, ResourceSpecification } from './queries'
@@ -20,7 +20,7 @@ import { ResourceSpecificationQuery, ResourceSpecification } from './queries'
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
 
-export class ResourceSpecificationListRow extends ScopedElementsMixin(LitElement)
+export class ResourceSpecificationListRow extends NHComponent
 {
   @property()
   byId?: string

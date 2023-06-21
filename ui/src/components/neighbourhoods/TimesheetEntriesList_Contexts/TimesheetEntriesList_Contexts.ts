@@ -9,8 +9,7 @@
  */
 import { property, state, query } from "lit/decorators.js"
 import { consume } from "@lit-labs/context"
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
-import { LitElement, html, css, PropertyValues } from "lit"
+import { html, css, PropertyValues } from "lit"
 import { StoreSubscriber } from "lit-svelte-stores"
 
 import { ErrorDisplay } from '@neighbourhoods/component-error-display'
@@ -25,6 +24,7 @@ import { EntryHash, encodeHashToBase64, EntryHashB64 } from '@holochain/client'
 
 import { sensemakerStoreContext, SensemakerStore } from "@neighbourhoods/timetracking-applet-context"
 import { Assessment, AppletConfig, RangeValueInteger, ComputeContextInput } from "@neighbourhoods/sensemaker-lite-types"
+import { NHComponentShoelace } from 'neighbourhoods-design-system-components/dist/components/base'
 
 import SlDropDown from '@shoelace-style/shoelace/dist/components/dropdown/dropdown.js'
 import SlMenu from '@shoelace-style/shoelace/dist/components/menu/menu.js'
@@ -95,7 +95,7 @@ const readEntryAssessments = (thisObj: TimesheetEntriesList, outputDim: Uint8Arr
   })
 }
 
-export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
+export class TimesheetEntriesList extends NHComponentShoelace
 {
   @query('#entries-list')
   list!: TimesheetEntriesListBase;

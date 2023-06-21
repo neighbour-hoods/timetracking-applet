@@ -1,16 +1,16 @@
 import { property, state } from "lit/decorators.js";
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { CircularProgress } from "@scoped-elements/material-web";
-import { LitElement, html, css } from "lit";
+import { html, css } from "lit";
 import { AppletInfo, SensemakerStore } from "@neighbourhoods/nh-launcher-applet";
 import { ProviderApp, ApolloClient, provideGraphQLClient } from "@neighbourhoods/timetracking-applet";
 import type { NormalizedCacheObject } from "@neighbourhoods/timetracking-applet";
 import appletConfig from './appletConfig';
 import { AppAgentWebsocket, AppWebsocket, AdminWebsocket } from "@holochain/client";
+import { NHComponent } from 'neighbourhoods-design-system-components/dist/components/base'
 
 const PROVIDER_ROLE_NAME = 'provider';
 
-export class ProviderApplet extends ScopedElementsMixin(LitElement) {
+export class ProviderApplet extends NHComponent {
   @property()
   appletAppInfo!: AppletInfo[];
 

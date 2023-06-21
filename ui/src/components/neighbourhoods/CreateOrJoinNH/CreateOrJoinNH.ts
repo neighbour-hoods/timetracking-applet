@@ -1,12 +1,9 @@
 import { query } from "lit/decorators.js";
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
-import { dedupeMixin } from '@open-wc/dedupe-mixin';
-import { LitElement, html, css } from "lit";
+import { html, css } from "lit";
 import { TextField, Button } from '@scoped-elements/material-web'
+import { NHComponentMaterial } from 'neighbourhoods-design-system-components/dist/components/base'
 
-const Scoped = dedupeMixin(ScopedElementsMixin)
-
-export class CreateOrJoinNh extends Scoped(LitElement) {
+export class CreateOrJoinNh extends NHComponentMaterial {
   @query('#ca-pubkey')
   input!: HTMLInputElement;
 

@@ -10,6 +10,5 @@
     "@scoped-elements/material-web": "^0.0.19",
     "lit": "^2.6.1",
     "neighbourhoods-design-system-components": "^0.0.12"
-  },
-  "devDependencies": {}
+  }
 }

@@ -22,7 +22,6 @@
     "@apollo/client": "^3.7.0",
     "@holochain/client": "0.12.0",
     "@lit-labs/context": "^0.2.0",
-    "@lit-labs/scoped-registry-mixin": "^1.0.1",
     "@msgpack/msgpack": "^2.7.2",
     "@neighbourhoods/applet-vf-timetracker-theme-vars": "workspace:*",
     "@neighbourhoods/component-create-or-join-nh": "workspace:*",
@@ -43,6 +42,7 @@
     "@vf-ui/graphql-client-holochain": "^0.0.1-alpha.17",
     "graphql": "^15.8.0",
     "lit": "^2.6.1",
+    "neighbourhoods-design-system-components": "^0.0.12",
     "svelte": "*"
   },
   "devDependencies": {

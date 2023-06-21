@@ -12,8 +12,8 @@
  * @since   2023-02-15
 */
 import { property, state, query } from "lit/decorators.js"
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
-import { LitElement, html, css } from "lit";
+import { html, css } from "lit";
+import { NHComponentShoelace } from 'neighbourhoods-design-system-components/dist/components/base'
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
 
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
@@ -30,7 +30,7 @@ import SlDropdown from '@shoelace-style/shoelace/dist/components/dropdown/dropdo
 import SlMenu from '@shoelace-style/shoelace/dist/components/menu/menu.js'
 import SlMenuItem from '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js'
 
-export class InputWorkType extends ScopedElementsMixin(LitElement)
+export class InputWorkType extends NHComponentShoelace
 {
   @property()
   label?: string

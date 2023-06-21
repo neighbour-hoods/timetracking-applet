@@ -10,9 +10,9 @@
  * @package Neighbourhoods/We Timesheet applet
  * @since   2023-02-13
  */
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
-import { LitElement, html, PropertyValues } from "lit";
+import { html, PropertyValues } from "lit";
 import { ApolloMutationController, ApolloQueryController } from '@apollo-elements/core'
+import { NHComponent } from 'neighbourhoods-design-system-components/dist/components/base'
 
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
@@ -65,7 +65,7 @@ const coreUnitsQueryVars = {
   seconds: 's',
 }
 
-export class ProvideTimeUnits extends ScopedElementsMixin(LitElement)
+export class ProvideTimeUnits extends NHComponent
 {
   private slottedChildren: HTMLElement[] = []
 

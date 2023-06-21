@@ -1,11 +1,11 @@
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { provide } from '@lit-labs/context';
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { get } from 'svelte/store';
 
 import { SensemakerStore } from '@neighbourhoods/nh-launcher-applet';
 import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
+import { NHComponent } from 'neighbourhoods-design-system-components/dist/components/base'
 
 import { sensemakerStoreContext } from './contexts';
 import { ApolloClientElement, ApolloClient } from './provider-graphql-client.js';
@@ -20,12 +20,12 @@ import cssThemeVars from '@neighbourhoods/applet-vf-timetracker-theme-vars'
 
 // :TODO: wire up to light/dark themeing
 // @ts-ignore
-import shoelaceTheme from '@shoelace-style/shoelace/dist/themes/light.styles.js'
+import shoelaceTheme from '@shoelace-style/shoelace/dist/themes/dark.styles.js'
 // wire up Shoelace component assets
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js'
 setBasePath('/shoelace');
 
-export class ProviderApp extends ScopedElementsMixin(LitElement) {
+export class ProviderApp extends NHComponent {
   // set up context provider for sensemaker store so it can be accessed by other components
   @provide({ context: sensemakerStoreContext })
   @property()

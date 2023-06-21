@@ -6,15 +6,15 @@
  * a refresh of the agent profile data from the GraphQL client cache.
  * It is presumed that the cache has been updated prior to firing this event.
  */
-import { LitElement, html, css } from 'lit';
+import { html, css } from 'lit';
 import { state } from 'lit/decorators.js';
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
 import { ApolloQueryController } from '@apollo-elements/core'
 
 import { WhoAmI, WhoAmIQueryResult } from '@valueflows/vf-graphql-shared-queries'
 
 import { LoadingMessage } from "@neighbourhoods/component-loading-message"
 import { ErrorDisplay } from "@neighbourhoods/component-error-display"
+import { NHComponentShoelace } from 'neighbourhoods-design-system-components/dist/components/base'
 
 import SlButton from '@shoelace-style/shoelace/dist/components/button/button.js'
 
@@ -45,7 +45,7 @@ function handleSlotchange(e) {
   })
 }
 
-export class AgentProfileCheck extends ScopedElementsMixin(LitElement)
+export class AgentProfileCheck extends NHComponentShoelace
 {
   me: ApolloQueryController<WhoAmIQueryResult> = new ApolloQueryController(this, WhoAmI)
 

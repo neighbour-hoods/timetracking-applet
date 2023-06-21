@@ -5,9 +5,8 @@
   "type": "module",
   "main": "./index.ts",
   "dependencies": {
-    "@valueflows/vf-graphql-type-fragments": "workspace:*",
     "@valueflows/vf-graphql": "^0.9.0-alpha.9",
+    "@valueflows/vf-graphql-type-fragments": "workspace:*",
     "graphql-tag": "^2.12.6"
-  },
-  "devDependencies": {}
+  }
 }

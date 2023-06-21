@@ -1,10 +1,10 @@
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin"
-import { LitElement, html, css } from "lit"
+import { html, css } from "lit"
 import { property } from "lit/decorators.js"
+import { NHComponent } from 'neighbourhoods-design-system-components/dist/components/base'
 
 import { LoadingIndicator } from '@neighbourhoods/component-loading-indicator'
 
-export class LoadingMessage extends ScopedElementsMixin(LitElement) {
+export class LoadingMessage extends NHComponent {
   render() {
     return html`
       <section class="loading">

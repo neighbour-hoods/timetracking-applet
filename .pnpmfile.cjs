@@ -5,6 +5,10 @@ const NH_DEPS = [
   "@neighbourhoods/sensemaker-lite-types",
   "lit-svelte-stores",
 ]
+const NH_DS_DEPS = [
+  "neighbourhoods-design-system-components",
+  "lit",
+]
 
 // dependencies to auto-inject to detected Valueflows UI components
 const VF_DEPS = [
@@ -21,7 +25,7 @@ const LIT_DEPS = [
 
 // Specifies packages that should be pinned to the versions defined in the workspace manifest.
 const PINNED_DEPS = [
-  ...NH_DEPS, ...VF_DEPS, ...LIT_DEPS,
+  ...NH_DEPS, ...VF_DEPS, ...LIT_DEPS, ...NH_DS_DEPS,
   '@holochain/client',
   '@neighbourhoods/nh-launcher-applet',
 ]
@@ -63,6 +67,7 @@ const dependencyInjector = (deps, depsType) => (pkg, context) => {
 const injectLitBuildDeps = dependencyInjector(LIT_DEPS, 'Lit')
 const injectNHBuildDeps = dependencyInjector(NH_DEPS, 'Neighbourhoods')
 const injectVFBuildDeps = dependencyInjector(VF_DEPS, 'Valueflows')
+const injectNHDesignBuildDeps = dependencyInjector(NH_DS_DEPS, 'NHs design system')
 
 function readPackage(pkg, context) {
   // force any present modules (including dependencies) with pinned versions to match those specified in the workspace
@@ -86,6 +91,7 @@ function readPackage(pkg, context) {
     if (pkg.dependencies["lit-svelte-stores"] && pkg.dependencies["@neighbourhoods/sensemaker-lite-types"]) injectNHBuildDeps(pkg, context)
     if (Object.keys(pkg.dependencies).filter(d => d.match(/^\@valueflows\//)).length > 0) injectVFBuildDeps(pkg, context)
   }
+  if (pkg.dependencies["neighbourhoods-design-system-components"]) injectNHDesignBuildDeps(pkg, context)
 
   // remove any disallowed packages and replace with their alternates
   for (const disallowPkg in DISALLOW_PKGS) {

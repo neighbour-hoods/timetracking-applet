@@ -21,9 +21,9 @@
  */
 
 // import { consume } from "@lit-labs/context";
+import { html, css, TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
-import { ScopedRegistryHost as ScopedElementsMixin } from "@lit-labs/scoped-registry-mixin";
-import { LitElement, html, css, TemplateResult } from "lit";
+import { NHComponentShoelace } from 'neighbourhoods-design-system-components/dist/components/base'
 import { ApolloQueryController } from '@apollo-elements/core';
 // @ts-ignore
 import dayjs, { Dayjs } from 'dayjs'
@@ -108,7 +108,7 @@ export const defaultFieldDefs = (thisObj: EconomicEventInteractionHandler) => ({
   }),
 })
 
-export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
+export class TimesheetEntriesList extends NHComponentShoelace
 {
   // Allows hosting component to define how to filter and combine entry data
   @property()
