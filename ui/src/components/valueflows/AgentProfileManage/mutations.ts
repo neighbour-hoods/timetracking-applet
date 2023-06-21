@@ -1,12 +1,12 @@
 import { gql } from 'graphql-tag'
 
-import {
+import type {
   // WhoAmI, WhoAmIQueryResult, :TODO: read existing values
   AgentWithTypeResponse, AgentWithType,
 } from '@valueflows/vf-graphql-holochain/queries/agent'
 import { AGENT_CORE_FIELDS } from '@valueflows/vf-graphql-type-fragments/agent.fragments'
 
-export { AgentWithTypeResponse, AgentWithType }
+export type { AgentWithTypeResponse, AgentWithType }
 
 export interface CreatePersonResponse {
   createPerson: AgentWithTypeResponse

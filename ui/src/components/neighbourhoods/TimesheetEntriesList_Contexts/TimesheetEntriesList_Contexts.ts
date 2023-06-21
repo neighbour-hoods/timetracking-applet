@@ -16,9 +16,10 @@ import { StoreSubscriber } from "lit-svelte-stores"
 import { ErrorDisplay } from '@neighbourhoods/component-error-display'
 import {
   TimesheetEntriesList as TimesheetEntriesListBase,
-  defaultFieldDefs, FieldDefinitions, FieldDefinition,
+  defaultFieldDefs,
   EconomicEvent, EconomicEventConnection,
 } from '@vf-ui/component-time-entries-list'
+import type { FieldDefinitions, FieldDefinition } from '@vf-ui/component-time-entries-list'
 import { deserializeId } from '@valueflows/vf-graphql-holochain/connection'
 import { EntryHash, encodeHashToBase64, EntryHashB64 } from '@holochain/client'
 
@@ -303,14 +304,12 @@ export class TimesheetEntriesList extends ScopedElementsMixin(LitElement)
     `
   }
 
-  static get elementDefinitions() {
-    return {
-      'error-display': ErrorDisplay,
-      'vf-timesheet-entries-list': TimesheetEntriesListBase,
-      'sl-menu': SlMenu,
-      'sl-menu-item': SlMenuItem,
-      'sl-dropdown': SlDropDown,
-    };
+  static elementDefinitions = {
+    'error-display': ErrorDisplay,
+    'vf-timesheet-entries-list': TimesheetEntriesListBase,
+    'sl-menu': SlMenu,
+    'sl-menu-item': SlMenuItem,
+    'sl-dropdown': SlDropDown,
   }
 
   static styles = css`

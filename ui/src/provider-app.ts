@@ -8,7 +8,8 @@ import { SensemakerStore } from '@neighbourhoods/nh-launcher-applet';
 import { ComputeContextInput } from '@neighbourhoods/sensemaker-lite-types';
 
 import { sensemakerStoreContext } from './contexts';
-import { ApolloClientElement, ApolloClient, NormalizedCacheObject } from './provider-graphql-client.js';
+import { ApolloClientElement, ApolloClient } from './provider-graphql-client.js';
+import type { NormalizedCacheObject } from './provider-graphql-client.js';
 
 import { AgentProfileCheck } from '@vf-ui/component-agent-profile-check'
 import { AgentProfileManage } from '@vf-ui/component-agent-profile-manage'
@@ -89,15 +90,13 @@ export class ProviderApp extends ScopedElementsMixin(LitElement) {
     }
   }
 
-  static get elementDefinitions() {
-    return {
-      'apollo-client': ApolloClientElement,
-      'agent-profile-check': AgentProfileCheck,
-      'agent-profile-manage': AgentProfileManage,
-      'timesheet-entries-list': TimesheetEntriesList,
-      'provide-time-units': ProvideTimeUnits,
-      'work-input-manual': WorkInputManual,
-    };
+  static elementDefinitions = {
+    'apollo-client': ApolloClientElement,
+    'agent-profile-check': AgentProfileCheck,
+    'agent-profile-manage': AgentProfileManage,
+    'timesheet-entries-list': TimesheetEntriesList,
+    'provide-time-units': ProvideTimeUnits,
+    'work-input-manual': WorkInputManual,
   }
 
   static styles = css`

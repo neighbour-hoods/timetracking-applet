@@ -182,7 +182,6 @@ importers:
       husky: ^4.3.8
       lint-staged: ^10.5.4
       lit: ^2.6.1
-      neighbourhoods-design-system-components: ^0.0.12
       prettier: ^2.3.2
       rimraf: ^3.0.2
       rollup: ^2.56.2
@@ -224,7 +223,6 @@ importers:
       '@vf-ui/graphql-client-holochain': 0.0.1-alpha.17_37awiqkohiqboc3i5xpb3pr6mm
       graphql: 15.8.0
       lit: 2.7.2
-      neighbourhoods-design-system-components: 0.0.12
       svelte: 3.58.0
     devDependencies:
       '@babel/preset-env': 7.21.4
@@ -530,10 +528,10 @@ importers:
   ui/src/contexts:
     specifiers:
       '@lit-labs/context': ^0.2.0
-      '@neighbourhoods/nh-we-applet': 0.0.5
+      '@neighbourhoods/nh-we-applet': 0.0.9
     dependencies:
       '@lit-labs/context': 0.2.0
-      '@neighbourhoods/nh-we-applet': 0.0.5
+      '@neighbourhoods/nh-we-applet': 0.0.9
 
   ui/src/graphql/shared-queries:
     specifiers:
@@ -3085,21 +3083,6 @@ packages:
   /@holo-host/identicon/0.1.0:
     resolution: {integrity: sha512-Dn5pTV/m3XaK1Zvq3liw/vQUt7goM7Y84x2zUyH8cb9CNMs4kPCNHs3kalbJZ/ymzFvwcdiLwwNW8AKk+WWN5A==}
 
-  /@holochain-open-dev/elements/0.1.5:
-    resolution: {integrity: sha512-ksurju3mD3c+DqrnMs7aCP3gOKuFqpA8hjFY8pxMo5DcDnn8PM5mH0aNAI8qR9AKw5nxVJrSo5Uwm1pehakPQg==}
-    dependencies:
-      '@holo-host/identicon': 0.1.0
-      '@holochain/client': 0.12.0
-      '@msgpack/msgpack': 2.8.0
-      '@open-wc/scoped-elements': 2.1.0
-      '@scoped-elements/material-web': 0.0.19
-      '@scoped-elements/shoelace': 0.0.10
-      lit: 2.7.2
-      lodash-es: 4.17.21
-    transitivePeerDependencies:
-      - ws
-    dev: false
-
   /@holochain-open-dev/elements/0.2.7:
     resolution: {integrity: sha512-AczBwefM10S4wYovrTRzP6H0CAY1dpFqJlQJrRogTcLIFiXyBE4XF/mS83ve6llPBrnyMqeZOFl4bQVRe55AJg==}
     dependencies:
@@ -3144,26 +3127,6 @@ packages:
       '@scoped-elements/shoelace': 0.1.0
       emittery: 1.0.1
       lodash-es: 4.17.21
-    transitivePeerDependencies:
-      - ws
-    dev: false
-
-  /@holochain-open-dev/profiles/0.9.4:
-    resolution: {integrity: sha512-gNMzxOqiPCIzSsN5RWQbY6cVYD/yKqXqUktzywxi1Opk3hjRcJKXiCJRHk2mFH96z7CH0UXfK20eSgwKWCGi5g==}
-    dependencies:
-      '@holochain-open-dev/elements': 0.1.5
-      '@holochain-open-dev/utils': 0.9.9
-      '@holochain/client': 0.12.0
-      '@lit-labs/context': 0.1.3
-      '@lit/localize': 0.11.4
-      '@msgpack/msgpack': 2.8.0
-      '@open-wc/scoped-elements': 2.1.4
-      '@scoped-elements/material-web': 0.0.19
-      '@scoped-elements/shoelace': 0.0.8
-      lit: 2.7.2
-      lit-svelte-stores: github.com/pospi/lit-svelte-stores/22af81e
-      lodash-es: 4.17.21
-      svelte: 3.58.0
     transitivePeerDependencies:
       - ws
     dev: false
@@ -3227,18 +3190,6 @@ packages:
       lit: 2.7.2
       lodash-es: 4.17.21
       sort-keys: 5.0.0
-    transitivePeerDependencies:
-      - ws
-    dev: false
-
-  /@holochain-open-dev/utils/0.9.9:
-    resolution: {integrity: sha512-RLidwEo9ANpwFR25o1sCPw8Cy7gjGiqeQNFJer4A7gGbUfCk6dm5iQEjoqt7zDXuXwQo+B3iqE/5lg73NyK4ZQ==}
-    dependencies:
-      '@holochain/client': 0.12.0
-      '@msgpack/msgpack': 2.8.0
-      emittery: 1.0.1
-      lit: 2.7.2
-      lodash-es: 4.17.21
     transitivePeerDependencies:
       - ws
     dev: false
@@ -3362,13 +3313,6 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
-    dev: false
-
-  /@lit-labs/context/0.1.3:
-    resolution: {integrity: sha512-OUhXS7imcxuOjN5wvtvB9tt6G9BVSGhbqrnIMafnuDGPsGdw9mpKad7hn/E8NrAjzGeIeZM4LpP8Z3ukqN2lHg==}
-    dependencies:
-      '@lit/reactive-element': 1.6.1
-      lit: 2.7.2
     dev: false
 
   /@lit-labs/context/0.2.0:
@@ -4350,10 +4294,10 @@ packages:
     transitivePeerDependencies:
       - ws
 
-  /@neighbourhoods/nh-we-applet/0.0.5:
-    resolution: {integrity: sha512-ifIspssZiosUuTUPxslncQHRPedkcpp77H5DtIFgN9+joGzQXDEf/oLeMNsLGzaBPNyP2HBkQO6PDz/VPJzKYA==}
+  /@neighbourhoods/nh-we-applet/0.0.9:
+    resolution: {integrity: sha512-yqj68JxMUHHeDuu8jp5rHNOdwqK94r3hIVCnT/HrFA3hWupoEHWIapWhHXwiNATp1khN4MDsGdR/rd3nCwsx1A==}
     dependencies:
-      '@holochain-open-dev/profiles': 0.9.4
+      '@holochain-open-dev/profiles': 0.11.0
       '@holochain/client': 0.12.0
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
     transitivePeerDependencies:
@@ -4499,13 +4443,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /@open-wc/scoped-elements/1.3.5:
-    resolution: {integrity: sha512-8eIwExOIiPfMwoNkP4tCEISgLaDyKWt7kid0MFk/v2yw64b61KtO+A0b4zUfPILqSjBDlV4/DDjHtttVVz73Hg==}
-    dependencies:
-      '@open-wc/dedupe-mixin': 1.3.1
-      lit-html: 1.4.1
-    dev: false
 
   /@open-wc/scoped-elements/2.1.0:
     resolution: {integrity: sha512-Mf91jAW0j4MYYMz8PX8Rrk86sSKdiyKYK7RT1Ww84KSElwON0mDVGNlhJCbtw9cDJbfzL+fH1zJAaLyOY7GIMA==}
@@ -4834,15 +4771,6 @@ packages:
       '@open-wc/scoped-elements': 2.1.4
       '@ui5/webcomponents': 1.12.0
       lit: 2.7.2
-
-  /@scoped-elements/shoelace/0.0.10:
-    resolution: {integrity: sha512-aCWRYBSd/0RWwK+V/7JiZiHm6Hg/0L9DReZkp7McNIbwrp+KdIFzBpFCKNP69A2w/tXuiBD/2HyHUvqkHjXxUA==}
-    dependencies:
-      '@open-wc/dedupe-mixin': 1.3.1
-      '@open-wc/scoped-elements': 2.1.4
-      '@shoelace-style/shoelace': 2.0.0-beta.60
-      lit: 2.7.2
-    dev: false
 
   /@scoped-elements/shoelace/0.0.8:
     resolution: {integrity: sha512-ccSggWBhyZWdtftDtE8ps+4SKSO7618TzfWt1fCPGYs/FihfW3bEWxfWscdvuZN8wg4eDSKVGrpO+QuuqZ3fPg==}
@@ -8434,10 +8362,6 @@ packages:
       '@lit/reactive-element': 1.6.1
       lit-html: 2.7.2
 
-  /lit-html/1.4.1:
-    resolution: {integrity: sha512-B9btcSgPYb1q4oSOb/PrOT6Z/H+r6xuNzfH4lFli/AWhYwdtrgQkQWBbIc6mdnf6E2IL3gDXdkkqNktpU0OZQA==}
-    dev: false
-
   /lit-html/2.7.2:
     resolution: {integrity: sha512-ZJCfKlA2XELu5tn7XuzOziGFGvf1SeQm+ngLWoJ8bXtSkRrrR3ms6SWy+gsdxeYwySLij5xAhdd2C3EX0ftxdQ==}
     dependencies:
@@ -8744,14 +8668,6 @@ packages:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
     dev: true
-
-  /neighbourhoods-design-system-components/0.0.12:
-    resolution: {integrity: sha512-J5vNp9hEuimLRTaJItS63lu0HXH3uTDMETZ31vfpcn8xHqkptw8ahcY/hd3HRPNF8jRn3k6jYvpUhKSQtQRWTA==}
-    dependencies:
-      '@lit-labs/scoped-registry-mixin': 1.0.1
-      '@open-wc/scoped-elements': 1.3.5
-      lit: 2.7.2
-    dev: false
 
   /new-port-cli/1.0.0:
     resolution: {integrity: sha512-9uMPTw2loJJ5423n4GT2uW7y12IeqiLiuUsNaXHZb3pBWNQ/pCnSi8nJ/EHBEBO58FQszvH2YCMDoCh7pnXN4Q==}
