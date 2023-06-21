@@ -7,7 +7,6 @@ importers:
       '@apollo-elements/core': ^2.1.2
       '@holochain-playground/cli': ^0.1.1
       '@holochain/client': 0.12.0
-      '@lit-labs/scoped-registry-mixin': ^1.0.1
       '@neighbourhoods/nh-launcher-applet': 0.0.10
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
@@ -17,6 +16,7 @@ importers:
       graphql-tag: ^2.12.6
       lit: ^2.6.1
       lit-svelte-stores: git://github.com/pospi/lit-svelte-stores.git#22af81e
+      neighbourhoods-design-system-components: ^0.0.12
       new-port-cli: ^1.0.0
       rimraf: ^3.0.2
       run-singleton-cli: ^0.0.5
@@ -24,7 +24,6 @@ importers:
       '@apollo-elements/core': 2.1.2
       '@holochain-playground/cli': 0.1.1
       '@holochain/client': 0.12.0
-      '@lit-labs/scoped-registry-mixin': 1.0.1
       '@neighbourhoods/nh-launcher-applet': 0.0.10
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@valueflows/vf-graphql': 0.9.0-alpha.9
@@ -34,6 +33,7 @@ importers:
       graphql-tag: 2.12.6
       lit: 2.7.2
       lit-svelte-stores: github.com/pospi/lit-svelte-stores/22af81e
+      neighbourhoods-design-system-components: 0.0.12
       new-port-cli: 1.0.0
       rimraf: 3.0.2
       run-singleton-cli: 0.0.5
@@ -44,7 +44,6 @@ importers:
       '@holochain-open-dev/profiles': ^0.11.0
       '@holochain/client': 0.12.0
       '@lit-labs/context': ^0.2.0
-      '@lit-labs/scoped-registry-mixin': ^1.0.1
       '@neighbourhoods/nh-launcher-applet': 0.0.10
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@neighbourhoods/timetracking-applet': workspace:*
@@ -62,6 +61,7 @@ importers:
       concurrently: ^5.3.0
       deepmerge: ^4.2.2
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
       new-port-cli: ^1.0.0
       rimraf: ^3.0.2
       rollup: ^2.56.2
@@ -74,12 +74,12 @@ importers:
       '@holochain-open-dev/profiles': 0.11.2
       '@holochain/client': 0.12.0
       '@lit-labs/context': 0.2.0
-      '@lit-labs/scoped-registry-mixin': 1.0.1
       '@neighbourhoods/nh-launcher-applet': 0.0.10
       '@neighbourhoods/sensemaker-lite-types': 0.4.0
       '@neighbourhoods/timetracking-applet': link:../ui
       '@scoped-elements/material-web': 0.0.19
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
     devDependencies:
       '@babel/preset-env': 7.21.4
       '@rollup/plugin-babel': 5.3.1_rollup@2.79.1
@@ -143,7 +143,6 @@ importers:
       '@babel/preset-env': ^7.15.0
       '@holochain/client': 0.12.0
       '@lit-labs/context': ^0.2.0
-      '@lit-labs/scoped-registry-mixin': ^1.0.1
       '@msgpack/msgpack': ^2.7.2
       '@neighbourhoods/applet-vf-timetracker-theme-vars': workspace:*
       '@neighbourhoods/component-create-or-join-nh': workspace:*
@@ -182,6 +181,7 @@ importers:
       husky: ^4.3.8
       lint-staged: ^10.5.4
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
       prettier: ^2.3.2
       rimraf: ^3.0.2
       rollup: ^2.56.2
@@ -202,7 +202,6 @@ importers:
       '@apollo/client': 3.7.11_graphql@15.8.0
       '@holochain/client': 0.12.0
       '@lit-labs/context': 0.2.0
-      '@lit-labs/scoped-registry-mixin': 1.0.1
       '@msgpack/msgpack': 2.8.0
       '@neighbourhoods/applet-vf-timetracker-theme-vars': link:src/styles
       '@neighbourhoods/component-create-or-join-nh': link:src/components/neighbourhoods/CreateOrJoinNH
@@ -223,6 +222,7 @@ importers:
       '@vf-ui/graphql-client-holochain': 0.0.1-alpha.17_37awiqkohiqboc3i5xpb3pr6mm
       graphql: 15.8.0
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
       svelte: 3.58.0
     devDependencies:
       '@babel/preset-env': 7.21.4
@@ -266,12 +266,14 @@ importers:
       '@open-wc/dedupe-mixin': ^1.3.1
       '@scoped-elements/material-web': ^0.0.19
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@lit-labs/context': 0.2.0
       '@lit-labs/scoped-registry-mixin': 1.0.1
       '@open-wc/dedupe-mixin': 1.3.1
       '@scoped-elements/material-web': 0.0.19
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/neighbourhoods/ErrorDisplay:
     specifiers:
@@ -280,12 +282,14 @@ importers:
       '@neighbourhoods/component-loading-indicator': workspace:*
       '@shoelace-style/shoelace': ^2.3.0
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@lit-labs/context': 0.2.0
       '@lit-labs/scoped-registry-mixin': 1.0.1
       '@neighbourhoods/component-loading-indicator': link:../LoadingIndicator
       '@shoelace-style/shoelace': 2.3.0
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/neighbourhoods/LoadingIndicator:
     specifiers:
@@ -293,11 +297,13 @@ importers:
       '@lit-labs/scoped-registry-mixin': ^1.0.1
       '@shoelace-style/shoelace': ^2.3.0
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@lit-labs/context': 0.2.0
       '@lit-labs/scoped-registry-mixin': 1.0.1
       '@shoelace-style/shoelace': 2.3.0
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/neighbourhoods/LoadingMessage:
     specifiers:
@@ -306,22 +312,26 @@ importers:
       '@neighbourhoods/component-loading-indicator': workspace:*
       '@shoelace-style/shoelace': ^2.3.0
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@lit-labs/context': 0.2.0
       '@lit-labs/scoped-registry-mixin': 1.0.1
       '@neighbourhoods/component-loading-indicator': link:../LoadingIndicator
       '@shoelace-style/shoelace': 2.3.0
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/neighbourhoods/NoResultsMessage:
     specifiers:
       '@lit-labs/context': ^0.2.0
       '@lit-labs/scoped-registry-mixin': ^1.0.1
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@lit-labs/context': 0.2.0
       '@lit-labs/scoped-registry-mixin': 1.0.1
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/neighbourhoods/TimesheetEntriesList_Contexts:
     specifiers:
@@ -336,6 +346,7 @@ importers:
       '@vf-ui/component-time-entries-list': workspace:*
       lit: ^2.6.1
       lit-svelte-stores: git://github.com/pospi/lit-svelte-stores.git#22af81e
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@lit-labs/context': 0.2.0
       '@lit-labs/scoped-registry-mixin': 1.0.1
@@ -348,6 +359,7 @@ importers:
       '@vf-ui/component-time-entries-list': link:../../valueflows/TimesheetEntriesList
       lit: 2.7.2
       lit-svelte-stores: github.com/pospi/lit-svelte-stores/22af81e
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/valueflows/AgentProfileCheck:
     specifiers:
@@ -360,6 +372,7 @@ importers:
       '@shoelace-style/shoelace': ^2.3.0
       '@valueflows/vf-graphql-shared-queries': workspace:*
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
@@ -370,6 +383,7 @@ importers:
       '@shoelace-style/shoelace': 2.3.0
       '@valueflows/vf-graphql-shared-queries': link:../../../graphql/shared-queries
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/valueflows/AgentProfileManage:
     specifiers:
@@ -382,6 +396,7 @@ importers:
       '@valueflows/vf-graphql-type-fragments': workspace:*
       graphql-tag: ^2.12.6
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/scoped-registry-mixin': 1.0.1
@@ -392,6 +407,7 @@ importers:
       '@valueflows/vf-graphql-type-fragments': link:../../../graphql/type-fragments
       graphql-tag: 2.12.6
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/valueflows/InputWorkType:
     specifiers:
@@ -404,6 +420,7 @@ importers:
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
       graphql-tag: ^2.12.6
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/scoped-registry-mixin': 1.0.1
@@ -414,6 +431,7 @@ importers:
       '@valueflows/vf-graphql': 0.9.0-alpha.9
       graphql-tag: 2.12.6
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/valueflows/ProvideTimeUnits:
     specifiers:
@@ -425,6 +443,7 @@ importers:
       '@valueflows/vf-graphql': ^0.9.0-alpha.9
       graphql-tag: ^2.12.6
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/scoped-registry-mixin': 1.0.1
@@ -434,6 +453,7 @@ importers:
       '@valueflows/vf-graphql': 0.9.0-alpha.9
       graphql-tag: 2.12.6
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/valueflows/ResourceSpecificationListRow:
     specifiers:
@@ -446,6 +466,7 @@ importers:
       '@valueflows/vf-graphql-type-fragments': workspace:*
       graphql-tag: ^2.12.6
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
@@ -456,6 +477,7 @@ importers:
       '@valueflows/vf-graphql-type-fragments': link:../../../graphql/type-fragments
       graphql-tag: 2.12.6
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/components/valueflows/TimesheetEntriesList:
     specifiers:
@@ -473,6 +495,7 @@ importers:
       dayjs: ^1.11.7
       graphql-tag: ^2.12.6
       lit: ^2.6.1
+      neighbourhoods-design-system-components: ^0.0.12
       pluralize: ^8.0.0
     dependencies:
       '@adaburrows/table-web-component': github.com/adaburrows/table-web-component/3949797
@@ -489,6 +512,7 @@ importers:
       dayjs: 1.11.7
       graphql-tag: 2.12.6
       lit: 2.7.2
+      neighbourhoods-design-system-components: 0.0.12
       pluralize: 8.0.0
 
   ui/src/components/valueflows/WorkInputManual:
@@ -508,6 +532,7 @@ importers:
       graphql-tag: ^2.12.6
       lit: ^2.6.1
       litepicker: ^2.0.12
+      neighbourhoods-design-system-components: ^0.0.12
     dependencies:
       '@apollo-elements/core': 2.1.2
       '@lit-labs/context': 0.2.0
@@ -524,6 +549,7 @@ importers:
       graphql-tag: 2.12.6
       lit: 2.7.2
       litepicker: 2.0.12
+      neighbourhoods-design-system-components: 0.0.12
 
   ui/src/contexts:
     specifiers:
@@ -4444,6 +4470,12 @@ packages:
       - supports-color
     dev: true
 
+  /@open-wc/scoped-elements/1.3.5:
+    resolution: {integrity: sha512-8eIwExOIiPfMwoNkP4tCEISgLaDyKWt7kid0MFk/v2yw64b61KtO+A0b4zUfPILqSjBDlV4/DDjHtttVVz73Hg==}
+    dependencies:
+      '@open-wc/dedupe-mixin': 1.3.1
+      lit-html: 1.4.1
+
   /@open-wc/scoped-elements/2.1.0:
     resolution: {integrity: sha512-Mf91jAW0j4MYYMz8PX8Rrk86sSKdiyKYK7RT1Ww84KSElwON0mDVGNlhJCbtw9cDJbfzL+fH1zJAaLyOY7GIMA==}
     dependencies:
@@ -8362,6 +8394,9 @@ packages:
       '@lit/reactive-element': 1.6.1
       lit-html: 2.7.2
 
+  /lit-html/1.4.1:
+    resolution: {integrity: sha512-B9btcSgPYb1q4oSOb/PrOT6Z/H+r6xuNzfH4lFli/AWhYwdtrgQkQWBbIc6mdnf6E2IL3gDXdkkqNktpU0OZQA==}
+
   /lit-html/2.7.2:
     resolution: {integrity: sha512-ZJCfKlA2XELu5tn7XuzOziGFGvf1SeQm+ngLWoJ8bXtSkRrrR3ms6SWy+gsdxeYwySLij5xAhdd2C3EX0ftxdQ==}
     dependencies:
@@ -8668,6 +8703,13 @@ packages:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
     dev: true
+
+  /neighbourhoods-design-system-components/0.0.12:
+    resolution: {integrity: sha512-J5vNp9hEuimLRTaJItS63lu0HXH3uTDMETZ31vfpcn8xHqkptw8ahcY/hd3HRPNF8jRn3k6jYvpUhKSQtQRWTA==}
+    dependencies:
+      '@lit-labs/scoped-registry-mixin': 1.0.1
+      '@open-wc/scoped-elements': 1.3.5
+      lit: 2.7.2
 
   /new-port-cli/1.0.0:
     resolution: {integrity: sha512-9uMPTw2loJJ5423n4GT2uW7y12IeqiLiuUsNaXHZb3pBWNQ/pCnSi8nJ/EHBEBO58FQszvH2YCMDoCh7pnXN4Q==}
