@@ -4,17 +4,18 @@
   "type": "module",
   "main": "./TimesheetEntriesList_Contexts.ts",
   "dependencies": {
-    "@lit-labs/context": "^0.2.0",
-    "@lit-labs/scoped-registry-mixin": "^1.0.1",
     "@neighbourhoods/component-error-display": "workspace:*",
-    "@neighbourhoods/sensemaker-lite-types": "0.4.0",
     "@neighbourhoods/timetracking-applet-context": "workspace:*",
-    "@shoelace-style/shoelace": "^2.3.0",
-    "@valueflows/vf-graphql-holochain": "^0.0.1-alpha.17",
     "@vf-ui/component-resource-specification-list-row": "workspace:*",
     "@vf-ui/component-time-entries-list": "workspace:*",
+    "@lit-labs/context": "^0.2.0",
+    "@lit-labs/scoped-registry-mixin": "^1.0.1",
+    "@neighbourhoods/sensemaker-lite-types": "0.4.0",
+    "@shoelace-style/shoelace": "^2.3.0",
+    "@valueflows/vf-graphql-holochain": "0.0.1-alpha.21",
     "lit": "^2.6.1",
     "lit-svelte-stores": "git://github.com/pospi/lit-svelte-stores.git#22af81e",
     "neighbourhoods-design-system-components": "^0.0.12"
-  }
+  },
+  "devDependencies": {}
 }

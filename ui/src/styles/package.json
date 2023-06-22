@@ -5,5 +5,6 @@
   "dependencies": {
     "@neighbourhoods/theme-styles": "git://github.com/pospi/neighbourhoods-css-styles.git#38169d4",
     "lit": "^2.6.1"
-  }
+  },
+  "devDependencies": {}
 }

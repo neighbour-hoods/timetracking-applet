@@ -9,5 +9,6 @@
     "@shoelace-style/shoelace": "^2.3.0",
     "lit": "^2.6.1",
     "neighbourhoods-design-system-components": "^0.0.12"
-  }
+  },
+  "devDependencies": {}
 }
