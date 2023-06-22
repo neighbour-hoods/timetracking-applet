@@ -28,6 +28,7 @@ const PINNED_DEPS = [
   ...NH_DEPS, ...VF_DEPS, ...LIT_DEPS, ...NH_DS_DEPS,
   '@holochain/client',
   '@neighbourhoods/nh-launcher-applet',
+  '@valueflows/vf-graphql-holochain',
 ]
 
 // Specifies deprecated packages and their preferred replacements.
