@@ -1,7 +1,8 @@
 import '@webcomponents/scoped-custom-element-registry';
 
-import { LitElement, css, html } from 'lit';
+import { css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { NHComponent } from 'neighbourhoods-design-system-components/dist/components/base'
 import {
   AppAgentWebsocket,
   AppWebsocket,
@@ -206,15 +207,19 @@ export class ProviderAppTestHarness extends NHComponent {
     main h3 {
       flex-grow: 0;
       max-width: 100%;
+      color: white;
     }
     main code {
-      font-size: 0.5em;
+      font-size: 0.8em;
       font-weight: normal;
+      color: white;
     }
 
     .home-page {
       flex-grow: 1;
       max-width: 100%;
+      min-width: 100%;
+      padding: 2em;
     }
-  `;
+  `
 }

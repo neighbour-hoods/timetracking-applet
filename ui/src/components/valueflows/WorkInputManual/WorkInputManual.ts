@@ -313,6 +313,7 @@ export class WorkInputManual extends NHComponentShoelace
     }
     .outer {
       background-color: var(--nh-timetracker-form-background-color);
+      padding: 0 1em;
       display: grid;
       column-gap: 0.5em;
       grid-template-columns: 1fr minmax(13em, 0fr) 0fr minmax(12.6em, 0fr) 0fr;
