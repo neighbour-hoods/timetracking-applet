@@ -4,22 +4,21 @@
   "type": "module",
   "main": "./TimesheetEntriesList.ts",
   "dependencies": {
-    "@neighbourhoods/component-error-display": "workspace:*",
-    "@neighbourhoods/component-loading-message": "workspace:*",
-    "@valueflows/vf-graphql-shared-queries": "workspace:*",
-    "@valueflows/vf-graphql-type-fragments": "workspace:*",
-    "@vf-ui/component-resource-specification-list-row": "workspace:*",
     "@adaburrows/table-web-component": "git://github.com/adaburrows/table-web-component#3949797",
     "@apollo-elements/core": "^2.1.2",
     "@lit-labs/context": "^0.2.0",
     "@lit-labs/scoped-registry-mixin": "^1.0.1",
+    "@neighbourhoods/component-error-display": "workspace:*",
+    "@neighbourhoods/component-loading-message": "workspace:*",
     "@shoelace-style/shoelace": "^2.3.0",
     "@valueflows/vf-graphql": "^0.9.0-alpha.9",
+    "@valueflows/vf-graphql-shared-queries": "workspace:*",
+    "@valueflows/vf-graphql-type-fragments": "workspace:*",
+    "@vf-ui/component-resource-specification-list-row": "workspace:*",
     "dayjs": "^1.11.7",
     "graphql-tag": "^2.12.6",
     "lit": "^2.6.1",
     "neighbourhoods-design-system-components": "^0.0.12",
     "pluralize": "^8.0.0"
-  },
-  "devDependencies": {}
+  }
 }

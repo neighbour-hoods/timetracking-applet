@@ -1,13 +1,11 @@
 {
-  "name": "@neighbourhoods/component-error-display",
+  "name": "@neighbourhoods/component-no-results-message",
   "version": "0.0.1",
   "type": "module",
-  "main": "./ErrorDisplay.ts",
+  "main": "./NoResultsMessage.ts",
   "dependencies": {
     "@lit-labs/context": "^0.2.0",
     "@lit-labs/scoped-registry-mixin": "^1.0.1",
-    "@neighbourhoods/component-loading-indicator": "workspace:*",
-    "@shoelace-style/shoelace": "^2.3.0",
     "lit": "^2.6.1",
     "neighbourhoods-design-system-components": "^0.0.12"
   }

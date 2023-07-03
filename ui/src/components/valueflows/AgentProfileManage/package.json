@@ -4,16 +4,15 @@
   "type": "module",
   "main": "./AgentProfileManage.ts",
   "dependencies": {
-    "@neighbourhoods/component-loading-message": "workspace:*",
-    "@valueflows/vf-graphql-shared-queries": "workspace:*",
-    "@valueflows/vf-graphql-type-fragments": "workspace:*",
     "@apollo-elements/core": "^2.1.2",
     "@lit-labs/scoped-registry-mixin": "^1.0.1",
+    "@neighbourhoods/component-loading-message": "workspace:*",
     "@scoped-elements/material-web": "^0.0.19",
     "@valueflows/vf-graphql-holochain": "0.0.1-alpha.21",
+    "@valueflows/vf-graphql-shared-queries": "workspace:*",
+    "@valueflows/vf-graphql-type-fragments": "workspace:*",
     "graphql-tag": "^2.12.6",
     "lit": "^2.6.1",
     "neighbourhoods-design-system-components": "^0.0.12"
-  },
-  "devDependencies": {}
+  }
 }
