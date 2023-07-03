@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
-import { viteStaticCopy } from "vite-plugin-static-copy";
-import { VitePluginFonts } from 'vite-plugin-fonts'
+import { svelte } from '@sveltejs/vite-plugin-svelte';
+
+// import { viteStaticCopy } from "vite-plugin-static-copy";
+// import { VitePluginFonts } from 'vite-plugin-fonts'
 
 const components = [
   "dialog",
@@ -36,6 +38,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    svelte(),
     // checker({
     //   typescript: true,
     //   eslint: {
