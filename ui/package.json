@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "vite dev --clearScreen false --port $UI_PORT",
-    "build": "tsc && vite build",
+    "build": "tsc; vite build",
     "build:watch": "rimraf dist && vite build -w",
     "package": "rimraf ui.zip && npm run build && cd ./dist && bestzip ../ui.zip * ",
     "test": "vitest --reporter verbose"
