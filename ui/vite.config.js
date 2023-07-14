@@ -1,3 +1,4 @@
+import path from 'path';
 import { defineConfig } from "vite";
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 
@@ -30,6 +31,19 @@ const exclude = components.map(
 );
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: ['index.html', 'src/provider-app.ts'],
+      output: {
+        entryFileNames: (chunkInfo) => {
+          switch (chunkInfo.name) {
+            case 'provider-app': return 'index.js';
+            default: return `[name]-[hash].js`
+          }
+        },
+      },
+    },
+  },
   test: {
     /* for example, use global to avoid globals imports (describe, test, expect): */
     globals: true,
