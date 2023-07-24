@@ -15,11 +15,12 @@ import {
   ClonedCell,
 } from '@holochain/client';
 import { CircularProgress } from '@scoped-elements/material-web';
+import { SensemakerService, SensemakerStore } from '@neighbourhoods/nh-launcher-applet';
+import CreateOrJoinNh from '@neighbourhoods/component-create-or-join-nh';
+import { LoadingMessage } from '@neighbourhoods/component-loading-message';
+
 import { provideGraphQLClient, ApolloClient } from './provider-graphql-client';
 import type { NormalizedCacheObject } from "./provider-graphql-client";
-import { SensemakerService, SensemakerStore } from '@neighbourhoods/nh-launcher-applet';
-import { CreateOrJoinNh } from '@neighbourhoods/component-create-or-join-nh';
-import { LoadingMessage } from '@neighbourhoods/component-loading-message';
 import { ProviderApp } from './provider-app';
 import appletConfig from './appletConfig'
 

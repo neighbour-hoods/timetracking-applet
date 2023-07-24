@@ -3,7 +3,7 @@ import { html, css } from "lit";
 import { TextField, Button } from '@scoped-elements/material-web'
 import { NHComponentMaterial } from 'neighbourhoods-design-system-components/dist/components/base'
 
-export class CreateOrJoinNh extends NHComponentMaterial {
+export default class CreateOrJoinNh extends NHComponentMaterial {
   @query('#ca-pubkey')
   input!: HTMLInputElement;
 
